@@ -1,0 +1,14 @@
+.config/
+.github/
+.husky/
+.vscode/
+docs/
+coverage/
+src/
+test/
+.depcheckrc
+.eslintignore
+.eslintrc.json
+.prettierignore
+.prettierrc
+tsconfig.json
