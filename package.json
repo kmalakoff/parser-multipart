@@ -1,7 +1,7 @@
 {
   "name": "parser-multipart",
   "description": "Multipart form data parser for browser and node",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "email": "kmalakoff@gmail.com",
     "name": "Kevin Malakoff",
