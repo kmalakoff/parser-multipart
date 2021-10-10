@@ -26,7 +26,7 @@ export default {
           "@babel/env",
           {
             modules: false,
-            targets: { node: "10" },
+            targets: undefined, // es5
           },
         ],
         ...sharedPresets,
@@ -38,7 +38,7 @@ export default {
         [
           "@babel/env",
           {
-            targets: "> 0.25%, not dead",
+            targets: undefined, // es5
           },
         ],
         ...sharedPresets,

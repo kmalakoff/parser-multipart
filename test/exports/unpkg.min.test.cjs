@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { assert } = require("chai");
 const { Parser, Part, Response } = require("parser-multipart/dist/umd/parser-multipart.min.js");
-const response = require("../data/response.cjs");
+const response = require("../lib/response.cjs");
 
 const json = response("json");
 
