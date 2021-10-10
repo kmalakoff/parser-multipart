@@ -16,10 +16,11 @@ module.exports = function (config) {
   config.set({
     basePath: "..",
     frameworks: ["mocha", "webpack"],
-    reporters: ["progress", "mocha"],
+    reporters: ["mocha"],
     preprocessors,
     files: [{ pattern: pattern, watched: false }],
     webpack,
+    client: { mocha: { timeout: 5000 } },
     colors: true,
     browsers: ["ChromeHeadless"],
     autoWatch: false,
