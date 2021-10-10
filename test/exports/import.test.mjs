@@ -1,6 +1,6 @@
 import { assert } from "chai";
 import { Parser, Part, Response } from "parser-multipart";
-import response from "../data/response.cjs";
+import response from "../lib/response.cjs";
 
 const json = response("json");
 

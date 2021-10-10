@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import newlineIterator from "newline-iterator";
 import { Parser, Part, Response, HeadersObject } from "parser-multipart";
-import response from "../data/response.cjs";
+import response from "../lib/response.cjs";
 
 const json = response("json");
 const text = response("text");
