@@ -71,7 +71,7 @@
     "chai": "^4.3.4",
     "cross-env": "^7.0.3",
     "depcheck": "^1.4.2",
-    "eslint": "7.32.0",
+    "eslint": "8.0.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-mocha": "^9.0.0",
     "gh-pages": "^3.2.3",
