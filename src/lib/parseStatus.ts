@@ -1,4 +1,4 @@
-import { Version } from "../types";
+import { Version } from "../index";
 
 export interface StatusResult {
   version: Version;

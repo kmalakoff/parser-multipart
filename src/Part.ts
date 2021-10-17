@@ -1,7 +1,7 @@
-import parseHeader from "./lib/parseHeader";
-import parseText from "./lib/parseText";
-import MultipartResponse from "./Response";
-import type { HeadersObject } from "./types";
+import parseHeader from "./lib/parseHeader.js";
+import parseText from "./lib/parseText.js";
+import MultipartResponse from "./Response.js";
+import type { HeadersObject } from "./index.js";
 
 export enum ParseStatus {
   Headers = 1,

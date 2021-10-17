@@ -14,20 +14,13 @@
     "dist"
   ],
   "scripts": {
-    "build": "rimraf dist && cross-env BABEL_ENV=esm rollup -c .config/rollup/esm.mjs && cross-env BABEL_ENV=cjs rollup -c .config/rollup/cjs.mjs && cross-env BABEL_ENV=umd rollup -c .config/rollup/umd.mjs && tsc --declaration --emitDeclarationOnly --outDir dist && node ./.config/module-types.mjs",
-    "deploy": "np",
-    "docs": "rimraf docs && typedoc --includeVersion --entryPointStrategy expand --out docs src/index.ts",
-    "format": "prettier --write .",
-    "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx",
-    "postdeploy": "gh-pages -d docs",
-    "predeploy": "npm run format && npm run lint && depcheck && sortpack",
-    "pretest": "allow-require-me add",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "karma start .config/karma.cjs \"test/**/*.test.*\"",
-    "test:ci": "npm run pretest && nvu engines npm run test:node && npm run test:browser",
-    "test:debug": "mocha --config .config/mocharc.json \"test/**/*.test.*\"",
-    "test:node": "mocha --config .config/mocharc.json \"test/exports/*.test.*\" && rimraf coverage && c8 --config .config/c8rc.json mocha --config .config/mocharc.json \"test/unit/*.test.*\"",
-    "version": "npm run docs && git add docs"
+    "build": "tsds build:dist",
+    "deploy": "tsds deploy",
+    "format": "tsds format",
+    "lint": "tsds lint",
+    "test": "tsds test:node && tsds test:browser",
+    "test:engines": "tsds test:engines",
+    "version": "tsds version"
   },
   "homepage": "https://github.com/kmalakoff/parser-multipart#README.md",
   "repository": {
@@ -52,68 +45,23 @@
     "typescript"
   ],
   "dependencies": {
-    "newline-iterator": "^0.3.1"
+    "newline-iterator": "^0.3.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.8",
-    "@babel/preset-env": "^7.15.8",
-    "@babel/preset-typescript": "^7.15.0",
-    "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^21.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.5",
-    "@types/chai": "^4.2.22",
-    "@types/mocha": "^9.0.0",
-    "@typescript-eslint/eslint-plugin": "^4.33.0",
-    "@typescript-eslint/parser": "^4.33.0",
-    "allow-require-me": "^1.0.0",
-    "c8": "^7.10.0",
-    "camelcase": "^6.2.0",
-    "chai": "^4.3.4",
-    "cross-env": "^7.0.3",
-    "depcheck": "^1.4.2",
-    "eslint": "7.32.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-mocha": "^9.0.0",
-    "gh-pages": "^3.2.3",
-    "karma": "^6.3.4",
-    "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^3.1.0",
-    "karma-mocha": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "karma-webpack": "^5.0.0",
-    "mocha": "^9.1.2",
-    "node-version-use": "^0.2.0",
-    "np": "^7.5.0",
-    "prettier": "^2.4.1",
-    "rimraf": "^3.0.2",
-    "rollup": "^2.58.0",
-    "rollup-plugin-node-externals": "^2.2.0",
-    "rollup-plugin-terser": "^7.0.2",
-    "sortpack": "^2.2.0",
-    "ts-loader": "^9.2.6",
-    "ts-node": "^10.2.1",
-    "typedoc": "^0.22.5",
-    "typedoc-plugin-rename-defaults": "^0.4.0",
-    "typescript": "^4.4.3",
-    "webpack": "^5.58.1"
+    "ts-dev-stack": "^0.1.3"
   },
   "type": "module",
   "engines": {
-    "node": ">=12"
+    "node": ">=0.8"
   },
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/esm/index.d.ts"
     },
     "./*": "./*"
   },
-  "np": {
-    "testScript": "test:ci",
-    "yarn": false
-  },
-  "types": "dist/index.d.ts",
+  "types": "dist/esm/index.d.ts",
   "unpkg": "dist/umd/parser-multipart.js"
 }

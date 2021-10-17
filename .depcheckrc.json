@@ -1,21 +1,4 @@
 {
-  "ignores": [
-    "parser-multipart",
-    "ts-node",
-    "karma-*",
-    "webpack",
-    "ts-loader",
-    "typedoc",
-    "typedoc-plugin-rename-defaults",
-    "@babel/*"
-  ],
-  "parsers": {
-    "**/*.js": ["es6"],
-    "**/*.cjs": ["es6"],
-    "**/*.mjs": ["es6"],
-    "**/*.jsx": ["jsx"],
-    "**/*.json": ["json1", "json2"],
-    "**/*.ts": ["typescript"],
-    "**/*.tsx": ["typescript"]
-  }
+  "extends": "./node_modules/ts-dev-stack/.depcheckrc.json",
+  "ignores": ["parser-multipart", "@types/*", "@typescript-eslint/*", "eslint-*", "chai"]
 }

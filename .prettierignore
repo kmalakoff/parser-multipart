@@ -1,3 +1,4 @@
+.tmp/
 dist/
 docs/
 node_modules/
