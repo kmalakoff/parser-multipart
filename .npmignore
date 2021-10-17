@@ -10,5 +10,5 @@ test/
 .eslintignore
 .eslintrc.json
 .prettierignore
-.prettierrc
+.prettierrc.json
 tsconfig.json

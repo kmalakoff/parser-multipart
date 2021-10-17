@@ -129,19 +129,11 @@
 
   function parseText(parser, text) {
     var iterator = newlineIterator__default["default"](text);
+    var next = iterator.next();
 
-    var _iterator = _createForOfIteratorHelper(iterator),
-        _step;
-
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        var line = _step.value;
-        parser.push(line);
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
+    while (!next.done) {
+      parser.push(next.value);
+      next = iterator.next();
     }
 
     if (!parser.done()) parser.push(null);
@@ -173,7 +165,15 @@
     function MultipartResponse() {
       _classCallCheck(this, MultipartResponse);
 
+      _defineProperty(this, "version", void 0);
+
       _defineProperty(this, "headers", {});
+
+      _defineProperty(this, "ok", void 0);
+
+      _defineProperty(this, "status", void 0);
+
+      _defineProperty(this, "statusText", void 0);
 
       _defineProperty(this, "body", null);
 
@@ -298,6 +298,8 @@
   var MultipartParser = /*#__PURE__*/function () {
     function MultipartParser(headers) {
       _classCallCheck(this, MultipartParser);
+
+      _defineProperty(this, "type", void 0);
 
       _defineProperty(this, "headers", {});
 

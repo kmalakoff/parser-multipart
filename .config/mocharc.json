@@ -1,5 +1,0 @@
-{
-  "extension": ["ts", "tsx"],
-  "loader": "ts-node/esm/transpile-only",
-  "timeout": 50000
-}

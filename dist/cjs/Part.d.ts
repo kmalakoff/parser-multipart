@@ -1,5 +1,5 @@
-import MultipartResponse from "./Response";
-import type { HeadersObject } from "./types";
+import MultipartResponse from "./Response.js";
+import type { HeadersObject } from "./index.js";
 export declare enum ParseStatus {
     Headers = 1,
     Response = 2

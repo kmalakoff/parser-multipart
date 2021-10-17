@@ -1,12 +1,5 @@
 {
-  "compilerOptions": {
-    "downlevelIteration": true,
-    "lib": ["es2015", "dom"],
-    "module": "esnext",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "types": ["mocha", "chai"]
-  },
+  "extends": "./node_modules/ts-dev-stack/tsconfig.json",
   "exclude": ["node_modules", "dist"],
   "include": ["src"]
 }

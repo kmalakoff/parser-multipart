@@ -1,9 +1,3 @@
 {
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "plugin:mocha/recommended", "prettier"],
-  "env": {
-    "mocha": true,
-    "node": true
-  }
+  "extends": "./node_modules/ts-dev-stack/.eslintrc.json"
 }
