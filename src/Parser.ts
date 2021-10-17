@@ -1,7 +1,7 @@
-import Part from "./Part";
-import parseHeader from "./lib/parseHeader";
-import parseText from "./lib/parseText";
-import type { HeadersObject } from "./types";
+import Part from "./Part.js";
+import parseHeader from "./lib/parseHeader.js";
+import parseText from "./lib/parseText.js";
+import type { HeadersObject } from "./index.js";
 
 export enum ParseStatus {
   Parts = 1,
