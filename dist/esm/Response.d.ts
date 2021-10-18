@@ -7,14 +7,19 @@ export interface ParsingState {
     status: ParseStatus;
     lines: string[];
 }
-export default class MultipartResponse {
+export declare class BodyHeaders {
     version: Version;
     headers: HeadersObject;
     ok: boolean;
     status: number;
     statusText: string;
+}
+export default class MultipartResponse {
+    contentType: string;
+    headers: BodyHeaders;
     body: string;
     private _parsingState;
+    constructor(contentType: string);
     done(): boolean;
     parse(text: string): void;
     push(line: string): void;

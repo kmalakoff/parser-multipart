@@ -10,7 +10,7 @@ export let ParseStatus;
   ParseStatus[ParseStatus["Body"] = 2] = "Body";
 })(ParseStatus || (ParseStatus = {}));
 
-export default class MultipartResponse {
+export class BodyHeaders {
   constructor() {
     _defineProperty(this, "version", void 0);
 
@@ -21,13 +21,29 @@ export default class MultipartResponse {
     _defineProperty(this, "status", void 0);
 
     _defineProperty(this, "statusText", void 0);
+  }
+
+}
+export default class MultipartResponse {
+  constructor(contentType) {
+    _defineProperty(this, "contentType", void 0);
+
+    _defineProperty(this, "headers", null);
 
     _defineProperty(this, "body", null);
 
     _defineProperty(this, "_parsingState", {
-      status: ParseStatus.Headers,
+      status: ParseStatus.Body,
       lines: []
     });
+
+    if (contentType === undefined) throw new Error("Response missing a content type");
+    this.contentType = contentType;
+
+    if (this.contentType === "application/http") {
+      this.headers = new BodyHeaders();
+      this._parsingState.status = ParseStatus.Headers;
+    }
   }
 
   done() {
@@ -49,7 +65,7 @@ export default class MultipartResponse {
     }
 
     if (this._parsingState.status === ParseStatus.Headers) {
-      if (!line.length) this._parsingState.status = ParseStatus.Body;else if (!parseStatus(this, line)) parseHeader(this.headers, line, ":");
+      if (!line.length) this._parsingState.status = ParseStatus.Body;else if (!parseStatus(this.headers, line)) parseHeader(this.headers.headers, line, ":");
     } else if (this._parsingState.status === ParseStatus.Body) {
       if (!line.length) this.push(null);else this._parsingState.lines.push(line);
     }
@@ -62,11 +78,6 @@ export default class MultipartResponse {
 
   json() {
     if (this._parsingState) throw new Error("Attempting to use an incomplete response");
-
-    if (this.headers["content-type"].indexOf("application/json") === -1) {
-      throw new Error(`Not json response. Content type: ${this.headers["content-type"]}`);
-    }
-
     return JSON.parse(this.body);
   }
 

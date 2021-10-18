@@ -161,26 +161,42 @@
     ParseStatus[ParseStatus["Body"] = 2] = "Body";
   })(ParseStatus$2 || (ParseStatus$2 = {}));
 
+  var BodyHeaders = function BodyHeaders() {
+    _classCallCheck(this, BodyHeaders);
+
+    _defineProperty(this, "version", void 0);
+
+    _defineProperty(this, "headers", {});
+
+    _defineProperty(this, "ok", void 0);
+
+    _defineProperty(this, "status", void 0);
+
+    _defineProperty(this, "statusText", void 0);
+  };
+
   var MultipartResponse = /*#__PURE__*/function () {
-    function MultipartResponse() {
+    function MultipartResponse(contentType) {
       _classCallCheck(this, MultipartResponse);
 
-      _defineProperty(this, "version", void 0);
+      _defineProperty(this, "contentType", void 0);
 
-      _defineProperty(this, "headers", {});
-
-      _defineProperty(this, "ok", void 0);
-
-      _defineProperty(this, "status", void 0);
-
-      _defineProperty(this, "statusText", void 0);
+      _defineProperty(this, "headers", null);
 
       _defineProperty(this, "body", null);
 
       _defineProperty(this, "_parsingState", {
-        status: ParseStatus$2.Headers,
+        status: ParseStatus$2.Body,
         lines: []
       });
+
+      if (contentType === undefined) throw new Error("Response missing a content type");
+      this.contentType = contentType;
+
+      if (this.contentType === "application/http") {
+        this.headers = new BodyHeaders();
+        this._parsingState.status = ParseStatus$2.Headers;
+      }
     }
 
     _createClass(MultipartResponse, [{
@@ -206,7 +222,7 @@
         }
 
         if (this._parsingState.status === ParseStatus$2.Headers) {
-          if (!line.length) this._parsingState.status = ParseStatus$2.Body;else if (!parseStatus(this, line)) parseHeader(this.headers, line, ":");
+          if (!line.length) this._parsingState.status = ParseStatus$2.Body;else if (!parseStatus(this.headers, line)) parseHeader(this.headers.headers, line, ":");
         } else if (this._parsingState.status === ParseStatus$2.Body) {
           if (!line.length) this.push(null);else this._parsingState.lines.push(line);
         }
@@ -221,11 +237,6 @@
       key: "json",
       value: function json() {
         if (this._parsingState) throw new Error("Attempting to use an incomplete response");
-
-        if (this.headers["content-type"].indexOf("application/json") === -1) {
-          throw new Error("Not json response. Content type: ".concat(this.headers["content-type"]));
-        }
-
         return JSON.parse(this.body);
       }
     }]);
@@ -246,7 +257,7 @@
 
       _defineProperty(this, "headers", {});
 
-      _defineProperty(this, "response", new MultipartResponse());
+      _defineProperty(this, "response", void 0);
 
       _defineProperty(this, "_parsingState", {
         status: ParseStatus$1.Headers
@@ -277,8 +288,9 @@
 
         if (this._parsingState.status === ParseStatus$1.Headers) {
           if (!line.length) {
-            if (this.headers["content-type"] !== "application/http") throw new Error("Unexpected content type: ".concat(this.headers["content-type"]));
+            if (this.headers["content-type"] === undefined) throw new Error("Missing content type");
             this._parsingState.status = ParseStatus$1.Response;
+            this.response = new MultipartResponse(this.headers["content-type"]);
           } else parseHeader(this.headers, line, ":");
         } else if (this._parsingState.status === ParseStatus$1.Response) {
           this.response.push(line);

@@ -35,7 +35,7 @@ var MultipartPart = /*#__PURE__*/function () {
 
     _defineProperty(this, "headers", {});
 
-    _defineProperty(this, "response", new _Response["default"]());
+    _defineProperty(this, "response", void 0);
 
     _defineProperty(this, "_parsingState", {
       status: ParseStatus.Headers
@@ -66,8 +66,9 @@ var MultipartPart = /*#__PURE__*/function () {
 
       if (this._parsingState.status === ParseStatus.Headers) {
         if (!line.length) {
-          if (this.headers["content-type"] !== "application/http") throw new Error("Unexpected content type: ".concat(this.headers["content-type"]));
+          if (this.headers["content-type"] === undefined) throw new Error("Missing content type");
           this._parsingState.status = ParseStatus.Response;
+          this.response = new _Response["default"](this.headers["content-type"]);
         } else (0, _parseHeader["default"])(this.headers, line, ":");
       } else if (this._parsingState.status === ParseStatus.Response) {
         this.response.push(line);

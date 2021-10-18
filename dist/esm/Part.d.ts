@@ -9,7 +9,7 @@ export interface ParsingState {
 }
 export default class MultipartPart {
     headers: HeadersObject;
-    response: MultipartResponse;
+    response: MultipartResponse | null;
     private _parsingState;
     done(): boolean;
     parse(text: string): void;
