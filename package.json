@@ -19,6 +19,7 @@
     "format": "tsds format",
     "lint": "tsds lint",
     "test": "tsds test:node && tsds test:browser",
+    "test:debug": "tsds test:node",
     "test:engines": "tsds test:engines",
     "version": "tsds version"
   },
@@ -45,9 +46,10 @@
     "typescript"
   ],
   "dependencies": {
-    "newline-iterator": "^0.3.3"
+    "newline-iterator": "^0.3.4"
   },
   "devDependencies": {
+    "multi-data": "^0.2.4",
     "ts-dev-stack": "^0.1.3"
   },
   "type": "module",

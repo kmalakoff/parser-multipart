@@ -20,7 +20,7 @@ describe("exports parser-multipart/dist/umd/parser-multipart.js", function () {
   });
 
   it("Response", function () {
-    const response = new Response();
+    const response = new Response("application/http");
     response.parse(json.responses[0]);
     assert.deepEqual(response.json(), { name: "item1" });
   });

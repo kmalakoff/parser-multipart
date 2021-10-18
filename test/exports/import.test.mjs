@@ -19,7 +19,7 @@ describe("exports .mjs", function () {
   });
 
   it("Response", function () {
-    const response = new Response();
+    const response = new Response("application/http");
     response.parse(json.responses[0]);
     assert.deepEqual(response.json(), { name: "item1" });
   });
