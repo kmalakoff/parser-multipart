@@ -13,24 +13,32 @@ export interface ParsingState {
   lines: string[];
 }
 
-export default class MultipartResponse {
+export class BodyHeaders {
   version: Version;
   headers: HeadersObject = {};
   ok: boolean;
   status: number;
   statusText: string;
+}
+
+export default class MultipartResponse {
+  contentType: string;
+  headers: BodyHeaders = null;
   body: string = null;
 
-  // bodyUsed: boolean;
-  // redirected: boolean;
-  // trailer: Promise<Headers>;
-  // type: ResponseType;
-  // url: string;
-
   private _parsingState: ParsingState | null = {
-    status: ParseStatus.Headers,
+    status: ParseStatus.Body,
     lines: [],
   };
+
+  constructor(contentType: string) {
+    if (contentType === undefined) throw new Error("Response missing a content type");
+    this.contentType = contentType;
+    if (this.contentType === "application/http") {
+      this.headers = new BodyHeaders();
+      this._parsingState.status = ParseStatus.Headers;
+    }
+  }
 
   done(): boolean {
     return !this._parsingState;
@@ -51,7 +59,7 @@ export default class MultipartResponse {
 
     if (this._parsingState.status === ParseStatus.Headers) {
       if (!line.length) this._parsingState.status = ParseStatus.Body;
-      else if (!parseStatus(this, line)) parseHeader(this.headers, line, ":");
+      else if (!parseStatus(this.headers, line)) parseHeader(this.headers.headers, line, ":");
     } else if (this._parsingState.status === ParseStatus.Body) {
       if (!line.length) this.push(null);
       else this._parsingState.lines.push(line);
@@ -65,9 +73,6 @@ export default class MultipartResponse {
 
   json(): unknown {
     if (this._parsingState) throw new Error("Attempting to use an incomplete response");
-    if (this.headers["content-type"].indexOf("application/json") === -1) {
-      throw new Error(`Not json response. Content type: ${this.headers["content-type"]}`);
-    }
     return JSON.parse(this.body);
   }
 }

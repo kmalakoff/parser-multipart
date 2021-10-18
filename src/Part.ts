@@ -14,7 +14,7 @@ export interface ParsingState {
 
 export default class MultipartPart {
   headers: HeadersObject = {};
-  response: MultipartResponse = new MultipartResponse();
+  response: MultipartResponse | null;
 
   private _parsingState: ParsingState | null = {
     status: ParseStatus.Headers,
@@ -39,9 +39,9 @@ export default class MultipartPart {
 
     if (this._parsingState.status === ParseStatus.Headers) {
       if (!line.length) {
-        if (this.headers["content-type"] !== "application/http")
-          throw new Error(`Unexpected content type: ${this.headers["content-type"]}`);
+        if (this.headers["content-type"] === undefined) throw new Error("Missing content type");
         this._parsingState.status = ParseStatus.Response;
+        this.response = new MultipartResponse(this.headers["content-type"]);
       } else parseHeader(this.headers, line, ":");
     } else if (this._parsingState.status === ParseStatus.Response) {
       this.response.push(line);
