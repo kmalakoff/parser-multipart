@@ -27,6 +27,9 @@
   function _createClass(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
+    Object.defineProperty(Constructor, "prototype", {
+      writable: false
+    });
     return Constructor;
   }
 
@@ -161,7 +164,7 @@
     ParseStatus[ParseStatus["Body"] = 2] = "Body";
   })(ParseStatus$2 || (ParseStatus$2 = {}));
 
-  var BodyHeaders = function BodyHeaders() {
+  var BodyHeaders = /*#__PURE__*/_createClass(function BodyHeaders() {
     _classCallCheck(this, BodyHeaders);
 
     _defineProperty(this, "version", void 0);
@@ -173,7 +176,7 @@
     _defineProperty(this, "status", void 0);
 
     _defineProperty(this, "statusText", void 0);
-  };
+  });
 
   var MultipartResponse = /*#__PURE__*/function () {
     function MultipartResponse(contentType) {
