@@ -22,11 +22,11 @@ Object.defineProperty(exports, "Response", {
   }
 });
 
-var _Parser = _interopRequireDefault(require("./Parser.js"));
+var _Parser = _interopRequireDefault(require("./Parser"));
 
-var _Part = _interopRequireDefault(require("./Part.js"));
+var _Part = _interopRequireDefault(require("./Part"));
 
-var _Response = _interopRequireDefault(require("./Response.js"));
+var _Response = _interopRequireDefault(require("./Response"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 //# sourceMappingURL=index.js.map

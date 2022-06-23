@@ -1,8 +1,8 @@
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-import parseHeader from "./lib/parseHeader.js";
-import parseStatus from "./lib/parseStatus.js";
-import parseText from "./lib/parseText.js";
+import parseHeader from "./lib/parseHeader.mjs";
+import parseStatus from "./lib/parseStatus.mjs";
+import parseText from "./lib/parseText.mjs";
 export let ParseStatus;
 
 (function (ParseStatus) {
@@ -82,4 +82,4 @@ export default class MultipartResponse {
   }
 
 }
-//# sourceMappingURL=Response.js.map
+//# sourceMappingURL=Response.mjs.map

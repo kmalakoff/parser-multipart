@@ -12,4 +12,4 @@ export default function parseStatus(result, line) {
   result.ok = result.statusText === "OK";
   return true;
 }
-//# sourceMappingURL=parseStatus.js.map
+//# sourceMappingURL=parseStatus.mjs.map

@@ -10,4 +10,4 @@ export default function parseText(parser, text) {
 
   if (!parser.done()) parser.push(null);
 }
-//# sourceMappingURL=parseText.js.map
+//# sourceMappingURL=parseText.mjs.map

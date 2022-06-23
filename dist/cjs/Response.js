@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = exports.ParseStatus = exports.BodyHeaders = void 0;
 
-var _parseHeader = _interopRequireDefault(require("./lib/parseHeader.js"));
+var _parseHeader = _interopRequireDefault(require("./lib/parseHeader"));
 
-var _parseStatus = _interopRequireDefault(require("./lib/parseStatus.js"));
+var _parseStatus = _interopRequireDefault(require("./lib/parseStatus"));
 
-var _parseText = _interopRequireDefault(require("./lib/parseText.js"));
+var _parseText = _interopRequireDefault(require("./lib/parseText"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

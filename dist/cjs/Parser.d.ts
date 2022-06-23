@@ -1,5 +1,5 @@
-import Part from "./Part.js";
-import type { HeadersObject } from "./index.js";
+import Part from "./Part";
+import type { HeadersObject } from "./index";
 export declare enum ParseStatus {
     Parts = 1
 }

@@ -5,4 +5,4 @@ export default function parseHeader(result, line, delimiter) {
   const value = line.slice(index + 1);
   result[key.trim().toLowerCase()] = value.trim();
 }
-//# sourceMappingURL=parseHeader.js.map
+//# sourceMappingURL=parseHeader.mjs.map
