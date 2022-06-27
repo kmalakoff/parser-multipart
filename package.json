@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "multi-data": "^0.2.4",
-    "ts-dev-stack": "^0.3.2"
+    "ts-dev-stack": "^0.3.3"
   },
   "type": "module",
   "engines": {
