@@ -1,4 +1,4 @@
-import { Version } from "../index";
+import { Version } from '../index.js';
 export interface StatusResult {
     version: Version;
     ok: boolean;

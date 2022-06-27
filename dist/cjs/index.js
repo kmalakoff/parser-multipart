@@ -1,32 +1,30 @@
 "use strict";
-
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 Object.defineProperty(exports, "Parser", {
-  enumerable: true,
-  get: function get() {
-    return _Parser["default"];
-  }
+    enumerable: true,
+    get: function() {
+        return _parserJs.default;
+    }
 });
 Object.defineProperty(exports, "Part", {
-  enumerable: true,
-  get: function get() {
-    return _Part["default"];
-  }
+    enumerable: true,
+    get: function() {
+        return _partJs.default;
+    }
 });
 Object.defineProperty(exports, "Response", {
-  enumerable: true,
-  get: function get() {
-    return _Response["default"];
-  }
+    enumerable: true,
+    get: function() {
+        return _responseJs.default;
+    }
 });
-
-var _Parser = _interopRequireDefault(require("./Parser"));
-
-var _Part = _interopRequireDefault(require("./Part"));
-
-var _Response = _interopRequireDefault(require("./Response"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-//# sourceMappingURL=index.js.map
+var _parserJs = _interopRequireDefault(require("./Parser.js"));
+var _partJs = _interopRequireDefault(require("./Part.js"));
+var _responseJs = _interopRequireDefault(require("./Response.js"));
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
+}

@@ -1,7 +1,7 @@
-import parseHeader from "./lib/parseHeader";
-import parseStatus from "./lib/parseStatus";
-import parseText from "./lib/parseText";
-import type { Version, HeadersObject } from "./index";
+import parseHeader from './lib/parseHeader.js';
+import parseStatus from './lib/parseStatus.js';
+import parseText from './lib/parseText.js';
+import type { Version, HeadersObject } from './index.js';
 
 export enum ParseStatus {
   Headers = 1,
@@ -32,9 +32,9 @@ export default class MultipartResponse {
   };
 
   constructor(contentType: string) {
-    if (contentType === undefined) throw new Error("Response missing a content type");
+    if (contentType === undefined) throw new Error('Response missing a content type');
     this.contentType = contentType;
-    if (this.contentType === "application/http") {
+    if (this.contentType === 'application/http') {
       this.headers = new BodyHeaders();
       this._parsingState.status = ParseStatus.Headers;
     }
@@ -49,17 +49,17 @@ export default class MultipartResponse {
   }
 
   push(line: string): void {
-    if (!this._parsingState) throw new Error("Attempting to parse a completed response");
+    if (!this._parsingState) throw new Error('Attempting to parse a completed response');
     if (line === null) {
-      if (this._parsingState.status !== ParseStatus.Body) throw new Error("Unexpected parsing state");
-      this.body = this._parsingState.lines.join("\r\n");
+      if (this._parsingState.status !== ParseStatus.Body) throw new Error('Unexpected parsing state');
+      this.body = this._parsingState.lines.join('\r\n');
       this._parsingState = null;
       return;
     }
 
     if (this._parsingState.status === ParseStatus.Headers) {
       if (!line.length) this._parsingState.status = ParseStatus.Body;
-      else if (!parseStatus(this.headers, line)) parseHeader(this.headers.headers, line, ":");
+      else if (!parseStatus(this.headers, line)) parseHeader(this.headers.headers, line, ':');
     } else if (this._parsingState.status === ParseStatus.Body) {
       if (!line.length) this.push(null);
       else this._parsingState.lines.push(line);
@@ -67,12 +67,12 @@ export default class MultipartResponse {
   }
 
   text(): string {
-    if (this._parsingState) throw new Error("Attempting to use an incomplete response");
+    if (this._parsingState) throw new Error('Attempting to use an incomplete response');
     return this.body;
   }
 
   json(): unknown {
-    if (this._parsingState) throw new Error("Attempting to use an incomplete response");
+    if (this._parsingState) throw new Error('Attempting to use an incomplete response');
     return JSON.parse(this.body);
   }
 }
