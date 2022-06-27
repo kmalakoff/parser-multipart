@@ -1,7 +1,7 @@
-import parseHeader from "./lib/parseHeader";
-import parseText from "./lib/parseText";
-import MultipartResponse from "./Response";
-import type { HeadersObject } from "./index";
+import parseHeader from './lib/parseHeader.js';
+import parseText from './lib/parseText.js';
+import MultipartResponse from './Response.js';
+import type { HeadersObject } from './index.js';
 
 export enum ParseStatus {
   Headers = 1,
@@ -29,9 +29,9 @@ export default class MultipartPart {
   }
 
   push(line: string): void {
-    if (!this._parsingState) throw new Error("Attempting to parse a completed part");
+    if (!this._parsingState) throw new Error('Attempting to parse a completed part');
     if (line === null) {
-      if (this._parsingState.status !== ParseStatus.Response) throw new Error("Unexpected parsing state");
+      if (this._parsingState.status !== ParseStatus.Response) throw new Error('Unexpected parsing state');
       if (!this.response.done()) this.response.push(null);
       this._parsingState = null;
       return;
@@ -39,10 +39,10 @@ export default class MultipartPart {
 
     if (this._parsingState.status === ParseStatus.Headers) {
       if (!line.length) {
-        if (this.headers["content-type"] === undefined) throw new Error("Missing content type");
+        if (this.headers['content-type'] === undefined) throw new Error('Missing content type');
         this._parsingState.status = ParseStatus.Response;
-        this.response = new MultipartResponse(this.headers["content-type"]);
-      } else parseHeader(this.headers, line, ":");
+        this.response = new MultipartResponse(this.headers['content-type']);
+      } else parseHeader(this.headers, line, ':');
     } else if (this._parsingState.status === ParseStatus.Response) {
       this.response.push(line);
     }

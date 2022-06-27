@@ -1,4 +1,4 @@
-import { Version } from "../index";
+import { Version } from '../index.js';
 
 export interface StatusResult {
   version: Version;
@@ -17,6 +17,6 @@ export default function parseStatus(result: StatusResult, line: string): boolean
   result.version = { major: parseInt(match[1], 10), minor: parseInt(match[2], 10) };
   result.status = parseInt(match[3], 10);
   result.statusText = match[4];
-  result.ok = result.statusText === "OK";
+  result.ok = result.statusText === 'OK';
   return true;
 }
