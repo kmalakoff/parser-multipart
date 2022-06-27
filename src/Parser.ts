@@ -37,7 +37,7 @@ export default class MultipartParser {
     if (this.type.indexOf('multipart') !== 0) {
       throw new Error(`Expecting a multipart type. Received: ${contentType}`);
     }
-    parts.forEach(part => parseHeader(this.headers, part, '=')) ;
+    parts.forEach((part) => parseHeader(this.headers, part, '='));
 
     // boundary
     if (!this.headers.boundary) throw new Error('Invalid Content Type: no boundary');
