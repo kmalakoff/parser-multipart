@@ -1,4 +1,4 @@
-import { HeadersObject } from "../index";
+import { HeadersObject } from '../index.js';
 
 export default function parseHeader(result: HeadersObject, line: string, delimiter: string): void {
   const index = line.indexOf(delimiter);
