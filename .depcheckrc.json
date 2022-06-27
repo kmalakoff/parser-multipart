@@ -1,4 +1,4 @@
 {
   "extends": "./node_modules/ts-dev-stack/.depcheckrc.json",
-  "ignores": ["parser-multipart", "@types/*", "@typescript-eslint/*", "eslint-*", "chai"]
+  "ignores": ["parser-multipart", "@types/*", "@typescript-eslint/*", "eslint-*"]
 }
