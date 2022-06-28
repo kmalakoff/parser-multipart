@@ -1,4 +1,4 @@
-import type { Version, HeadersObject } from './index.js';
+import type { Version, HeadersObject } from './index.ts';
 export declare enum ParseStatus {
     Headers = 1,
     Body = 2

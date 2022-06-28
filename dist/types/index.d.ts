@@ -1,6 +1,6 @@
-export { default as Parser } from './Parser.js';
-export { default as Part } from './Part.js';
-export { default as Response } from './Response.js';
+export { default as Parser } from './Parser.ts';
+export { default as Part } from './Part.ts';
+export { default as Response } from './Response.ts';
 export interface Version {
     major: number;
     minor: number;

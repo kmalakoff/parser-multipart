@@ -15,5 +15,5 @@ function parseStatus(result, line) {
     result.ok = result.statusText === "OK";
     return true;
 }
-// https://github.com/watson/http-headers/blob/master/index.js
+// https://github.com/watson/http-headers/blob/master/index.ts
 var statusLine = /^[A-Z]+\/(\d)\.(\d) (\d{3}) (.*)$/;

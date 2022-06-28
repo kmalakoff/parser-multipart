@@ -14,7 +14,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsds build:dist",
+    "build": "tsds build",
     "deploy": "tsds deploy",
     "format": "tsds format",
     "lint": "tsds lint",
@@ -46,11 +46,11 @@
     "typescript"
   ],
   "dependencies": {
-    "newline-iterator": "^0.3.4"
+    "newline-iterator": "^0.3.6"
   },
   "devDependencies": {
-    "multi-data": "^0.2.4",
-    "ts-dev-stack": "^0.3.3"
+    "multi-data": "^0.2.6",
+    "ts-dev-stack": "^0.4.1"
   },
   "type": "module",
   "engines": {
@@ -64,7 +64,10 @@
     },
     "./*": "./*"
   },
-  "source": "src/index.ts",
+  "tsds": {
+    "source": "src/index.ts",
+    "globals": { "newline-iterator": "newlineIterator" }
+  },
   "types": "dist/types/index.d.ts",
   "unpkg": "dist/umd/parser-multipart.js"
 }

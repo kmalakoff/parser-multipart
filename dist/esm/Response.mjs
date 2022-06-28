@@ -1,5 +1,8 @@
+// @ts-ignore
 import parseHeader from './lib/parseHeader.mjs';
+// @ts-ignore
 import parseStatus from './lib/parseStatus.mjs';
+// @ts-ignore
 import parseText from './lib/parseText.mjs';
 export var ParseStatus;
 (function(ParseStatus) {

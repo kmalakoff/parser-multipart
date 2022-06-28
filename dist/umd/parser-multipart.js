@@ -1,237 +1,344 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('newline-iterator')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'newline-iterator'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.parserMultipart = {}, global.newlineIterator));
-})(this, (function (exports, newlineIterator) { 'use strict';
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.parserMultipart = {}));
+})(this, (function (exports) { 'use strict';
 
-    function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+  function parseHeader(result, line, delimiter) {
+      var index = line.indexOf(delimiter);
+      if (index === -1) throw new Error("Unexpected header format: ".concat(line));
+      var key = line.slice(0, index);
+      var value = line.slice(index + 1);
+      result[key.trim().toLowerCase()] = value.trim();
+  }
 
-    var newlineIterator__default = /*#__PURE__*/_interopDefaultLegacy(newlineIterator);
+  /**
+   * Find indexOf CR, LF, or CRLF
+   *
+   * @param string The search string
+   * @param offset The offset for searching
+   * @param includeLength Include the length in the return value
+   * @returns When includeLength is true, returns a pair of [offset, length] to provide the length of CR (1), LF (1) or CRLF (2)
+   */ function indexOfNewline(string) {
+      var offset = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 0, includeLength = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : false;
+      if (offset < 0) throw new Error("Unexpected negative offset");
+      if (offset > string.length) throw new Error("Offset is longer than the string. Offset: ".concat(offset, ". String: ").concat(string.length));
+      while(offset < string.length){
+          var value = string[offset];
+          if (value === "\n") return includeLength ? [
+              offset,
+              1
+          ] : offset;
+          else if (value === "\r") {
+              return includeLength ? [
+                  offset,
+                  string[offset + 1] === "\n" ? 2 : 1
+              ] : offset;
+          }
+          offset++;
+      }
+      return includeLength ? [
+          -1,
+          0
+      ] : -1;
+  }
 
-    function parseHeader(result, line, delimiter) {
-        var index = line.indexOf(delimiter);
-        if (index === -1)
-            throw new Error("Unexpected header format: ".concat(line));
-        var key = line.slice(0, index);
-        var value = line.slice(index + 1);
-        result[key.trim().toLowerCase()] = value.trim();
-    }
+  function _arrayLikeToArray(arr, len) {
+      if (len == null || len > arr.length) len = arr.length;
+      for(var i = 0, arr2 = new Array(len); i < len; i++)arr2[i] = arr[i];
+      return arr2;
+  }
+  function _arrayWithHoles(arr) {
+      if (Array.isArray(arr)) return arr;
+  }
+  function _iterableToArrayLimit(arr, i) {
+      var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
+      if (_i == null) return;
+      var _arr = [];
+      var _n = true;
+      var _d = false;
+      var _s, _e;
+      try {
+          for(_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true){
+              _arr.push(_s.value);
+              if (i && _arr.length === i) break;
+          }
+      } catch (err) {
+          _d = true;
+          _e = err;
+      } finally{
+          try {
+              if (!_n && _i["return"] != null) _i["return"]();
+          } finally{
+              if (_d) throw _e;
+          }
+      }
+      return _arr;
+  }
+  function _nonIterableRest() {
+      throw new TypeError("Invalid attempt to destructure non-iterable instance.\\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  function _slicedToArray(arr, i) {
+      return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+  }
+  function _unsupportedIterableToArray(o, minLen) {
+      if (!o) return;
+      if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+      var n = Object.prototype.toString.call(o).slice(8, -1);
+      if (n === "Object" && o.constructor) n = o.constructor.name;
+      if (n === "Map" || n === "Set") return Array.from(n);
+      if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+  }
+  var hasIterator = typeof Symbol !== "undefined" && Symbol.iterator;
+  /**
+   * Create a newline iterator recognizing CR, LF, and CRLF using the Symbol.iterator interface
+   *
+   * @param string The string to iterate through
+   *
+   * ```typescript
+   * import newlineIterator from "newline-iterator";
+   *
+   * const iterator = newlineIterator("some\r\nstring\ncombination\r");
+   * const results = [];
+   * for (const line of iterator) results.push(line);
+   * console.log(results); // ["some", "string", "combination"];
+   * ```
+   */ function newlineIterator(string) {
+      var offset = 0;
+      var iterator = {
+          next: function next() {
+              if (offset >= string.length) return {
+                  value: undefined,
+                  done: true
+              };
+              var ref = _slicedToArray(indexOfNewline(string, offset, true), 2), index = ref[0], skip = ref[1];
+              if (index < 0) {
+                  index = string.length;
+                  skip = 0;
+              }
+              var line = string.substr(offset, index - offset);
+              offset = index + skip;
+              return {
+                  value: line,
+                  done: false
+              };
+          }
+      };
+      if (hasIterator) {
+          iterator[Symbol.iterator] = function() {
+              return this;
+          };
+      }
+      return iterator;
+  }
 
-    function parseText(parser, text) {
-        var iterator = newlineIterator__default["default"](text);
-        var next = iterator.next();
-        while (!next.done) {
-            parser.push(next.value);
-            next = iterator.next();
-        }
-        if (!parser.done())
-            parser.push(null);
-    }
+  function parseText(parser, text) {
+      var iterator = newlineIterator(text);
+      var next = iterator.next();
+      while(!next.done){
+          parser.push(next.value);
+          next = iterator.next();
+      }
+      if (!parser.done()) parser.push(null);
+  }
 
-    // https://github.com/watson/http-headers/blob/master/index.js
-    var statusLine = /^[A-Z]+\/(\d)\.(\d) (\d{3}) (.*)$/;
-    function parseStatus(result, line) {
-        var match = line.match(statusLine);
-        if (!match)
-            return false;
-        result.version = { major: parseInt(match[1], 10), minor: parseInt(match[2], 10) };
-        result.status = parseInt(match[3], 10);
-        result.statusText = match[4];
-        result.ok = result.statusText === 'OK';
-        return true;
-    }
+  // https://github.com/watson/http-headers/blob/master/index.ts
+  var statusLine = /^[A-Z]+\/(\d)\.(\d) (\d{3}) (.*)$/;
+  function parseStatus(result, line) {
+      var match = line.match(statusLine);
+      if (!match) return false;
+      result.version = {
+          major: parseInt(match[1], 10),
+          minor: parseInt(match[2], 10)
+      };
+      result.status = parseInt(match[3], 10);
+      result.statusText = match[4];
+      result.ok = result.statusText === "OK";
+      return true;
+  }
 
-    var ParseStatus$2;
-    (function (ParseStatus) {
-        ParseStatus[ParseStatus["Headers"] = 1] = "Headers";
-        ParseStatus[ParseStatus["Body"] = 2] = "Body";
-    })(ParseStatus$2 || (ParseStatus$2 = {}));
-    var BodyHeaders = /** @class */ (function () {
-        function BodyHeaders() {
-            this.headers = {};
-        }
-        return BodyHeaders;
-    }());
-    var MultipartResponse = /** @class */ (function () {
-        function MultipartResponse(contentType) {
-            this.headers = null;
-            this.body = null;
-            this._parsingState = {
-                status: ParseStatus$2.Body,
-                lines: [],
-            };
-            if (contentType === undefined)
-                throw new Error('Response missing a content type');
-            this.contentType = contentType;
-            if (this.contentType === 'application/http') {
-                this.headers = new BodyHeaders();
-                this._parsingState.status = ParseStatus$2.Headers;
-            }
-        }
-        MultipartResponse.prototype.done = function () {
-            return !this._parsingState;
-        };
-        MultipartResponse.prototype.parse = function (text) {
-            parseText(this, text);
-        };
-        MultipartResponse.prototype.push = function (line) {
-            if (!this._parsingState)
-                throw new Error('Attempting to parse a completed response');
-            if (line === null) {
-                if (this._parsingState.status !== ParseStatus$2.Body)
-                    throw new Error('Unexpected parsing state');
-                this.body = this._parsingState.lines.join('\r\n');
-                this._parsingState = null;
-                return;
-            }
-            if (this._parsingState.status === ParseStatus$2.Headers) {
-                if (!line.length)
-                    this._parsingState.status = ParseStatus$2.Body;
-                else if (!parseStatus(this.headers, line))
-                    parseHeader(this.headers.headers, line, ':');
-            }
-            else if (this._parsingState.status === ParseStatus$2.Body) {
-                if (!line.length)
-                    this.push(null);
-                else
-                    this._parsingState.lines.push(line);
-            }
-        };
-        MultipartResponse.prototype.text = function () {
-            if (this._parsingState)
-                throw new Error('Attempting to use an incomplete response');
-            return this.body;
-        };
-        MultipartResponse.prototype.json = function () {
-            if (this._parsingState)
-                throw new Error('Attempting to use an incomplete response');
-            return JSON.parse(this.body);
-        };
-        return MultipartResponse;
-    }());
+  function _classCallCheck$2(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+          throw new TypeError("Cannot call a class as a function");
+      }
+  }
+  var ParseStatus$2;
+  (function(ParseStatus) {
+      ParseStatus[ParseStatus["Headers"] = 1] = "Headers";
+      ParseStatus[ParseStatus["Body"] = 2] = "Body";
+  })(ParseStatus$2 || (ParseStatus$2 = {}));
+  var BodyHeaders = function BodyHeaders() {
+      _classCallCheck$2(this, BodyHeaders);
+      this.headers = {};
+  };
+  var MultipartResponse = /*#__PURE__*/ function() {
+      function MultipartResponse(contentType) {
+          _classCallCheck$2(this, MultipartResponse);
+          this.headers = null;
+          this.body = null;
+          this._parsingState = {
+              status: ParseStatus$2.Body,
+              lines: []
+          };
+          if (contentType === undefined) throw new Error("Response missing a content type");
+          this.contentType = contentType;
+          if (this.contentType === "application/http") {
+              this.headers = new BodyHeaders();
+              this._parsingState.status = ParseStatus$2.Headers;
+          }
+      }
+      var _proto = MultipartResponse.prototype;
+      _proto.done = function done() {
+          return !this._parsingState;
+      };
+      _proto.parse = function parse(text) {
+          parseText(this, text);
+      };
+      _proto.push = function push(line) {
+          if (!this._parsingState) throw new Error("Attempting to parse a completed response");
+          if (line === null) {
+              if (this._parsingState.status !== ParseStatus$2.Body) throw new Error("Unexpected parsing state");
+              this.body = this._parsingState.lines.join("\r\n");
+              this._parsingState = null;
+              return;
+          }
+          if (this._parsingState.status === ParseStatus$2.Headers) {
+              if (!line.length) this._parsingState.status = ParseStatus$2.Body;
+              else if (!parseStatus(this.headers, line)) parseHeader(this.headers.headers, line, ":");
+          } else if (this._parsingState.status === ParseStatus$2.Body) {
+              if (!line.length) this.push(null);
+              else this._parsingState.lines.push(line);
+          }
+      };
+      _proto.text = function text() {
+          if (this._parsingState) throw new Error("Attempting to use an incomplete response");
+          return this.body;
+      };
+      _proto.json = function json() {
+          if (this._parsingState) throw new Error("Attempting to use an incomplete response");
+          return JSON.parse(this.body);
+      };
+      return MultipartResponse;
+  }();
 
-    var ParseStatus$1;
-    (function (ParseStatus) {
-        ParseStatus[ParseStatus["Headers"] = 1] = "Headers";
-        ParseStatus[ParseStatus["Response"] = 2] = "Response";
-    })(ParseStatus$1 || (ParseStatus$1 = {}));
-    var MultipartPart = /** @class */ (function () {
-        function MultipartPart() {
-            this.headers = {};
-            this._parsingState = {
-                status: ParseStatus$1.Headers,
-            };
-        }
-        MultipartPart.prototype.done = function () {
-            return !this._parsingState;
-        };
-        MultipartPart.prototype.parse = function (text) {
-            parseText(this, text);
-        };
-        MultipartPart.prototype.push = function (line) {
-            if (!this._parsingState)
-                throw new Error('Attempting to parse a completed part');
-            if (line === null) {
-                if (this._parsingState.status !== ParseStatus$1.Response)
-                    throw new Error('Unexpected parsing state');
-                if (!this.response.done())
-                    this.response.push(null);
-                this._parsingState = null;
-                return;
-            }
-            if (this._parsingState.status === ParseStatus$1.Headers) {
-                if (!line.length) {
-                    if (this.headers['content-type'] === undefined)
-                        throw new Error('Missing content type');
-                    this._parsingState.status = ParseStatus$1.Response;
-                    this.response = new MultipartResponse(this.headers['content-type']);
-                }
-                else
-                    parseHeader(this.headers, line, ':');
-            }
-            else if (this._parsingState.status === ParseStatus$1.Response) {
-                this.response.push(line);
-            }
-        };
-        return MultipartPart;
-    }());
+  function _classCallCheck$1(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+          throw new TypeError("Cannot call a class as a function");
+      }
+  }
+  var ParseStatus$1;
+  (function(ParseStatus) {
+      ParseStatus[ParseStatus["Headers"] = 1] = "Headers";
+      ParseStatus[ParseStatus["Response"] = 2] = "Response";
+  })(ParseStatus$1 || (ParseStatus$1 = {}));
+  var MultipartPart = /*#__PURE__*/ function() {
+      function MultipartPart() {
+          _classCallCheck$1(this, MultipartPart);
+          this.headers = {};
+          this._parsingState = {
+              status: ParseStatus$1.Headers
+          };
+      }
+      var _proto = MultipartPart.prototype;
+      _proto.done = function done() {
+          return !this._parsingState;
+      };
+      _proto.parse = function parse(text) {
+          parseText(this, text);
+      };
+      _proto.push = function push(line) {
+          if (!this._parsingState) throw new Error("Attempting to parse a completed part");
+          if (line === null) {
+              if (this._parsingState.status !== ParseStatus$1.Response) throw new Error("Unexpected parsing state");
+              if (!this.response.done()) this.response.push(null);
+              this._parsingState = null;
+              return;
+          }
+          if (this._parsingState.status === ParseStatus$1.Headers) {
+              if (!line.length) {
+                  if (this.headers["content-type"] === undefined) throw new Error("Missing content type");
+                  this._parsingState.status = ParseStatus$1.Response;
+                  this.response = new MultipartResponse(this.headers["content-type"]);
+              } else parseHeader(this.headers, line, ":");
+          } else if (this._parsingState.status === ParseStatus$1.Response) {
+              this.response.push(line);
+          }
+      };
+      return MultipartPart;
+  }();
 
-    var ParseStatus;
-    (function (ParseStatus) {
-        ParseStatus[ParseStatus["Parts"] = 1] = "Parts";
-    })(ParseStatus || (ParseStatus = {}));
-    var MultipartParser = /** @class */ (function () {
-        function MultipartParser(headers) {
-            var _this = this;
-            this.headers = {};
-            this.parts = [];
-            this._parsingState = {
-                status: ParseStatus.Parts,
-                boundaryEnd: null,
-            };
-            this.boundary = null;
-            if (!headers)
-                throw new Error('Headers missing');
-            var contentType;
-            if (typeof headers === 'string')
-                contentType = headers;
-            /* c8 ignore start */ else if (headers.get)
-                contentType = headers.get('content-type');
-            /* c8 ignore stop */ else
-                contentType = headers['content-type'];
-            if (!contentType)
-                throw Error('content-type header not found');
-            var parts = contentType.split(/;/g);
-            this.type = parts.shift().trim();
-            if (this.type.indexOf('multipart') !== 0) {
-                throw new Error("Expecting a multipart type. Received: ".concat(contentType));
-            }
-            parts.forEach(function (part) { return parseHeader(_this.headers, part, '='); });
-            // boundary
-            if (!this.headers.boundary)
-                throw new Error('Invalid Content Type: no boundary');
-            this.boundary = "--".concat(this.headers.boundary);
-            this._parsingState.boundaryEnd = "--".concat(this.headers.boundary, "--");
-            this._parsingState.status = ParseStatus.Parts;
-        }
-        MultipartParser.prototype.done = function () {
-            return !this._parsingState;
-        };
-        MultipartParser.prototype.parse = function (text) {
-            parseText(this, text);
-        };
-        MultipartParser.prototype.push = function (line) {
-            var part = this.parts.length ? this.parts[this.parts.length - 1] : null;
-            if (!this._parsingState)
-                throw new Error('Attempting to parse a completed multipart');
-            if (line === null) {
-                if (part && !part.done())
-                    part.push(null);
-                this._parsingState = null;
-                return;
-            }
-            if (line === this._parsingState.boundaryEnd)
-                this.push(null);
-            else if (line === this.boundary) {
-                if (part && !part.done())
-                    part.push(null);
-                this.parts.push(new MultipartPart());
-            }
-            else if (part)
-                part.push(line);
-            else {
-                if (line.length)
-                    throw new Error("Unexpected line: ".concat(line));
-            }
-        };
-        return MultipartParser;
-    }());
+  function _classCallCheck(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+          throw new TypeError("Cannot call a class as a function");
+      }
+  }
+  var ParseStatus;
+  (function(ParseStatus) {
+      ParseStatus[ParseStatus["Parts"] = 1] = "Parts";
+  })(ParseStatus || (ParseStatus = {}));
+  var MultipartParser = /*#__PURE__*/ function() {
+      function MultipartParser(headers) {
+          var _this = this;
+          _classCallCheck(this, MultipartParser);
+          this.headers = {};
+          this.parts = [];
+          this._parsingState = {
+              status: ParseStatus.Parts,
+              boundaryEnd: null
+          };
+          this.boundary = null;
+          if (!headers) throw new Error("Headers missing");
+          var contentType;
+          if (typeof headers === "string") contentType = headers;
+          else if (headers.get) contentType = headers.get("content-type");
+          else contentType = headers["content-type"];
+          if (!contentType) throw Error("content-type header not found");
+          var parts = contentType.split(/;/g);
+          this.type = parts.shift().trim();
+          if (this.type.indexOf("multipart") !== 0) {
+              throw new Error("Expecting a multipart type. Received: ".concat(contentType));
+          }
+          parts.forEach(function(part) {
+              return parseHeader(_this.headers, part, "=");
+          });
+          // boundary
+          if (!this.headers.boundary) throw new Error("Invalid Content Type: no boundary");
+          this.boundary = "--".concat(this.headers.boundary);
+          this._parsingState.boundaryEnd = "--".concat(this.headers.boundary, "--");
+          this._parsingState.status = ParseStatus.Parts;
+      }
+      var _proto = MultipartParser.prototype;
+      _proto.done = function done() {
+          return !this._parsingState;
+      };
+      _proto.parse = function parse(text) {
+          parseText(this, text);
+      };
+      _proto.push = function push(line) {
+          var part = this.parts.length ? this.parts[this.parts.length - 1] : null;
+          if (!this._parsingState) throw new Error("Attempting to parse a completed multipart");
+          if (line === null) {
+              if (part && !part.done()) part.push(null);
+              this._parsingState = null;
+              return;
+          }
+          if (line === this._parsingState.boundaryEnd) this.push(null);
+          else if (line === this.boundary) {
+              if (part && !part.done()) part.push(null);
+              this.parts.push(new MultipartPart());
+          } else if (part) part.push(line);
+          else {
+              if (line.length) throw new Error("Unexpected line: ".concat(line));
+          }
+      };
+      return MultipartParser;
+  }();
 
-    exports.Parser = MultipartParser;
-    exports.Part = MultipartPart;
-    exports.Response = MultipartResponse;
+  exports.Parser = MultipartParser;
+  exports.Part = MultipartPart;
+  exports.Response = MultipartResponse;
 
-    Object.defineProperty(exports, '__esModule', { value: true });
+  Object.defineProperty(exports, '__esModule', { value: true });
 
 }));
 //# sourceMappingURL=parser-multipart.js.map

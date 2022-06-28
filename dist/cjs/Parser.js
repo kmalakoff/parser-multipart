@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 module.exports = exports.ParseStatus = void 0;
-var _partJs = _interopRequireDefault(require("./Part.js"));
-var _parseHeaderJs = _interopRequireDefault(require("./lib/parseHeader.js"));
-var _parseTextJs = _interopRequireDefault(require("./lib/parseText.js"));
+var _partTs = _interopRequireDefault(require("./Part.js"));
+var _parseHeaderTs = _interopRequireDefault(require("./lib/parseHeader.js"));
+var _parseTextTs = _interopRequireDefault(require("./lib/parseText.js"));
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -45,7 +45,7 @@ var MultipartParser = /*#__PURE__*/ function() {
             throw new Error("Expecting a multipart type. Received: ".concat(contentType));
         }
         parts.forEach(function(part) {
-            return (0, _parseHeaderJs).default(_this.headers, part, "=");
+            return (0, _parseHeaderTs).default(_this.headers, part, "=");
         });
         // boundary
         if (!this.headers.boundary) throw new Error("Invalid Content Type: no boundary");
@@ -58,7 +58,7 @@ var MultipartParser = /*#__PURE__*/ function() {
         return !this._parsingState;
     };
     _proto.parse = function parse(text) {
-        (0, _parseTextJs).default(this, text);
+        (0, _parseTextTs).default(this, text);
     };
     _proto.push = function push(line) {
         var part = this.parts.length ? this.parts[this.parts.length - 1] : null;
@@ -71,7 +71,7 @@ var MultipartParser = /*#__PURE__*/ function() {
         if (line === this._parsingState.boundaryEnd) this.push(null);
         else if (line === this.boundary) {
             if (part && !part.done()) part.push(null);
-            this.parts.push(new _partJs.default());
+            this.parts.push(new _partTs.default());
         } else if (part) part.push(line);
         else {
             if (line.length) throw new Error("Unexpected line: ".concat(line));

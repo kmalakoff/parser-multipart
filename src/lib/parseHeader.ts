@@ -1,4 +1,5 @@
-import { HeadersObject } from '../index.js';
+// @ts-ignore
+import { HeadersObject } from '../index.ts';
 
 export default function parseHeader(result: HeadersObject, line: string, delimiter: string): void {
   const index = line.indexOf(delimiter);

@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 module.exports = exports.BodyHeaders = exports.ParseStatus = void 0;
-var _parseHeaderJs = _interopRequireDefault(require("./lib/parseHeader.js"));
-var _parseStatusJs = _interopRequireDefault(require("./lib/parseStatus.js"));
-var _parseTextJs = _interopRequireDefault(require("./lib/parseText.js"));
+var _parseHeaderTs = _interopRequireDefault(require("./lib/parseHeader.js"));
+var _parseStatusTs = _interopRequireDefault(require("./lib/parseStatus.js"));
+var _parseTextTs = _interopRequireDefault(require("./lib/parseText.js"));
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -50,7 +50,7 @@ var MultipartResponse = /*#__PURE__*/ function() {
         return !this._parsingState;
     };
     _proto.parse = function parse(text) {
-        (0, _parseTextJs).default(this, text);
+        (0, _parseTextTs).default(this, text);
     };
     _proto.push = function push(line) {
         if (!this._parsingState) throw new Error("Attempting to parse a completed response");
@@ -62,7 +62,7 @@ var MultipartResponse = /*#__PURE__*/ function() {
         }
         if (this._parsingState.status === ParseStatus.Headers) {
             if (!line.length) this._parsingState.status = ParseStatus.Body;
-            else if (!(0, _parseStatusJs).default(this.headers, line)) (0, _parseHeaderJs).default(this.headers.headers, line, ":");
+            else if (!(0, _parseStatusTs).default(this.headers, line)) (0, _parseHeaderTs).default(this.headers.headers, line, ":");
         } else if (this._parsingState.status === ParseStatus.Body) {
             if (!line.length) this.push(null);
             else this._parsingState.lines.push(line);
