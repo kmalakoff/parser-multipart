@@ -1,5 +1,6 @@
 import newlineIterator from 'newline-iterator';
-import { IParser } from '../index.js';
+// @ts-ignore
+import { IParser } from '../index.ts';
 
 export default function parseText(parser: IParser, text: string): void {
   const iterator = newlineIterator(text);

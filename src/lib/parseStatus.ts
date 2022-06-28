@@ -1,4 +1,5 @@
-import { Version } from '../index.js';
+// @ts-ignore
+import { Version } from '../index.ts';
 
 export interface StatusResult {
   version: Version;
@@ -7,7 +8,7 @@ export interface StatusResult {
   statusText: string;
 }
 
-// https://github.com/watson/http-headers/blob/master/index.js
+// https://github.com/watson/http-headers/blob/master/index.ts
 const statusLine = /^[A-Z]+\/(\d)\.(\d) (\d{3}) (.*)$/;
 
 export default function parseStatus(result: StatusResult, line: string): boolean {

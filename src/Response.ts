@@ -1,7 +1,11 @@
-import parseHeader from './lib/parseHeader.js';
-import parseStatus from './lib/parseStatus.js';
-import parseText from './lib/parseText.js';
-import type { Version, HeadersObject } from './index.js';
+// @ts-ignore
+import parseHeader from './lib/parseHeader.ts';
+// @ts-ignore
+import parseStatus from './lib/parseStatus.ts';
+// @ts-ignore
+import parseText from './lib/parseText.ts';
+// @ts-ignore
+import type { Version, HeadersObject } from './index.ts';
 
 export enum ParseStatus {
   Headers = 1,
