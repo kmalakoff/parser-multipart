@@ -20,7 +20,7 @@
     "lint": "tsds lint",
     "test": "tsds test:node && tsds test:browser",
     "test:debug": "tsds test:node",
-    "version": "tsds version"
+    "version2": "tsds version"
   },
   "homepage": "https://github.com/kmalakoff/parser-multipart#README.md",
   "repository": {
@@ -45,11 +45,11 @@
     "typescript"
   ],
   "dependencies": {
-    "newline-iterator": "^0.3.6"
+    "newline-iterator": "^0.3.7"
   },
   "devDependencies": {
-    "multi-data": "^0.2.6",
-    "ts-dev-stack": "^0.5.1"
+    "multi-data": "^0.2.7",
+    "ts-dev-stack": "^0.6.5"
   },
   "type": "module",
   "engines": {
