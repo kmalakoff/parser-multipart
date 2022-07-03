@@ -1,7 +1,7 @@
-import newlineIterator from 'newline-iterator';
+import newlineIterator from "newline-iterator";
 export default function parseText(parser, text) {
-    const iterator = newlineIterator(text);
-    let next = iterator.next();
+    var iterator = newlineIterator(text);
+    var next = iterator.next();
     while(!next.done){
         parser.push(next.value);
         next = iterator.next();
