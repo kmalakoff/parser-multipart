@@ -1,5 +1,9 @@
 {
   "extends": "./node_modules/ts-dev-stack/tsconfig.json",
-  "exclude": ["node_modules", "dist"],
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+   "exclude": ["node_modules", "dist"],
   "include": ["src"]
 }
