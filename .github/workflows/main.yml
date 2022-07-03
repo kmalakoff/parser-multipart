@@ -21,4 +21,5 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm run build
-      - run: nvu engines npm run test
+      - run: npm run test
+      - run: nvu engines tsds test:node
