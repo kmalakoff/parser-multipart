@@ -1,35 +1,7 @@
 {
   "name": "parser-multipart",
-  "description": "Multipart form data parser for browser and node",
   "version": "0.1.8",
-  "author": {
-    "email": "kmalakoff@gmail.com",
-    "name": "Kevin Malakoff",
-    "url": "https://github.com/kmalakoff"
-  },
-  "license": "MIT",
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.mjs",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsds build",
-    "deploy": "tsds deploy",
-    "format": "tsds format",
-    "lint": "tsds lint",
-    "test": "tsds test:node && tsds test:browser",
-    "test:debug": "tsds test:node",
-    "version2": "tsds version"
-  },
-  "homepage": "https://github.com/kmalakoff/parser-multipart#README.md",
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/kmalakoff/parser-multipart.git"
-  },
-  "bugs": {
-    "url": "https://github.com/kmalakoff/parser-multipart/issues"
-  },
+  "description": "Multipart form data parser for browser and node",
   "keywords": [
     "batch",
     "data",
@@ -44,17 +16,21 @@
     "parts",
     "typescript"
   ],
-  "dependencies": {
-    "newline-iterator": "^0.3.7"
+  "homepage": "https://github.com/kmalakoff/parser-multipart#README.md",
+  "bugs": {
+    "url": "https://github.com/kmalakoff/parser-multipart/issues"
   },
-  "devDependencies": {
-    "multi-data": "^0.2.7",
-    "ts-dev-stack": "^0.6.5"
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/kmalakoff/parser-multipart.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Kevin Malakoff",
+    "email": "kmalakoff@gmail.com",
+    "url": "https://github.com/kmalakoff"
   },
   "type": "module",
-  "engines": {
-    "node": ">=0.8"
-  },
   "exports": {
     ".": {
       "import": "./dist/esm/index.mjs",
@@ -63,12 +39,37 @@
     },
     "./*": "./*"
   },
+  "main": "dist/cjs/index.js",
+  "unpkg": "dist/umd/parser-multipart.js",
+  "module": "dist/esm/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsds build",
+    "deploy": "tsds deploy",
+    "format": "tsds format",
+    "lint": "tsds lint",
+    "test": "tsds test:node && tsds test:browser",
+    "test:debug": "tsds test:node",
+    "test:engines": "nvu engines tsds test:node && tsds test:browser",
+    "version": "tsds version"
+  },
+  "dependencies": {
+    "newline-iterator": "^0.3.8"
+  },
+  "devDependencies": {
+    "multi-data": "^0.2.8",
+    "ts-dev-stack": "^0.6.15"
+  },
+  "engines": {
+    "node": ">=0.8"
+  },
   "tsds": {
     "source": "src/index.ts",
     "globals": {
       "newline-iterator": "newlineIterator"
     }
-  },
-  "types": "dist/types/index.d.ts",
-  "unpkg": "dist/umd/parser-multipart.js"
+  }
 }
