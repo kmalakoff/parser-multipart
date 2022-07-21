@@ -1,1 +1,4 @@
-"./node_modules/ts-dev-stack/.prettierrc.json"
+{
+  "extends": "./node_modules/ts-dev-stack/.prettierrc.json"
+}
+
