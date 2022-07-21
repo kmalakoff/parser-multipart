@@ -57,7 +57,7 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "newline-iterator": "^0.3.8"
+    "newline-iterator": "^0.3.9"
   },
   "devDependencies": {
     "multi-data": "^0.2.8",
