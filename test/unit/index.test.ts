@@ -26,7 +26,9 @@ describe('exports .ts', function () {
     });
 
     it('headers missing content-type', function () {
-      const headers: HeadersObject = { 'not-content-type': `multipart/mixed; boundary=${json.boundary}` };
+      const headers: HeadersObject = {
+        'not-content-type': `multipart/mixed; boundary=${json.boundary}`,
+      };
       assert.throws(() => new Parser(headers));
     });
 
@@ -38,7 +40,9 @@ describe('exports .ts', function () {
     });
 
     it('headers HeadersObject', function () {
-      const headers: HeadersObject = { 'content-type': `multipart/mixed; boundary=${json.boundary}` };
+      const headers: HeadersObject = {
+        'content-type': `multipart/mixed; boundary=${json.boundary}`,
+      };
       const parser = new Parser(headers);
       parser.parse(json.body);
       const result = parser.parts.map((part) => part.response.json());
@@ -177,8 +181,12 @@ describe('exports .ts', function () {
     it('text', function () {
       const boundary = 'batch_xvED97sOkyA_AAGGLqi8oGg';
       const data = new MultiData(boundary);
-      data.append('entry1', JSON.stringify({ name: 'entry1' }), { headers: { 'Content-Type': 'application/json' } });
-      data.append('entry2', JSON.stringify({ name: 'entry2' }), { headers: { 'Content-Type': 'application/json' } });
+      data.append('entry1', JSON.stringify({ name: 'entry1' }), {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      data.append('entry2', JSON.stringify({ name: 'entry2' }), {
+        headers: { 'Content-Type': 'application/json' },
+      });
 
       // parse multi-data body
       const parser = new Parser(`multipart/mixed; boundary=${boundary}`);
