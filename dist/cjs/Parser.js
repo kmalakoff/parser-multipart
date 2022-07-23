@@ -1,11 +1,25 @@
+// @ts-ignore
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-module.exports = exports.ParseStatus = void 0;
-var _partTs = _interopRequireDefault(require("./Part.js"));
-var _parseHeaderTs = _interopRequireDefault(require("./lib/parseHeader.js"));
-var _parseTextTs = _interopRequireDefault(require("./lib/parseText.js"));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+_export(exports, {
+    ParseStatus: function() {
+        return ParseStatus;
+    },
+    default: function() {
+        return MultipartParser;
+    }
+});
+var _partTs = /*#__PURE__*/ _interopRequireDefault(require("./Part.js"));
+var _parseHeaderTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseHeader.js"));
+var _parseTextTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseText.js"));
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -17,10 +31,9 @@ function _interopRequireDefault(obj) {
     };
 }
 var ParseStatus;
-exports.ParseStatus = ParseStatus;
 (function(ParseStatus) {
     ParseStatus[ParseStatus["Parts"] = 1] = "Parts";
-})(ParseStatus || (exports.ParseStatus = ParseStatus = {}));
+})(ParseStatus || (ParseStatus = {}));
 var MultipartParser = /*#__PURE__*/ function() {
     "use strict";
     function MultipartParser(headers) {
@@ -45,7 +58,7 @@ var MultipartParser = /*#__PURE__*/ function() {
             throw new Error("Expecting a multipart type. Received: ".concat(contentType));
         }
         parts.forEach(function(part) {
-            return (0, _parseHeaderTs).default(_this.headers, part, "=");
+            return (0, _parseHeaderTs.default)(_this.headers, part, "=");
         });
         // boundary
         if (!this.headers.boundary) throw new Error("Invalid Content Type: no boundary");
@@ -58,7 +71,7 @@ var MultipartParser = /*#__PURE__*/ function() {
         return !this._parsingState;
     };
     _proto.parse = function parse(text) {
-        (0, _parseTextTs).default(this, text);
+        (0, _parseTextTs.default)(this, text);
     };
     _proto.push = function push(line) {
         var part = this.parts.length ? this.parts[this.parts.length - 1] : null;
@@ -79,4 +92,9 @@ var MultipartParser = /*#__PURE__*/ function() {
     };
     return MultipartParser;
 }();
-module.exports = MultipartParser;
+
+if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {
+  Object.defineProperty(exports.default, '__esModule', { value: true });
+  for (var key in exports) exports.default[key] = exports[key];
+  module.exports = exports.default;
+}

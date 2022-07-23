@@ -1,3 +1,4 @@
+// @ts-ignore
 // https://github.com/watson/http-headers/blob/master/index.ts
 const statusLine = /^[A-Z]+\/(\d)\.(\d) (\d{3}) (.*)$/;
 export default function parseStatus(result, line) {
