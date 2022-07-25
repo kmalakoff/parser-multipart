@@ -63,7 +63,7 @@
     "@types/mocha": "^9.1.1",
     "@types/node": "^18.6.1",
     "multi-data": "^0.2.8",
-    "ts-dev-stack": "^0.7.1"
+    "ts-dev-stack": "^0.7.2"
   },
   "engines": {
     "node": ">=0.8"
