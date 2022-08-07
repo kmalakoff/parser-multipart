@@ -1,11 +1,25 @@
+// @ts-ignore
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-module.exports = exports.ParseStatus = void 0;
-var _parseHeaderTs = _interopRequireDefault(require("./lib/parseHeader.js"));
-var _parseTextTs = _interopRequireDefault(require("./lib/parseText.js"));
-var _responseTs = _interopRequireDefault(require("./Response.js"));
+function _export(target, all) {
+    for(var name in all)Object.defineProperty(target, name, {
+        enumerable: true,
+        get: all[name]
+    });
+}
+_export(exports, {
+    ParseStatus: function() {
+        return ParseStatus;
+    },
+    default: function() {
+        return MultipartPart;
+    }
+});
+var _parseHeaderTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseHeader.js"));
+var _parseTextTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseText.js"));
+var _responseTs = /*#__PURE__*/ _interopRequireDefault(require("./Response.js"));
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -17,11 +31,10 @@ function _interopRequireDefault(obj) {
     };
 }
 var ParseStatus;
-exports.ParseStatus = ParseStatus;
 (function(ParseStatus) {
     ParseStatus[ParseStatus["Headers"] = 1] = "Headers";
     ParseStatus[ParseStatus["Response"] = 2] = "Response";
-})(ParseStatus || (exports.ParseStatus = ParseStatus = {}));
+})(ParseStatus || (ParseStatus = {}));
 var MultipartPart = /*#__PURE__*/ function() {
     "use strict";
     function MultipartPart() {
@@ -36,7 +49,7 @@ var MultipartPart = /*#__PURE__*/ function() {
         return !this._parsingState;
     };
     _proto.parse = function parse(text) {
-        (0, _parseTextTs).default(this, text);
+        (0, _parseTextTs.default)(this, text);
     };
     _proto.push = function push(line) {
         if (!this._parsingState) throw new Error("Attempting to parse a completed part");
@@ -51,11 +64,16 @@ var MultipartPart = /*#__PURE__*/ function() {
                 if (this.headers["content-type"] === undefined) throw new Error("Missing content type");
                 this._parsingState.status = ParseStatus.Response;
                 this.response = new _responseTs.default(this.headers["content-type"]);
-            } else (0, _parseHeaderTs).default(this.headers, line, ":");
+            } else (0, _parseHeaderTs.default)(this.headers, line, ":");
         } else if (this._parsingState.status === ParseStatus.Response) {
             this.response.push(line);
         }
     };
     return MultipartPart;
 }();
-module.exports = MultipartPart;
+
+if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {
+  Object.defineProperty(exports.default, '__esModule', { value: true });
+  for (var key in exports) exports.default[key] = exports[key];
+  module.exports = exports.default;
+}
