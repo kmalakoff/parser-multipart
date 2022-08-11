@@ -4,6 +4,7 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.parserMultipart = {}));
 })(this, (function (exports) { 'use strict';
 
+  // @ts-ignore
   function parseHeader(result, line, delimiter) {
       var index = line.indexOf(delimiter);
       if (index === -1) throw new Error("Unexpected header format: ".concat(line));
@@ -98,6 +99,7 @@
       if (!parser.done()) parser.push(null);
   }
 
+  // @ts-ignore
   // https://github.com/watson/http-headers/blob/master/index.ts
   var statusLine = /^[A-Z]+\/(\d)\.(\d) (\d{3}) (.*)$/;
   function parseStatus(result, line) {
@@ -113,6 +115,7 @@
       return true;
   }
 
+  // @ts-ignore
   function _classCallCheck$2(instance, Constructor) {
       if (!(instance instanceof Constructor)) {
           throw new TypeError("Cannot call a class as a function");
@@ -177,6 +180,7 @@
       return MultipartResponse;
   }();
 
+  // @ts-ignore
   function _classCallCheck$1(instance, Constructor) {
       if (!(instance instanceof Constructor)) {
           throw new TypeError("Cannot call a class as a function");
@@ -223,6 +227,7 @@
       return MultipartPart;
   }();
 
+  // @ts-ignore
   function _classCallCheck(instance, Constructor) {
       if (!(instance instanceof Constructor)) {
           throw new TypeError("Cannot call a class as a function");

@@ -1,8 +1,16 @@
+// @ts-ignore
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-module.exports = parseStatus;
+Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function() {
+        return parseStatus;
+    }
+});
+// https://github.com/watson/http-headers/blob/master/index.ts
+var statusLine = /^[A-Z]+\/(\d)\.(\d) (\d{3}) (.*)$/;
 function parseStatus(result, line) {
     var match = line.match(statusLine);
     if (!match) return false;
@@ -15,5 +23,9 @@ function parseStatus(result, line) {
     result.ok = result.statusText === "OK";
     return true;
 }
-// https://github.com/watson/http-headers/blob/master/index.ts
-var statusLine = /^[A-Z]+\/(\d)\.(\d) (\d{3}) (.*)$/;
+
+if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {
+  Object.defineProperty(exports.default, '__esModule', { value: true });
+  for (var key in exports) exports.default[key] = exports[key];
+  module.exports = exports.default;
+}
