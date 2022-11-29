@@ -60,7 +60,7 @@
     "newline-iterator": "^0.3.9"
   },
   "devDependencies": {
-    "@types/mocha": "^9.1.1",
+    "@types/mocha": "^10.0.1",
     "@types/node": "^18.7.5",
     "multi-data": "^0.2.8",
     "ts-dev-stack": "^0.8.10"
