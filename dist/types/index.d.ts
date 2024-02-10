@@ -1,20 +1,14 @@
-// @ts-ignore
 export { default as Parser } from './MultipartParser.ts';
-// @ts-ignore
 export { default as Part } from './PartParser.ts';
-// @ts-ignore
 export { default as Response } from './ResponseParser.ts';
-
 export interface Version {
-  major: number;
-  minor: number;
+    major: number;
+    minor: number;
 }
-
 export interface HeadersObject {
-  [key: string]: string;
+    [key: string]: string;
 }
-
 export interface IParser {
-  done: () => boolean;
-  push: (line: string | null) => void;
+    done: () => boolean;
+    push: (line: string | null) => void;
 }

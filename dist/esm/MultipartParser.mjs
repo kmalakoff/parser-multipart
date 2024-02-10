@@ -1,5 +1,5 @@
 // @ts-ignore
-import Part from './Part.mjs';
+import Part from './PartParser.mjs';
 // @ts-ignore
 import parseHeader from './lib/parseHeader.mjs';
 // @ts-ignore

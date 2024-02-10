@@ -19,7 +19,7 @@ _export(exports, {
 });
 var _parseHeaderTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseHeader.js"));
 var _parseTextTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseText.js"));
-var _responseTs = /*#__PURE__*/ _interopRequireDefault(require("./Response.js"));
+var _responseParserTs = /*#__PURE__*/ _interopRequireDefault(require("./ResponseParser.js"));
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -63,7 +63,7 @@ var MultipartPart = /*#__PURE__*/ function() {
             if (!line.length) {
                 if (this.headers["content-type"] === undefined) throw new Error("Missing content type");
                 this._parsingState.status = ParseStatus.Response;
-                this.response = new _responseTs.default(this.headers["content-type"]);
+                this.response = new _responseParserTs.default(this.headers["content-type"]);
             } else (0, _parseHeaderTs.default)(this.headers, line, ":");
         } else if (this._parsingState.status === ParseStatus.Response) {
             this.response.push(line);

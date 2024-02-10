@@ -11,18 +11,18 @@ function _export(target, all) {
 }
 _export(exports, {
     Parser: function() {
-        return _parserTs.default;
+        return _multipartParserTs.default;
     },
     Part: function() {
-        return _partTs.default;
+        return _partParserTs.default;
     },
     Response: function() {
-        return _responseTs.default;
+        return _responseParserTs.default;
     }
 });
-var _parserTs = /*#__PURE__*/ _interopRequireDefault(require("./Parser.js"));
-var _partTs = /*#__PURE__*/ _interopRequireDefault(require("./Part.js"));
-var _responseTs = /*#__PURE__*/ _interopRequireDefault(require("./Response.js"));
+var _multipartParserTs = /*#__PURE__*/ _interopRequireDefault(require("./MultipartParser.js"));
+var _partParserTs = /*#__PURE__*/ _interopRequireDefault(require("./PartParser.js"));
+var _responseParserTs = /*#__PURE__*/ _interopRequireDefault(require("./ResponseParser.js"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj

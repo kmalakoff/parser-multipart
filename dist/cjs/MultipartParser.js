@@ -17,7 +17,7 @@ _export(exports, {
         return MultipartParser;
     }
 });
-var _partTs = /*#__PURE__*/ _interopRequireDefault(require("./Part.js"));
+var _partParserTs = /*#__PURE__*/ _interopRequireDefault(require("./PartParser.js"));
 var _parseHeaderTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseHeader.js"));
 var _parseTextTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseText.js"));
 function _classCallCheck(instance, Constructor) {
@@ -84,7 +84,7 @@ var MultipartParser = /*#__PURE__*/ function() {
         if (line === this._parsingState.boundaryEnd) this.push(null);
         else if (line === this.boundary) {
             if (part && !part.done()) part.push(null);
-            this.parts.push(new _partTs.default());
+            this.parts.push(new _partParserTs.default());
         } else if (part) part.push(line);
         else {
             if (line.length) throw new Error("Unexpected line: ".concat(line));
