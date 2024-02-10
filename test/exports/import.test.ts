@@ -2,25 +2,25 @@ import assert from 'assert';
 import { Parser, Part, Response } from 'parser-multipart';
 import response from '../lib/response.cjs';
 
-const json = response([{ name: 'item1' }, { name: 'item2' }]);
+const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
 
 describe('exports .ts', function () {
-  it('MultiData', function () {
-    const parser = new Parser(json.headers['content-type']);
-    parser.parse(json.body);
-    const result = parser.parts.map((part) => part.response.json());
+  it('MultiData', async function () {
+    const parser = new Parser(dataJSON.headers['content-type']);
+    parser.parse(dataJSON.body);
+    const result = await Promise.all(parser.responses.map((res) => res.json()));
     assert.deepEqual(result, [{ name: 'item1' }, { name: 'item2' }]);
   });
 
-  it('Part', function () {
+  it('Part', async function () {
     const part = new Part();
-    part.parse(json.parts[0]);
-    assert.deepEqual(part.response.json(), { name: 'item1' });
+    part.parse(dataJSON.parts[0]);
+    assert.deepEqual(await part.response.json(), { name: 'item1' });
   });
 
-  it('Response', function () {
+  it('Response', async function () {
     const response = new Response('application/http');
-    response.parse(json.responses[0]);
-    assert.deepEqual(response.json(), { name: 'item1' });
+    response.parse(dataJSON.responses[0]);
+    assert.deepEqual(await response.response.json(), { name: 'item1' });
   });
 });

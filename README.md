@@ -8,9 +8,8 @@ Multipart form data parser for browser and node
 import { Parser } from 'parser-multipart';
 
 const res = await fetch(/* your url */);
-const response = new Multipart(res.headers);
-response.parse(await res.text());
-return response.parts.map((part) => part.response.json());
+const parser = new Parser(res.headers);
+return parser.parse(await res.text()).responses.map((res) => res.json());
 ```
 
 ### Example 2: Line-by-line
@@ -20,9 +19,9 @@ import { Parser } from 'parser-multipart';
 import newlineIterator from 'newline-iterator';
 
 const res = await fetch(/* your url */);
-const response = new Multipart(res.headers);
-for (const line of newlineIterator(await res.text())) response.push(line);
-return response.parts.map((part) => part.response.json());
+const parser = new Parser(res.headers);
+for (const line of newlineIterator(await res.text())) parser.push(line);
+return parser.responses.map((res) => res.json());
 ```
 
 ### Documentation

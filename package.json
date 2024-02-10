@@ -51,9 +51,9 @@
     "deploy": "tsds deploy",
     "format": "tsds format",
     "lint": "tsds lint",
-    "test": "tsds test:browser",
-    "test:debug": "tsds test:node",
-    "test:engines": "nvu engines tsds test:node && tsds test:browser",
+    "test": "npm run test:node && tsds test:browser",
+    "test:node": "tsds link && tsx node_modules/.bin/mocha test/**/*.ts",
+    "test:engines2": "nvu engines tsds test:node && tsds test:browser",
     "version": "tsds version"
   },
   "dependencies": {
@@ -63,7 +63,8 @@
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.11.17",
     "multi-data": "^0.2.8",
-    "ts-dev-stack": "^0.8.12"
+    "ts-dev-stack": "^0.8.12",
+    "tsx": "^4.7.1"
   },
   "engines": {
     "node": ">=0.8"
