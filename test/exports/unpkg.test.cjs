@@ -3,7 +3,7 @@ const assert = require('assert');
 const { Parser, Part, Response } = require('parser-multipart/dist/umd/parser-multipart.js');
 const response = require('../lib/response.cjs');
 
-const json = response('json');
+const json = response([{ name: 'item1' }, { name: 'item2' }]);
 
 describe('exports parser-multipart/dist/umd/parser-multipart.js', function () {
   it('MultiData', function () {

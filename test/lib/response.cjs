@@ -1,45 +1,46 @@
-module.exports = function response(type) {
-  const boundary = 'batch_xvED97sOkyA_AAGGLqi8oGg';
-  const text1 = 'text1';
-  const json1 = `{\n\t"name": "item1"\n}`;
+function isError(obj) {
+  return Object.prototype.toString.call(obj) === '[object Error]';
+}
+function isString(obj) {
+  return Object.prototype.toString.call(obj) === '[object String]';
+}
 
-  const response1 = `HTTP/1.1 200 OK
+function header(type) {
+  if (type === 'error') {
+    return `HTTP/1.1 401 Unauthorized
+WWW-Authenticate: Bearer realm="https://accounts.google.com/", error="invalid_token"
+Vary: Origin
+Vary: X-Origin
+Vary: Referer
+Content-Type: application/json; charset=UTF-8`;
+  } else {
+    return `HTTP/1.1 200 OK
 Content-Type: application/${type}; charset=UTF-8
 Date: Mon, 04 Oct 2021 04:39:37 GMT
 Expires: Mon, 04 Oct 2021 04:39:37 GMT
 Cache-Control: private, max-age=0
-Content-Length: 12393
+Content-Length: 12393`;
+  }
+}
 
-${type === 'json' ? json1 : text1}
-`;
-  const part1 = `Content-Type: application/http\n\n${response1}`;
+const headers = 'Content-Type: application/http\nContent-ID: response-0';
+const boundary = 'batch_xvED97sOkyA_AAGGLqi8oGg';
+const separator = `--${boundary}`;
 
-  const text2 = 'text2';
-  const json2 = `{\n\t"name": "item2"\n}`;
-  const response2 = `HTTP/1.1 200 OK
-Content-Type: application/${type}; charset=UTF-8
-Date: Mon, 04 Oct 2021 04:39:37 GMT
-Expires: Mon, 04 Oct 2021 04:39:37 GMT
-Cache-Control: private, max-age=0
-Content-Length: 6585
-
-${type === 'json' ? json2 : text2}
-`;
-  const part2 = `Content-Type: application/http\n\n${response2}`;
-
-  const body = `
---${boundary}
-${part1}
---${boundary}
-${part2}
---${boundary}--
-`;
+module.exports = function response(data) {
+  const responses = data.map((x) => {
+    if (isError(x)) return [header('error'), '', JSON.stringify({ error: { message: x.message } }, null, 2)].join('\n');
+    else if (isString(x)) return [header('text'), '', x].join('\n');
+    else return [header('json'), '', JSON.stringify(x, null, 2)].join('\n');
+  });
+  const parts = responses.map((x) => [headers, '', x].join('\n'));
+  const body = parts.reduce((m, x) => m.concat([x, separator]), [separator]).join('\n') + '--';
 
   return {
+    boundary,
     headers: { 'content-type': `multipart/mixed; boundary=${boundary}` },
     body,
-    boundary,
-    parts: [part1, part2],
-    responses: [response1, response2],
+    parts,
+    responses,
   };
 };
