@@ -2,7 +2,7 @@ import assert from 'assert';
 import { Parser, Part, Response } from 'parser-multipart';
 import response from '../lib/response.cjs';
 
-const json = response('json');
+const json = response([{ name: 'item1' }, { name: 'item2' }]);
 
 describe('exports .mjs', function () {
   it('MultiData', function () {

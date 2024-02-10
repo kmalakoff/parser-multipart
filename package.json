@@ -51,7 +51,7 @@
     "deploy": "tsds deploy",
     "format": "tsds format",
     "lint": "tsds lint",
-    "test": "tsds test:node && tsds test:browser",
+    "test": "tsds test:browser",
     "test:debug": "tsds test:node",
     "test:engines": "nvu engines tsds test:node && tsds test:browser",
     "version": "tsds version"
@@ -60,10 +60,10 @@
     "newline-iterator": "^0.3.9"
   },
   "devDependencies": {
-    "@types/mocha": "^9.1.1",
-    "@types/node": "^18.7.5",
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.17",
     "multi-data": "^0.2.8",
-    "ts-dev-stack": "^0.8.10"
+    "ts-dev-stack": "^0.8.12"
   },
   "engines": {
     "node": ">=0.8"
