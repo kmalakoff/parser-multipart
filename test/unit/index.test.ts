@@ -4,8 +4,9 @@ import MultiData from 'multi-data';
 import { Parser, Part, Response, HeadersObject } from 'parser-multipart';
 import response from '../lib/response.cjs';
 
-const json = response('json');
-const text = response('text');
+const json = response([{ name: 'item1' }, { name: 'item2' }]);
+const text = response(['text1', 'text2']);
+const error = response([new Error('failed1'), new Error('failed2')]);
 
 describe('exports .ts', function () {
   describe('headers', function () {
@@ -153,7 +154,7 @@ describe('exports .ts', function () {
     it('json as text', function () {
       const response = new Response('application/http');
       response.parse(json.responses[0]);
-      assert.equal(response.text(), '{\r\n\t"name": "item1"\r\n}');
+      assert.equal(response.text(), '{\r\n  "name": "item1"\r\n}');
     });
 
     it('error: use incomplete text', function () {
@@ -174,6 +175,19 @@ describe('exports .ts', function () {
       const response = new Response('application/http');
       response.parse(text.responses[0]);
       assert.throws(() => response.json());
+    });
+
+    it('error', function () {
+      const response = new Response('application/http');
+      response.parse(error.responses[0]);
+      assert.deepEqual(JSON.parse(response.text()), { error: { message: 'failed1' } });
+    });
+
+    it('error as json', function () {
+      const response = new Response('application/http');
+      response.parse(error.responses[0]);
+      console.log(response.json());
+      assert.deepEqual(response.json(), { error: { message: 'failed1' } });
     });
   });
 
