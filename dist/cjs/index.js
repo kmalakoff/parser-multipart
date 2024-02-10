@@ -1,40 +1,55 @@
 // @ts-ignore
 "use strict";
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true,
 });
 function _export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: true,
-        get: all[name]
+  for (var name in all)
+    Object.defineProperty(target, name, {
+      enumerable: true,
+      get: all[name],
     });
 }
 _export(exports, {
-    Parser: function() {
-        return _multipartParserTs.default;
-    },
-    Part: function() {
-        return _partParserTs.default;
-    },
-    Response: function() {
-        return _responseParserTs.default;
-    },
-    ResponseParsed: function() {
-        return _responseParsedTs.default;
-    }
+  Parser: function () {
+    return _multipartParserTs.default;
+  },
+  Part: function () {
+    return _partParserTs.default;
+  },
+  Response: function () {
+    return _responseParserTs.default;
+  },
+  ResponseParsed: function () {
+    return _responseParsedTs.default;
+  },
 });
-var _multipartParserTs = /*#__PURE__*/ _interopRequireDefault(require("./MultipartParser.js"));
-var _partParserTs = /*#__PURE__*/ _interopRequireDefault(require("./PartParser.js"));
-var _responseParserTs = /*#__PURE__*/ _interopRequireDefault(require("./ResponseParser.js"));
-var _responseParsedTs = /*#__PURE__*/ _interopRequireDefault(require("./ResponseParsed.js"));
+var _multipartParserTs = /*#__PURE__*/ _interopRequireDefault(
+  require("./MultipartParser.js"),
+);
+var _partParserTs = /*#__PURE__*/ _interopRequireDefault(
+  require("./PartParser.js"),
+);
+var _responseParserTs = /*#__PURE__*/ _interopRequireDefault(
+  require("./ResponseParser.js"),
+);
+var _responseParsedTs = /*#__PURE__*/ _interopRequireDefault(
+  require("./ResponseParsed.js"),
+);
 function _interopRequireDefault(obj) {
-    return obj && obj.__esModule ? obj : {
-        default: obj
-    };
+  return obj && obj.__esModule
+    ? obj
+    : {
+        default: obj,
+      };
 }
 
-if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {
-  Object.defineProperty(exports.default, '__esModule', { value: true });
+if (
+  (typeof exports.default === "function" ||
+    (typeof exports.default === "object" && exports.default !== null)) &&
+  typeof exports.default.__esModule === "undefined"
+) {
+  Object.defineProperty(exports.default, "__esModule", { value: true });
   for (var key in exports) exports.default[key] = exports[key];
   module.exports = exports.default;
 }
