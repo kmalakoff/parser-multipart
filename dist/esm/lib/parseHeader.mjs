@@ -1,4 +1,3 @@
-// @ts-ignore
 export default function parseHeader(result, line, delimiter) {
     const index = line.indexOf(delimiter);
     if (index === -1) throw new Error(`Unexpected header format: ${line}`);

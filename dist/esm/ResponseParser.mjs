@@ -4,16 +4,15 @@ import parseHeader from './lib/parseHeader.mjs';
 import parseStatus from './lib/parseStatus.mjs';
 // @ts-ignore
 import parseText from './lib/parseText.mjs';
+// @ts-ignore
+import ResponseParsed from './ResponseParsed.mjs';
+// @ts-ignore
+import BodyHeaders from './lib/BodyHeaders.mjs';
 export var ParseStatus;
 (function(ParseStatus) {
     ParseStatus[ParseStatus["Headers"] = 1] = "Headers";
     ParseStatus[ParseStatus["Body"] = 2] = "Body";
 })(ParseStatus || (ParseStatus = {}));
-export class BodyHeaders {
-    constructor(){
-        this.headers = {};
-    }
-}
 let MultipartResponse = class MultipartResponse {
     done() {
         return !this._parsingState;
@@ -37,13 +36,9 @@ let MultipartResponse = class MultipartResponse {
             else this._parsingState.lines.push(line);
         }
     }
-    text() {
+    get response() {
         if (this._parsingState) throw new Error('Attempting to use an incomplete response');
-        return this.body;
-    }
-    json() {
-        if (this._parsingState) throw new Error('Attempting to use an incomplete response');
-        return JSON.parse(this.body);
+        return new ResponseParsed(this);
     }
     constructor(contentType){
         this.headers = null;

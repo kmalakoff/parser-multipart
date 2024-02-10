@@ -14,6 +14,7 @@ let MultipartParser = class MultipartParser {
     }
     parse(text) {
         parseText(this, text);
+        return this;
     }
     push(line) {
         const part = this.parts.length ? this.parts[this.parts.length - 1] : null;
@@ -31,6 +32,10 @@ let MultipartParser = class MultipartParser {
         else {
             if (line.length) throw new Error(`Unexpected line: ${line}`);
         }
+    }
+    get responses() {
+        if (this._parsingState) throw new Error('Attempting to use an incomplete parser');
+        return this.parts.map((part)=>part.response);
     }
     constructor(headers){
         this.headers = {};

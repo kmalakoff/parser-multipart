@@ -1,5 +1,4 @@
 import Part from './PartParser.ts';
-import type { HeadersObject } from './index.ts';
 export declare enum ParseStatus {
     Parts = 1
 }
@@ -9,12 +8,13 @@ export interface ParsingState {
 }
 export default class MultipartParser {
     type: string;
-    headers: HeadersObject;
+    headers: Record<string, string>;
     parts: Part[];
     private _parsingState;
     private boundary;
-    constructor(headers: Headers | string | HeadersObject);
+    constructor(headers: Headers | string | Record<string, string>);
     done(): boolean;
-    parse(text: string): void;
+    parse(text: string): MultipartParser;
     push(line: string): void;
+    get responses(): Response[];
 }

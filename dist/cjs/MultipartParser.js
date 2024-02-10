@@ -25,6 +25,20 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+function _defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+}
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -72,6 +86,7 @@ var MultipartParser = /*#__PURE__*/ function() {
     };
     _proto.parse = function parse(text) {
         (0, _parseTextTs.default)(this, text);
+        return this;
     };
     _proto.push = function push(line) {
         var part = this.parts.length ? this.parts[this.parts.length - 1] : null;
@@ -90,6 +105,17 @@ var MultipartParser = /*#__PURE__*/ function() {
             if (line.length) throw new Error("Unexpected line: ".concat(line));
         }
     };
+    _createClass(MultipartParser, [
+        {
+            key: "responses",
+            get: function get() {
+                if (this._parsingState) throw new Error("Attempting to use an incomplete parser");
+                return this.parts.map(function(part) {
+                    return part.response;
+                });
+            }
+        }
+    ]);
     return MultipartParser;
 }();
 

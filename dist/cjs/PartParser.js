@@ -25,6 +25,20 @@ function _classCallCheck(instance, Constructor) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+function _defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function _createClass(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+}
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
@@ -55,7 +69,7 @@ var MultipartPart = /*#__PURE__*/ function() {
         if (!this._parsingState) throw new Error("Attempting to parse a completed part");
         if (line === null) {
             if (this._parsingState.status !== ParseStatus.Response) throw new Error("Unexpected parsing state");
-            if (!this.response.done()) this.response.push(null);
+            if (!this._response.done()) this._response.push(null);
             this._parsingState = null;
             return;
         }
@@ -63,12 +77,21 @@ var MultipartPart = /*#__PURE__*/ function() {
             if (!line.length) {
                 if (this.headers["content-type"] === undefined) throw new Error("Missing content type");
                 this._parsingState.status = ParseStatus.Response;
-                this.response = new _responseParserTs.default(this.headers["content-type"]);
+                this._response = new _responseParserTs.default(this.headers["content-type"]);
             } else (0, _parseHeaderTs.default)(this.headers, line, ":");
         } else if (this._parsingState.status === ParseStatus.Response) {
-            this.response.push(line);
+            this._response.push(line);
         }
     };
+    _createClass(MultipartPart, [
+        {
+            key: "response",
+            get: function get() {
+                if (this._parsingState) throw new Error("Attempting to use an incomplete part");
+                return this._response.response;
+            }
+        }
+    ]);
     return MultipartPart;
 }();
 

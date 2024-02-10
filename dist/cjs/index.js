@@ -18,11 +18,15 @@ _export(exports, {
     },
     Response: function() {
         return _responseParserTs.default;
+    },
+    ResponseParsed: function() {
+        return _responseParsedTs.default;
     }
 });
 var _multipartParserTs = /*#__PURE__*/ _interopRequireDefault(require("./MultipartParser.js"));
 var _partParserTs = /*#__PURE__*/ _interopRequireDefault(require("./PartParser.js"));
 var _responseParserTs = /*#__PURE__*/ _interopRequireDefault(require("./ResponseParser.js"));
+var _responseParsedTs = /*#__PURE__*/ _interopRequireDefault(require("./ResponseParsed.js"));
 function _interopRequireDefault(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
