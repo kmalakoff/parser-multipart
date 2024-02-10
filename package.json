@@ -2,20 +2,7 @@
   "name": "parser-multipart",
   "version": "1.0.0",
   "description": "Multipart form data parser for browser and node",
-  "keywords": [
-    "batch",
-    "data",
-    "fetch",
-    "form",
-    "form-data",
-    "multipart",
-    "multipart-parser",
-    "parse",
-    "parse-multipart-data",
-    "parser",
-    "parts",
-    "typescript"
-  ],
+  "keywords": ["batch", "data", "fetch", "form", "form-data", "multipart", "multipart-parser", "parse", "parse-multipart-data", "parser", "parts", "typescript"],
   "homepage": "https://github.com/kmalakoff/parser-multipart#README.md",
   "bugs": {
     "url": "https://github.com/kmalakoff/parser-multipart/issues"
@@ -43,14 +30,11 @@
   "unpkg": "dist/umd/parser-multipart.js",
   "module": "dist/esm/index.mjs",
   "types": "dist/types/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "tsds build",
     "deploy": "tsds deploy",
-    "format": "tsds format",
-    "lint": "tsds lint",
+    "format": "biome check --apply-unsafe src/ test/",
     "test": "npm run test:node && tsds test:browser",
     "test:node": "tsds link && tsx node_modules/.bin/mocha test/**/*.ts",
     "test:engines2": "nvu engines tsds test:node && tsds test:browser",
@@ -60,6 +44,7 @@
     "newline-iterator": "^0.3.9"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.5.3",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.11.17",
     "multi-data": "^0.2.8",

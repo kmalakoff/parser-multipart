@@ -1,19 +1,19 @@
 // @ts-ignore
-import parseHeader from './lib/parseHeader.ts';
-// @ts-ignore
-import parseStatus from './lib/parseStatus.ts';
-// @ts-ignore
-import parseText from './lib/parseText.ts';
-// @ts-ignore
 import ResponseParsed from './ResponseParsed.ts';
 // @ts-ignore
 import type { Parser } from './ResponseParsed.ts';
 // @ts-ignore
 import BodyHeaders from './lib/BodyHeaders.ts';
+// @ts-ignore
+import parseHeader from './lib/parseHeader.ts';
+// @ts-ignore
+import parseStatus from './lib/parseStatus.ts';
+// @ts-ignore
+import parseText from './lib/parseText.ts';
 
 export enum ParseStatus {
   Headers = 1,
-  Body,
+  Body = 2,
 }
 
 export interface ParsingState {
