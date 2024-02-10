@@ -5,7 +5,11 @@ import parseStatus from './lib/parseStatus.ts';
 // @ts-ignore
 import parseText from './lib/parseText.ts';
 // @ts-ignore
-import type { Version, HeadersObject } from './index.ts';
+import ResponseParsed from './ResponseParsed.ts';
+// @ts-ignore
+import type { Parser } from './ResponseParsed.ts';
+// @ts-ignore
+import BodyHeaders from './lib/BodyHeaders.ts';
 
 export enum ParseStatus {
   Headers = 1,
@@ -15,14 +19,6 @@ export enum ParseStatus {
 export interface ParsingState {
   status: ParseStatus;
   lines: string[];
-}
-
-export class BodyHeaders {
-  version: Version;
-  headers: HeadersObject = {};
-  ok: boolean;
-  status: number;
-  statusText: string;
 }
 
 export default class MultipartResponse {
@@ -70,13 +66,8 @@ export default class MultipartResponse {
     }
   }
 
-  text(): string {
+  get response(): Response {
     if (this._parsingState) throw new Error('Attempting to use an incomplete response');
-    return this.body;
-  }
-
-  json(): unknown {
-    if (this._parsingState) throw new Error('Attempting to use an incomplete response');
-    return JSON.parse(this.body);
+    return new ResponseParsed(this as Parser);
   }
 }
