@@ -1,5 +1,5 @@
 // @ts-ignore
-import Part from './Part.ts';
+import Part from './PartParser.ts';
 // @ts-ignore
 import parseHeader from './lib/parseHeader.ts';
 // @ts-ignore
