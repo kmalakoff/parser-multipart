@@ -4,8 +4,6 @@ import Part from './PartParser.ts';
 import parseHeader from './lib/parseHeader.ts';
 // @ts-ignore
 import parseText from './lib/parseText.ts';
-// @ts-ignore
-import type { HeadersObject } from './index.ts';
 
 export enum ParseStatus {
   Parts = 1,
@@ -18,7 +16,7 @@ export interface ParsingState {
 
 export default class MultipartParser {
   type: string;
-  headers: HeadersObject = {};
+  headers: Record<string, string> = {};
   parts: Part[] = [];
 
   private _parsingState: ParsingState | null = {
@@ -27,13 +25,13 @@ export default class MultipartParser {
   };
   private boundary: string | null = null;
 
-  constructor(headers: Headers | string | HeadersObject) {
+  constructor(headers: Headers | string | Record<string, string>) {
     if (!headers) throw new Error('Headers missing');
 
     let contentType: string;
     if (typeof headers === 'string') contentType = headers;
     /* c8 ignore start */ else if (headers.get) contentType = (headers as Headers).get('content-type');
-    /* c8 ignore stop */ else contentType = (headers as HeadersObject)['content-type'];
+    /* c8 ignore stop */ else contentType = (headers as Record<string, string>)['content-type'];
     if (!contentType) throw Error('content-type header not found');
 
     const parts = contentType.split(/;/g);
@@ -54,8 +52,9 @@ export default class MultipartParser {
     return !this._parsingState;
   }
 
-  parse(text: string): void {
+  parse(text: string): MultipartParser {
     parseText(this, text);
+    return this;
   }
 
   push(line: string): void {
@@ -76,5 +75,10 @@ export default class MultipartParser {
     else {
       if (line.length) throw new Error(`Unexpected line: ${line}`);
     }
+  }
+
+  get responses(): Response[] {
+    if (this._parsingState) throw new Error('Attempting to use an incomplete parser');
+    return this.parts.map((part) => part.response);
   }
 }
