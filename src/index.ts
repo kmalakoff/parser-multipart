@@ -1,9 +1,9 @@
 // @ts-ignore
-export { default as Parser } from './Parser.ts';
+export { default as Parser } from './MultipartParser.ts';
 // @ts-ignore
-export { default as Part } from './Part.ts';
+export { default as Part } from './PartParser.ts';
 // @ts-ignore
-export { default as Response } from './Response.ts';
+export { default as Response } from './ResponseParser.ts';
 
 export interface Version {
   major: number;
