@@ -1,5 +1,7 @@
 // @ts-ignore
 import BodyHeaders from './lib/BodyHeaders.js';
+// @ts-ignore
+import HeadersPolyfill from './lib/HeadersPolyfill.ts';
 
 export interface Parser {
   headers: BodyHeaders;
@@ -19,7 +21,7 @@ export default class ParsedResponse implements Response {
     return 'default';
   }
   get headers() {
-    return new Headers(this._parser.headers.headers as unknown as Record<string, string>);
+    return new HeadersPolyfill(this._parser.headers.headers as unknown as Record<string, string>);
   }
 
   get body(): ReadableStream<Uint8Array> {

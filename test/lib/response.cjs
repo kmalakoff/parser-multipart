@@ -13,7 +13,9 @@ Vary: Origin
 Vary: X-Origin
 Vary: Referer
 Content-Type: application/json; charset=UTF-8`;
-  } else {
+  }
+  // biome-ignore lint/style/noUselessElse: <explanation>
+  else {
     return `HTTP/1.1 200 OK
 Content-Type: application/${type}; charset=UTF-8
 Date: Mon, 04 Oct 2021 04:39:37 GMT
@@ -30,10 +32,13 @@ const separator = `--${boundary}`;
 module.exports = function response(data) {
   const responses = data.map((x) => {
     if (isError(x)) return [header('error'), '', JSON.stringify({ error: { message: x.message } }, null, 2)].join('\n');
+    // biome-ignore lint/style/noUselessElse: <explanation>
     else if (isString(x)) return [header('text'), '', x].join('\n');
+    // biome-ignore lint/style/noUselessElse: <explanation>
     else return [header('json'), '', JSON.stringify(x, null, 2)].join('\n');
   });
   const parts = responses.map((x) => [headers, '', x].join('\n'));
+  // biome-ignore lint/style/useTemplate: <explanation>
   const body = parts.reduce((m, x) => m.concat([x, separator]), [separator]).join('\n') + '--';
 
   return {
