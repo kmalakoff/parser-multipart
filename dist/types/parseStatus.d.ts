@@ -1,11 +1,8 @@
-import { Version } from "../index.ts";
+import { Version } from '../index.ts';
 export interface StatusResult {
-  version: Version;
-  ok: boolean;
-  status: number;
-  statusText: string;
+    version: Version;
+    ok: boolean;
+    status: number;
+    statusText: string;
 }
-export default function parseStatus(
-  result: StatusResult,
-  line: string,
-): boolean;
+export default function parseStatus(result: StatusResult, line: string): boolean;

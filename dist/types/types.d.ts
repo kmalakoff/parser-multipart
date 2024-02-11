@@ -1,8 +1,8 @@
 export interface Version {
-  major: number;
-  minor: number;
+    major: number;
+    minor: number;
 }
 export interface IParser {
-  done: () => boolean;
-  push: (line: string | null) => void;
+    done: () => boolean;
+    push: (line: string | null) => void;
 }
