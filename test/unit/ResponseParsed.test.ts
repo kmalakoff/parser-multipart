@@ -6,8 +6,8 @@ const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
 const dataText = response(['text1', 'text2']);
 const dataError = response([new Error('failed1'), new Error('failed2')]);
 
-describe('Response', function () {
-  it('json', async function () {
+describe('Response', () => {
+  it('json', async () => {
     const parser = new Parser(`multipart/mixed; boundary=${dataJSON.boundary}`);
     parser.parse(dataJSON.body);
 
@@ -32,7 +32,7 @@ describe('Response', function () {
     assert.deepEqual(jsons, [{ name: 'item1' }, { name: 'item2' }]);
   });
 
-  it('text', async function () {
+  it('text', async () => {
     const parser = new Parser(`multipart/mixed; boundary=${dataText.boundary}`);
     parser.parse(dataText.body);
 
@@ -57,7 +57,7 @@ describe('Response', function () {
     assert.deepEqual(texts, ['text1', 'text2']);
   });
 
-  it('error', async function () {
+  it('error', async () => {
     const parser = new Parser(`multipart/mixed; boundary=${dataError.boundary}`);
     parser.parse(dataError.body);
     const texts = await Promise.all(parser.responses.map((res) => res.json()));
@@ -71,7 +71,9 @@ describe('Response', function () {
     assert.equal(res.statusText, 'Unauthorized');
     assert.equal(res.redirected, false);
     assert.equal(res.url, '');
-    assert.deepEqual(await res.clone().json(), { error: { message: 'failed1' } });
+    assert.deepEqual(await res.clone().json(), {
+      error: { message: 'failed1' },
+    });
     assert.equal(res.bodyUsed, false);
     assert.equal(typeof res.text, 'function');
     assert.equal(typeof res.json, 'function');

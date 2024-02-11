@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 interface HeadersObject {
   [key: string]: string;
 }
@@ -12,4 +10,5 @@ interface Response {
   responses: string[];
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export default function (data: any[]): Response;

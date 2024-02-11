@@ -1,13 +1,13 @@
 // @ts-ignore
+import MultipartResponse from './ResponseParser.ts';
+// @ts-ignore
 import parseHeader from './lib/parseHeader.ts';
 // @ts-ignore
 import parseText from './lib/parseText.ts';
-// @ts-ignore
-import MultipartResponse from './ResponseParser.ts';
 
 export enum ParseStatus {
   Headers = 1,
-  Response,
+  Response = 2,
 }
 
 export interface ParsingState {
