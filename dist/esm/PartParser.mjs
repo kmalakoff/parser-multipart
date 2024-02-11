@@ -1,9 +1,9 @@
 // @ts-ignore
+import MultipartResponse from './ResponseParser.mjs';
+// @ts-ignore
 import parseHeader from './lib/parseHeader.mjs';
 // @ts-ignore
 import parseText from './lib/parseText.mjs';
-// @ts-ignore
-import MultipartResponse from './ResponseParser.mjs';
 export var ParseStatus;
 (function(ParseStatus) {
     ParseStatus[ParseStatus["Headers"] = 1] = "Headers";

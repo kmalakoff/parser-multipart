@@ -1,13 +1,13 @@
 // @ts-ignore
+import ResponseParsed from './ResponseParsed.mjs';
+// @ts-ignore
+import BodyHeaders from './lib/BodyHeaders.mjs';
+// @ts-ignore
 import parseHeader from './lib/parseHeader.mjs';
 // @ts-ignore
 import parseStatus from './lib/parseStatus.mjs';
 // @ts-ignore
 import parseText from './lib/parseText.mjs';
-// @ts-ignore
-import ResponseParsed from './ResponseParsed.mjs';
-// @ts-ignore
-import BodyHeaders from './lib/BodyHeaders.mjs';
 export var ParseStatus;
 (function(ParseStatus) {
     ParseStatus[ParseStatus["Headers"] = 1] = "Headers";

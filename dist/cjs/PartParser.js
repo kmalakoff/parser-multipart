@@ -17,9 +17,9 @@ _export(exports, {
         return MultipartPart;
     }
 });
+var _responseParserTs = /*#__PURE__*/ _interopRequireDefault(require("./ResponseParser.js"));
 var _parseHeaderTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseHeader.js"));
 var _parseTextTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseText.js"));
-var _responseParserTs = /*#__PURE__*/ _interopRequireDefault(require("./ResponseParser.js"));
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");

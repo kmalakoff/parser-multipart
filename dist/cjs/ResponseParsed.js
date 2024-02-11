@@ -9,6 +9,7 @@ Object.defineProperty(exports, "default", {
         return ParsedResponse;
     }
 });
+var _headersPolyfillTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/HeadersPolyfill.js"));
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
@@ -27,6 +28,11 @@ function _createClass(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
+}
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {
+        default: obj
+    };
 }
 var ParsedResponse = /*#__PURE__*/ function() {
     "use strict";
@@ -68,7 +74,7 @@ var ParsedResponse = /*#__PURE__*/ function() {
         {
             key: "headers",
             get: function get() {
-                return new Headers(this._parser.headers.headers);
+                return new _headersPolyfillTs.default(this._parser.headers.headers);
             }
         },
         {

@@ -4,12 +4,183 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.parserMultipart = {}));
 })(this, (function (exports) { 'use strict';
 
+  function _classCallCheck$5(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+          throw new TypeError("Cannot call a class as a function");
+      }
+  }
+  var HeadersPolyfill = /*#__PURE__*/ function() {
+      function HeadersPolyfill(headers) {
+          _classCallCheck$5(this, HeadersPolyfill);
+          this.headers = headers;
+      }
+      var _proto = HeadersPolyfill.prototype;
+      _proto.get = function get(key) {
+          return this.headers[key];
+      };
+      _proto.set = function set(key, value) {
+          this.headers[key] = value;
+      };
+      _proto.append = function append(key, value) {
+          this.headers[key] = value;
+      };
+      _proto.delete = function _delete(key) {
+          delete this.headers[key];
+      };
+      _proto.has = function has(key) {
+          return this.headers[key] === undefined;
+      };
+      _proto.forEach = function forEach(fn) {
+          for(var key in this.headers)fn(this.headers[key]);
+      };
+      _proto.getSetCookie = function getSetCookie() {
+          throw new Error("Unsupported: getSetCookie");
+      };
+      return HeadersPolyfill;
+  }();
+  var HeadersPolyfill$1 = typeof Headers === "undefined" ? HeadersPolyfill : Headers;
+
+  // @ts-ignore
+  function _classCallCheck$4(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+          throw new TypeError("Cannot call a class as a function");
+      }
+  }
+  function _defineProperties$3(target, props) {
+      for(var i = 0; i < props.length; i++){
+          var descriptor = props[i];
+          descriptor.enumerable = descriptor.enumerable || false;
+          descriptor.configurable = true;
+          if ("value" in descriptor) descriptor.writable = true;
+          Object.defineProperty(target, descriptor.key, descriptor);
+      }
+  }
+  function _createClass$3(Constructor, protoProps, staticProps) {
+      if (protoProps) _defineProperties$3(Constructor.prototype, protoProps);
+      if (staticProps) _defineProperties$3(Constructor, staticProps);
+      return Constructor;
+  }
+  var ParsedResponse = /*#__PURE__*/ function() {
+      function ParsedResponse(parser) {
+          _classCallCheck$4(this, ParsedResponse);
+          this._parser = parser;
+          this._bodyUsed = false;
+      }
+      var _proto = ParsedResponse.prototype;
+      _proto.clone = function clone() {
+          return new ParsedResponse(this._parser);
+      };
+      _proto.text = function text() {
+          if (this._bodyUsed) throw new Error("Body already consumed");
+          this._bodyUsed = true;
+          return Promise.resolve(this._parser.body);
+      };
+      _proto.json = function json() {
+          if (this._bodyUsed) throw new Error("Body already consumed");
+          this._bodyUsed = true;
+          return Promise.resolve(JSON.parse(this._parser.body));
+      };
+      _proto.arrayBuffer = function arrayBuffer() {
+          throw new Error("Unsupported: arrayBuffer");
+      };
+      _proto.blob = function blob() {
+          throw new Error("Unsupported: blob");
+      };
+      _proto.formData = function formData() {
+          throw new Error("Unsupported: formData");
+      };
+      _createClass$3(ParsedResponse, [
+          {
+              key: "type",
+              get: function get() {
+                  return "default";
+              }
+          },
+          {
+              key: "headers",
+              get: function get() {
+                  return new HeadersPolyfill$1(this._parser.headers.headers);
+              }
+          },
+          {
+              key: "body",
+              get: function get() {
+                  throw new Error("Not supported: body");
+              }
+          },
+          {
+              key: "ok",
+              get: function get() {
+                  return this._parser.headers.ok;
+              }
+          },
+          {
+              key: "status",
+              get: function get() {
+                  return this._parser.headers.status;
+              }
+          },
+          {
+              key: "statusText",
+              get: function get() {
+                  return this._parser.headers.statusText;
+              }
+          },
+          {
+              key: "redirected",
+              get: function get() {
+                  return false;
+              }
+          },
+          {
+              key: "url",
+              get: function get() {
+                  return "";
+              }
+          },
+          {
+              key: "bodyUsed",
+              get: function get() {
+                  return this._bodyUsed;
+              }
+          }
+      ]);
+      return ParsedResponse;
+  }();
+
+  // @ts-ignore
+  function _classCallCheck$3(instance, Constructor) {
+      if (!(instance instanceof Constructor)) {
+          throw new TypeError("Cannot call a class as a function");
+      }
+  }
+  var BodyHeaders = function BodyHeaders() {
+      _classCallCheck$3(this, BodyHeaders);
+      this.headers = {};
+  };
+
   function parseHeader(result, line, delimiter) {
       var index = line.indexOf(delimiter);
       if (index === -1) throw new Error("Unexpected header format: ".concat(line));
       var key = line.slice(0, index);
       var value = line.slice(index + 1);
       result[key.trim().toLowerCase()] = value.trim();
+  }
+
+  // @ts-ignore
+  // https://github.com/watson/http-headers/blob/master/index.ts
+  var statusLine = /^[A-Z]+\/(\d)\.(\d) (\d{3}) (.*)$/;
+  function parseStatus(result, line) {
+      var match = line.match(statusLine);
+      if (!match) return false;
+      result.version = {
+          major: parseInt(match[1], 10),
+          minor: parseInt(match[2], 10)
+      };
+      result.status = parseInt(match[3], 10);
+      result.statusText = match[4];
+      result.ok = result.statusText === "OK";
+      return true;
   }
 
   /**
@@ -97,141 +268,6 @@
       }
       if (!parser.done()) parser.push(null);
   }
-
-  // @ts-ignore
-  // https://github.com/watson/http-headers/blob/master/index.ts
-  var statusLine = /^[A-Z]+\/(\d)\.(\d) (\d{3}) (.*)$/;
-  function parseStatus(result, line) {
-      var match = line.match(statusLine);
-      if (!match) return false;
-      result.version = {
-          major: parseInt(match[1], 10),
-          minor: parseInt(match[2], 10)
-      };
-      result.status = parseInt(match[3], 10);
-      result.statusText = match[4];
-      result.ok = result.statusText === "OK";
-      return true;
-  }
-
-  // @ts-ignore
-  function _classCallCheck$4(instance, Constructor) {
-      if (!(instance instanceof Constructor)) {
-          throw new TypeError("Cannot call a class as a function");
-      }
-  }
-  function _defineProperties$3(target, props) {
-      for(var i = 0; i < props.length; i++){
-          var descriptor = props[i];
-          descriptor.enumerable = descriptor.enumerable || false;
-          descriptor.configurable = true;
-          if ("value" in descriptor) descriptor.writable = true;
-          Object.defineProperty(target, descriptor.key, descriptor);
-      }
-  }
-  function _createClass$3(Constructor, protoProps, staticProps) {
-      if (protoProps) _defineProperties$3(Constructor.prototype, protoProps);
-      if (staticProps) _defineProperties$3(Constructor, staticProps);
-      return Constructor;
-  }
-  var ParsedResponse = /*#__PURE__*/ function() {
-      function ParsedResponse(parser) {
-          _classCallCheck$4(this, ParsedResponse);
-          this._parser = parser;
-          this._bodyUsed = false;
-      }
-      var _proto = ParsedResponse.prototype;
-      _proto.clone = function clone() {
-          return new ParsedResponse(this._parser);
-      };
-      _proto.text = function text() {
-          if (this._bodyUsed) throw new Error("Body already consumed");
-          this._bodyUsed = true;
-          return Promise.resolve(this._parser.body);
-      };
-      _proto.json = function json() {
-          if (this._bodyUsed) throw new Error("Body already consumed");
-          this._bodyUsed = true;
-          return Promise.resolve(JSON.parse(this._parser.body));
-      };
-      _proto.arrayBuffer = function arrayBuffer() {
-          throw new Error("Unsupported: arrayBuffer");
-      };
-      _proto.blob = function blob() {
-          throw new Error("Unsupported: blob");
-      };
-      _proto.formData = function formData() {
-          throw new Error("Unsupported: formData");
-      };
-      _createClass$3(ParsedResponse, [
-          {
-              key: "type",
-              get: function get() {
-                  return "default";
-              }
-          },
-          {
-              key: "headers",
-              get: function get() {
-                  return new Headers(this._parser.headers.headers);
-              }
-          },
-          {
-              key: "body",
-              get: function get() {
-                  throw new Error("Not supported: body");
-              }
-          },
-          {
-              key: "ok",
-              get: function get() {
-                  return this._parser.headers.ok;
-              }
-          },
-          {
-              key: "status",
-              get: function get() {
-                  return this._parser.headers.status;
-              }
-          },
-          {
-              key: "statusText",
-              get: function get() {
-                  return this._parser.headers.statusText;
-              }
-          },
-          {
-              key: "redirected",
-              get: function get() {
-                  return false;
-              }
-          },
-          {
-              key: "url",
-              get: function get() {
-                  return "";
-              }
-          },
-          {
-              key: "bodyUsed",
-              get: function get() {
-                  return this._bodyUsed;
-              }
-          }
-      ]);
-      return ParsedResponse;
-  }();
-
-  // @ts-ignore
-  function _classCallCheck$3(instance, Constructor) {
-      if (!(instance instanceof Constructor)) {
-          throw new TypeError("Cannot call a class as a function");
-      }
-  }
-  var BodyHeaders = function BodyHeaders() {
-      _classCallCheck$3(this, BodyHeaders);
-      this.headers = {};
-  };
 
   // @ts-ignore
   function _classCallCheck$2(instance, Constructor) {

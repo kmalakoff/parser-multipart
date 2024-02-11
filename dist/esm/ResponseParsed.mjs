@@ -1,10 +1,12 @@
 // @ts-ignore
+// @ts-ignore
+import HeadersPolyfill from './lib/HeadersPolyfill.mjs';
 let ParsedResponse = class ParsedResponse {
     get type() {
         return 'default';
     }
     get headers() {
-        return new Headers(this._parser.headers.headers);
+        return new HeadersPolyfill(this._parser.headers.headers);
     }
     get body() {
         throw new Error('Not supported: body');

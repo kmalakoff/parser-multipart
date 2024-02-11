@@ -8,7 +8,7 @@ export default class ParsedResponse implements Response {
     private _bodyUsed;
     constructor(parser: Parser);
     get type(): ResponseType;
-    get headers(): Headers;
+    get headers(): any;
     get body(): ReadableStream<Uint8Array>;
     get ok(): boolean;
     get status(): number;

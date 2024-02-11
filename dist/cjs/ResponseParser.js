@@ -17,11 +17,11 @@ _export(exports, {
         return MultipartResponse;
     }
 });
+var _responseParsedTs = /*#__PURE__*/ _interopRequireDefault(require("./ResponseParsed.js"));
+var _bodyHeadersTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/BodyHeaders.js"));
 var _parseHeaderTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseHeader.js"));
 var _parseStatusTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseStatus.js"));
 var _parseTextTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseText.js"));
-var _responseParsedTs = /*#__PURE__*/ _interopRequireDefault(require("./ResponseParsed.js"));
-var _bodyHeadersTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/BodyHeaders.js"));
 function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
