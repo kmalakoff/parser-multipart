@@ -38,7 +38,7 @@ module.exports = function response(data) {
     else return [header('json'), '', JSON.stringify(x, null, 2)].join('\n');
   });
   const parts = responses.map((x) => [headers, '', x].join('\n'));
-  // biome-ignore lint/style/useTemplate: <explanation>
+  
   const body = parts.reduce((m, x) => m.concat([x, separator]), [separator]).join('\n') + '--';
 
   return {
