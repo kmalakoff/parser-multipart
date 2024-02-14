@@ -9,15 +9,32 @@ Object.defineProperty(exports, "default", {
         return BodyHeaders;
     }
 });
-function _classCallCheck(instance, Constructor) {
+function _class_call_check(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
 var BodyHeaders = function BodyHeaders() {
     "use strict";
-    _classCallCheck(this, BodyHeaders);
-    this.headers = {};
+    _class_call_check(this, BodyHeaders);
+    _define_property(this, "version", void 0);
+    _define_property(this, "headers", {});
+    _define_property(this, "ok", void 0);
+    _define_property(this, "status", void 0);
+    _define_property(this, "statusText", void 0);
 };
 
 if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {

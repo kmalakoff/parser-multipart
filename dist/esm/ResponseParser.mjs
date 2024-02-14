@@ -1,4 +1,17 @@
 // @ts-ignore
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
 import ResponseParsed from './ResponseParsed.mjs';
 // @ts-ignore
 import BodyHeaders from './lib/BodyHeaders.mjs';
@@ -23,15 +36,15 @@ let MultipartResponse = class MultipartResponse {
     push(line) {
         if (!this._parsingState) throw new Error('Attempting to parse a completed response');
         if (line === null) {
-            if (this._parsingState.status !== ParseStatus.Body) throw new Error('Unexpected parsing state');
+            if (this._parsingState.status !== 2) throw new Error('Unexpected parsing state');
             this.body = this._parsingState.lines.join('\r\n');
             this._parsingState = null;
             return;
         }
-        if (this._parsingState.status === ParseStatus.Headers) {
-            if (!line.length) this._parsingState.status = ParseStatus.Body;
+        if (this._parsingState.status === 1) {
+            if (!line.length) this._parsingState.status = 2;
             else if (!parseStatus(this.headers, line)) parseHeader(this.headers.headers, line, ':');
-        } else if (this._parsingState.status === ParseStatus.Body) {
+        } else if (this._parsingState.status === 2) {
             if (!line.length) this.push(null);
             else this._parsingState.lines.push(line);
         }
@@ -41,17 +54,18 @@ let MultipartResponse = class MultipartResponse {
         return new ResponseParsed(this);
     }
     constructor(contentType){
-        this.headers = null;
-        this.body = null;
-        this._parsingState = {
-            status: ParseStatus.Body,
+        _define_property(this, "contentType", void 0);
+        _define_property(this, "headers", null);
+        _define_property(this, "body", null);
+        _define_property(this, "_parsingState", {
+            status: 2,
             lines: []
-        };
+        });
         if (contentType === undefined) throw new Error('Response missing a content type');
         this.contentType = contentType;
         if (this.contentType === 'application/http') {
             this.headers = new BodyHeaders();
-            this._parsingState.status = ParseStatus.Headers;
+            this._parsingState.status = 1;
         }
     }
 };

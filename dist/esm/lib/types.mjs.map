@@ -1,1 +1,1 @@
-{"version":3,"sources":["types.ts"],"sourcesContent":["export interface Version {\n  major: number;\n  minor: number;\n}\n\nexport interface IParser {\n  done: () => boolean;\n  push: (line: string | null) => void;\n}\n"],"names":[],"mappings":"AAAA,WAQC"}
+{"version":3,"sources":["types.ts"],"sourcesContent":["export interface Version {\n  major: number;\n  minor: number;\n}\n\nexport interface IParser {\n  done: () => boolean;\n  push: (line: string | null) => void;\n}\n"],"names":[],"mappings":"AAKA,WAGC"}
