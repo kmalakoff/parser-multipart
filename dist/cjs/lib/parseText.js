@@ -8,14 +8,14 @@ Object.defineProperty(exports, "default", {
         return parseText;
     }
 });
-var _newlineIterator = /*#__PURE__*/ _interopRequireDefault(require("newline-iterator"));
-function _interopRequireDefault(obj) {
+var _newlineiterator = /*#__PURE__*/ _interop_require_default(require("newline-iterator"));
+function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
 }
 function parseText(parser, text) {
-    var iterator = (0, _newlineIterator.default)(text);
+    var iterator = (0, _newlineiterator.default)(text);
     var next = iterator.next();
     while(!next.done){
         parser.push(next.value);

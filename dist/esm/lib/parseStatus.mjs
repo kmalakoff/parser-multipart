@@ -12,4 +12,4 @@ export default function parseStatus(result, line) {
     result.statusText = match[4];
     result.ok = result.statusText === 'OK';
     return true;
-};
+}
