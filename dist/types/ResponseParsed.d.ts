@@ -1,14 +1,10 @@
-import BodyHeaders from './lib/BodyHeaders.js';
-export interface Parser {
-    headers: BodyHeaders;
-    body: string;
-}
+import ResponseParser from './ResponseParser.ts';
 export default class ParsedResponse implements Response {
     private _parser;
     private _bodyUsed;
-    constructor(parser: Parser);
+    constructor(parser: ResponseParser);
     get type(): ResponseType;
-    get headers(): any;
+    get headers(): Headers;
     get body(): ReadableStream<Uint8Array>;
     get ok(): boolean;
     get status(): number;

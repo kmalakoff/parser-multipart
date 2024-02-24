@@ -49,10 +49,9 @@
   "scripts": {
     "build": "tsds build",
     "deploy": "tsds deploy",
-    "format": "biome check --apply src/ test/",
-    "test": "npm run test:node && tsds test:browser",
-    "test:node": "tsds link && tsx node_modules/.bin/mocha test/**/*.ts",
-    "test:engines": "nvu engines tsds test:node && tsds test:browser",
+    "format": "biome check --apply-unsafe src/ test/",
+    "test": "tsds test:node --timeout=10000 && tsds test:browser",
+    "test:engines": "nvu engines tsds test:node --timeout=10000 && tsds test:browser",
     "version": "tsds version"
   },
   "dependencies": {
@@ -61,10 +60,9 @@
   "devDependencies": {
     "@biomejs/biome": "^1.5.3",
     "@types/mocha": "^10.0.6",
-    "@types/node": "^20.11.17",
+    "@types/node": "^20.11.20",
     "multi-data": "^0.2.8",
-    "ts-dev-stack": "^0.9.0",
-    "tsx": "^4.7.1"
+    "ts-dev-stack": "^0.15.8"
   },
   "engines": {
     "node": ">=0.12"

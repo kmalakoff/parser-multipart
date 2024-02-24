@@ -1,5 +1,18 @@
 // @ts-ignore
-import Part from './PartParser.mjs';
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+import PartParser from './PartParser.mjs';
 // @ts-ignore
 import parseHeader from './lib/parseHeader.mjs';
 // @ts-ignore
@@ -27,7 +40,7 @@ let MultipartParser = class MultipartParser {
         if (line === this._parsingState.boundaryEnd) this.push(null);
         else if (line === this.boundary) {
             if (part && !part.done()) part.push(null);
-            this.parts.push(new Part());
+            this.parts.push(new PartParser());
         } else if (part) part.push(line);
         else {
             if (line.length) throw new Error(`Unexpected line: ${line}`);
@@ -38,13 +51,14 @@ let MultipartParser = class MultipartParser {
         return this.parts.map((part)=>part.response);
     }
     constructor(headers){
-        this.headers = {};
-        this.parts = [];
-        this._parsingState = {
-            status: ParseStatus.Parts,
+        _define_property(this, "type", void 0);
+        _define_property(this, "headers", {});
+        _define_property(this, "parts", []);
+        _define_property(this, "_parsingState", {
+            status: 1,
             boundaryEnd: null
-        };
-        this.boundary = null;
+        });
+        _define_property(this, "boundary", null);
         if (!headers) throw new Error('Headers missing');
         let contentType;
         if (typeof headers === 'string') contentType = headers;
@@ -61,7 +75,7 @@ let MultipartParser = class MultipartParser {
         if (!this.headers.boundary) throw new Error('Invalid Content Type: no boundary');
         this.boundary = `--${this.headers.boundary}`;
         this._parsingState.boundaryEnd = `--${this.headers.boundary}--`;
-        this._parsingState.status = ParseStatus.Parts;
+        this._parsingState.status = 1;
     }
 };
 export { MultipartParser as default };
