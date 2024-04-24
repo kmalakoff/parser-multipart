@@ -1,5 +1,17 @@
 // @ts-ignore
-// @ts-ignore
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
 import HeadersPolyfill from './lib/HeadersPolyfill.mjs';
 let ParsedResponse = class ParsedResponse {
     get type() {
@@ -52,6 +64,8 @@ let ParsedResponse = class ParsedResponse {
         throw new Error('Unsupported: formData');
     }
     constructor(parser){
+        _define_property(this, "_parser", void 0);
+        _define_property(this, "_bodyUsed", void 0);
         this._parser = parser;
         this._bodyUsed = false;
     }

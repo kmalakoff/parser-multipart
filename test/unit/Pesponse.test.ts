@@ -1,5 +1,6 @@
 import assert from 'assert';
 import newlineIterator from 'newline-iterator';
+// @ts-ignore
 import { Response } from 'parser-multipart';
 import response from '../lib/response.cjs';
 

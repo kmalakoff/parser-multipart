@@ -1,3 +1,16 @@
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
 let HeadersPolyfill = class HeadersPolyfill {
     get(key) {
         return this.headers[key];
@@ -15,12 +28,13 @@ let HeadersPolyfill = class HeadersPolyfill {
         return this.headers[key] === undefined;
     }
     forEach(fn) {
-        for(var key in this.headers)fn(this.headers[key]);
+        for(const key in this.headers)fn(this.headers[key]);
     }
     getSetCookie() {
         throw new Error('Unsupported: getSetCookie');
     }
     constructor(headers){
+        _define_property(this, "headers", void 0);
         this.headers = headers;
     }
 };

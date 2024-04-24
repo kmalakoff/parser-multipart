@@ -9,8 +9,8 @@ Object.defineProperty(exports, "default", {
         return ParsedResponse;
     }
 });
-var _headersPolyfillTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/HeadersPolyfill.js"));
-function _classCallCheck(instance, Constructor) {
+var _HeadersPolyfillts = /*#__PURE__*/ _interop_require_default(require("./lib/HeadersPolyfill.js"));
+function _class_call_check(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
@@ -24,12 +24,25 @@ function _defineProperties(target, props) {
         Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-function _createClass(Constructor, protoProps, staticProps) {
+function _create_class(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-function _interopRequireDefault(obj) {
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
@@ -37,34 +50,13 @@ function _interopRequireDefault(obj) {
 var ParsedResponse = /*#__PURE__*/ function() {
     "use strict";
     function ParsedResponse(parser) {
-        _classCallCheck(this, ParsedResponse);
+        _class_call_check(this, ParsedResponse);
+        _define_property(this, "_parser", void 0);
+        _define_property(this, "_bodyUsed", void 0);
         this._parser = parser;
         this._bodyUsed = false;
     }
-    var _proto = ParsedResponse.prototype;
-    _proto.clone = function clone() {
-        return new ParsedResponse(this._parser);
-    };
-    _proto.text = function text() {
-        if (this._bodyUsed) throw new Error("Body already consumed");
-        this._bodyUsed = true;
-        return Promise.resolve(this._parser.body);
-    };
-    _proto.json = function json() {
-        if (this._bodyUsed) throw new Error("Body already consumed");
-        this._bodyUsed = true;
-        return Promise.resolve(JSON.parse(this._parser.body));
-    };
-    _proto.arrayBuffer = function arrayBuffer() {
-        throw new Error("Unsupported: arrayBuffer");
-    };
-    _proto.blob = function blob() {
-        throw new Error("Unsupported: blob");
-    };
-    _proto.formData = function formData() {
-        throw new Error("Unsupported: formData");
-    };
-    _createClass(ParsedResponse, [
+    _create_class(ParsedResponse, [
         {
             key: "type",
             get: function get() {
@@ -74,7 +66,7 @@ var ParsedResponse = /*#__PURE__*/ function() {
         {
             key: "headers",
             get: function get() {
-                return new _headersPolyfillTs.default(this._parser.headers.headers);
+                return new _HeadersPolyfillts.default(this._parser.headers.headers);
             }
         },
         {
@@ -114,17 +106,52 @@ var ParsedResponse = /*#__PURE__*/ function() {
             }
         },
         {
+            key: "clone",
+            value: function clone() {
+                return new ParsedResponse(this._parser);
+            }
+        },
+        {
             key: "bodyUsed",
             get: function get() {
                 return this._bodyUsed;
+            }
+        },
+        {
+            key: "text",
+            value: function text() {
+                if (this._bodyUsed) throw new Error("Body already consumed");
+                this._bodyUsed = true;
+                return Promise.resolve(this._parser.body);
+            }
+        },
+        {
+            key: "json",
+            value: function json() {
+                if (this._bodyUsed) throw new Error("Body already consumed");
+                this._bodyUsed = true;
+                return Promise.resolve(JSON.parse(this._parser.body));
+            }
+        },
+        {
+            key: "arrayBuffer",
+            value: function arrayBuffer() {
+                throw new Error("Unsupported: arrayBuffer");
+            }
+        },
+        {
+            key: "blob",
+            value: function blob() {
+                throw new Error("Unsupported: blob");
+            }
+        },
+        {
+            key: "formData",
+            value: function formData() {
+                throw new Error("Unsupported: formData");
             }
         }
     ]);
     return ParsedResponse;
 }();
-
-if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {
-  Object.defineProperty(exports.default, '__esModule', { value: true });
-  for (var key in exports) exports.default[key] = exports[key];
-  module.exports = exports.default;
-}
+/* CJS INTEROP */ if (exports.__esModule && exports.default) { Object.defineProperty(exports.default, '__esModule', { value: true }); for (var key in exports) exports.default[key] = exports[key]; module.exports = exports.default; }
