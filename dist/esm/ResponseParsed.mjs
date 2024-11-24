@@ -1,4 +1,17 @@
 // @ts-ignore
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
 // @ts-ignore
 import HeadersPolyfill from './lib/HeadersPolyfill.mjs';
 let ParsedResponse = class ParsedResponse {
@@ -33,25 +46,30 @@ let ParsedResponse = class ParsedResponse {
         return this._bodyUsed;
     }
     text() {
-        if (this._bodyUsed) throw new Error('Body already consumed');
+        if (this._bodyUsed) return Promise.reject(new Error('Body already consumed'));
         this._bodyUsed = true;
         return Promise.resolve(this._parser.body);
     }
     json() {
-        if (this._bodyUsed) throw new Error('Body already consumed');
+        if (this._bodyUsed) return Promise.reject(new Error('Body already consumed'));
         this._bodyUsed = true;
         return Promise.resolve(JSON.parse(this._parser.body));
     }
     arrayBuffer() {
-        throw new Error('Unsupported: arrayBuffer');
+        return Promise.reject(new Error('Unsupported: arrayBuffer'));
     }
     blob() {
-        throw new Error('Unsupported: blob');
+        return Promise.reject(new Error('Unsupported: blob'));
     }
     formData() {
-        throw new Error('Unsupported: formData');
+        return Promise.reject(new Error('Unsupported: formData'));
+    }
+    bytes() {
+        return Promise.reject(new Error('Unsupported: bytes'));
     }
     constructor(parser){
+        _define_property(this, "_parser", void 0);
+        _define_property(this, "_bodyUsed", void 0);
         this._parser = parser;
         this._bodyUsed = false;
     }
