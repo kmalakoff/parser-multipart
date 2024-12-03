@@ -1,5 +1,6 @@
 import assert from 'assert';
 import MultiData from 'multi-data';
+// @ts-ignore
 import { Parser } from 'parser-multipart';
 
 import response from '../lib/response.cjs';

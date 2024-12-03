@@ -1,4 +1,5 @@
 import assert from 'assert';
+// @ts-ignore
 import { Parser } from 'parser-multipart';
 import response from '../lib/response.cjs';
 
