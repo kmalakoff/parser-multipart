@@ -7,4 +7,4 @@ export default function parseText(parser, text) {
         next = iterator.next();
     }
     if (!parser.done()) parser.push(null);
-};
+}

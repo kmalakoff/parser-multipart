@@ -6,3 +6,5 @@ export { default as Part } from './PartParser.mjs';
 export { default as Response } from './ResponseParser.mjs';
 // @ts-ignore
 export { default as ResponseParsed } from './ResponseParsed.mjs';
+// @ts-ignore
+export { default as BodyHeaders } from './lib/BodyHeaders.mjs';

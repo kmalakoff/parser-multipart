@@ -1,4 +1,4 @@
-import Part from './PartParser.ts';
+import PartParser from './PartParser.ts';
 export declare enum ParseStatus {
     Parts = 1
 }
@@ -9,7 +9,7 @@ export interface ParsingState {
 export default class MultipartParser {
     type: string;
     headers: Record<string, string>;
-    parts: Part[];
+    parts: PartParser[];
     private _parsingState;
     private boundary;
     constructor(headers: Headers | string | Record<string, string>);
