@@ -1,5 +1,5 @@
 // @ts-ignore
-import Part from './PartParser.ts';
+import PartParser from './PartParser.ts';
 // @ts-ignore
 import parseHeader from './lib/parseHeader.ts';
 // @ts-ignore
@@ -17,7 +17,7 @@ export interface ParsingState {
 export default class MultipartParser {
   type: string;
   headers: Record<string, string> = {};
-  parts: Part[] = [];
+  parts: PartParser[] = [];
 
   private _parsingState: ParsingState | null = {
     status: ParseStatus.Parts,
@@ -71,7 +71,7 @@ export default class MultipartParser {
     if (line === this._parsingState.boundaryEnd) this.push(null);
     else if (line === this.boundary) {
       if (part && !part.done()) part.push(null);
-      this.parts.push(new Part());
+      this.parts.push(new PartParser());
     } else if (part) part.push(line);
     else {
       if (line.length) throw new Error(`Unexpected line: ${line}`);
