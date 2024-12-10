@@ -8,7 +8,7 @@ Object.defineProperty(exports, "default", {
         return _default;
     }
 });
-function _classCallCheck(instance, Constructor) {
+function _class_call_check(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
@@ -16,7 +16,7 @@ function _classCallCheck(instance, Constructor) {
 var HeadersPolyfill = /*#__PURE__*/ function() {
     "use strict";
     function HeadersPolyfill(headers) {
-        _classCallCheck(this, HeadersPolyfill);
+        _class_call_check(this, HeadersPolyfill);
         this.headers = headers;
     }
     var _proto = HeadersPolyfill.prototype;
@@ -39,14 +39,9 @@ var HeadersPolyfill = /*#__PURE__*/ function() {
         for(var key in this.headers)fn(this.headers[key]);
     };
     _proto.getSetCookie = function getSetCookie() {
-        throw new Error("Unsupported: getSetCookie");
+        throw new Error('Unsupported: getSetCookie');
     };
     return HeadersPolyfill;
 }();
-var _default = typeof Headers === "undefined" ? HeadersPolyfill : Headers;
-
-if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {
-  Object.defineProperty(exports.default, '__esModule', { value: true });
-  for (var key in exports) exports.default[key] = exports[key];
-  module.exports = exports.default;
-}
+var _default = typeof Headers === 'undefined' ? HeadersPolyfill : Headers;
+/* CJS INTEROP */ if (exports.__esModule && exports.default) { try { Object.defineProperty(exports.default, '__esModule', { value: true }); for (var key in exports) { exports.default[key] = exports[key]; } } catch (_) {}; module.exports = exports.default; }

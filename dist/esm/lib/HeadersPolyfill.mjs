@@ -15,7 +15,7 @@ let HeadersPolyfill = class HeadersPolyfill {
         return this.headers[key] === undefined;
     }
     forEach(fn) {
-        for(var key in this.headers)fn(this.headers[key]);
+        for(const key in this.headers)fn(this.headers[key]);
     }
     getSetCookie() {
         throw new Error('Unsupported: getSetCookie');

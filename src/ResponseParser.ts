@@ -1,8 +1,6 @@
 // @ts-ignore
 import ResponseParsed from './ResponseParsed.ts';
 // @ts-ignore
-import type { Parser } from './ResponseParsed.ts';
-// @ts-ignore
 import BodyHeaders from './lib/BodyHeaders.ts';
 // @ts-ignore
 import parseHeader from './lib/parseHeader.ts';
@@ -68,6 +66,6 @@ export default class MultipartResponse {
 
   get response(): Response {
     if (this._parsingState) throw new Error('Attempting to use an incomplete response');
-    return new ResponseParsed(this as Parser);
+    return new ResponseParsed(this);
   }
 }
