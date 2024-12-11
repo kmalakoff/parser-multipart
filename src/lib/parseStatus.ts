@@ -1,5 +1,5 @@
 // @ts-ignore
-import { Version } from '../index.ts';
+import type { Version } from '../index.ts';
 
 export interface StatusResult {
   version: Version;

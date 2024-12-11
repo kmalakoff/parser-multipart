@@ -1,2 +1,2 @@
-import { IParser } from '../index.ts';
+import type { IParser } from './types.ts';
 export default function parseText(parser: IParser, text: string): void;
