@@ -1,13 +1,10 @@
-// @ts-ignore
-import Part from './PartParser.mjs';
-// @ts-ignore
+import PartParser from './PartParser.mjs';
 import parseHeader from './lib/parseHeader.mjs';
-// @ts-ignore
 import parseText from './lib/parseText.mjs';
-export var ParseStatus;
-(function(ParseStatus) {
+export var ParseStatus = /*#__PURE__*/ function(ParseStatus) {
     ParseStatus[ParseStatus["Parts"] = 1] = "Parts";
-})(ParseStatus || (ParseStatus = {}));
+    return ParseStatus;
+}({});
 let MultipartParser = class MultipartParser {
     done() {
         return !this._parsingState;
@@ -27,7 +24,7 @@ let MultipartParser = class MultipartParser {
         if (line === this._parsingState.boundaryEnd) this.push(null);
         else if (line === this.boundary) {
             if (part && !part.done()) part.push(null);
-            this.parts.push(new Part());
+            this.parts.push(new PartParser());
         } else if (part) part.push(line);
         else {
             if (line.length) throw new Error(`Unexpected line: ${line}`);
@@ -41,7 +38,7 @@ let MultipartParser = class MultipartParser {
         this.headers = {};
         this.parts = [];
         this._parsingState = {
-            status: ParseStatus.Parts,
+            status: 1,
             boundaryEnd: null
         };
         this.boundary = null;
@@ -61,7 +58,7 @@ let MultipartParser = class MultipartParser {
         if (!this.headers.boundary) throw new Error('Invalid Content Type: no boundary');
         this.boundary = `--${this.headers.boundary}`;
         this._parsingState.boundaryEnd = `--${this.headers.boundary}--`;
-        this._parsingState.status = ParseStatus.Parts;
+        this._parsingState.status = 1;
     }
 };
 export { MultipartParser as default };

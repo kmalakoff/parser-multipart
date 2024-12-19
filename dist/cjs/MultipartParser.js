@@ -1,4 +1,3 @@
-// @ts-ignore
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -17,10 +16,10 @@ _export(exports, {
         return MultipartParser;
     }
 });
-var _partParserTs = /*#__PURE__*/ _interopRequireDefault(require("./PartParser.js"));
-var _parseHeaderTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseHeader.js"));
-var _parseTextTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseText.js"));
-function _classCallCheck(instance, Constructor) {
+var _PartParser = /*#__PURE__*/ _interop_require_default(require("./PartParser.js"));
+var _parseHeader = /*#__PURE__*/ _interop_require_default(require("./lib/parseHeader.js"));
+var _parseText = /*#__PURE__*/ _interop_require_default(require("./lib/parseText.js"));
+function _class_call_check(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
@@ -34,63 +33,63 @@ function _defineProperties(target, props) {
         Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-function _createClass(Constructor, protoProps, staticProps) {
+function _create_class(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-function _interopRequireDefault(obj) {
+function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
 }
-var ParseStatus;
-(function(ParseStatus) {
+var ParseStatus = /*#__PURE__*/ function(ParseStatus) {
     ParseStatus[ParseStatus["Parts"] = 1] = "Parts";
-})(ParseStatus || (ParseStatus = {}));
+    return ParseStatus;
+}({});
 var MultipartParser = /*#__PURE__*/ function() {
     "use strict";
     function MultipartParser(headers) {
         var _this = this;
-        _classCallCheck(this, MultipartParser);
+        _class_call_check(this, MultipartParser);
         this.headers = {};
         this.parts = [];
         this._parsingState = {
-            status: ParseStatus.Parts,
+            status: 1,
             boundaryEnd: null
         };
         this.boundary = null;
-        if (!headers) throw new Error("Headers missing");
+        if (!headers) throw new Error('Headers missing');
         var contentType;
-        if (typeof headers === "string") contentType = headers;
-        else if (headers.get) contentType = headers.get("content-type");
-        else contentType = headers["content-type"];
-        if (!contentType) throw Error("content-type header not found");
+        if (typeof headers === 'string') contentType = headers;
+        else if (headers.get) contentType = headers.get('content-type');
+        else contentType = headers['content-type'];
+        if (!contentType) throw Error('content-type header not found');
         var parts = contentType.split(/;/g);
         this.type = parts.shift().trim();
-        if (this.type.indexOf("multipart") !== 0) {
+        if (this.type.indexOf('multipart') !== 0) {
             throw new Error("Expecting a multipart type. Received: ".concat(contentType));
         }
         parts.forEach(function(part) {
-            return (0, _parseHeaderTs.default)(_this.headers, part, "=");
+            return (0, _parseHeader.default)(_this.headers, part, '=');
         });
         // boundary
-        if (!this.headers.boundary) throw new Error("Invalid Content Type: no boundary");
+        if (!this.headers.boundary) throw new Error('Invalid Content Type: no boundary');
         this.boundary = "--".concat(this.headers.boundary);
         this._parsingState.boundaryEnd = "--".concat(this.headers.boundary, "--");
-        this._parsingState.status = ParseStatus.Parts;
+        this._parsingState.status = 1;
     }
     var _proto = MultipartParser.prototype;
     _proto.done = function done() {
         return !this._parsingState;
     };
     _proto.parse = function parse(text) {
-        (0, _parseTextTs.default)(this, text);
+        (0, _parseText.default)(this, text);
         return this;
     };
     _proto.push = function push(line) {
         var part = this.parts.length ? this.parts[this.parts.length - 1] : null;
-        if (!this._parsingState) throw new Error("Attempting to parse a completed multipart");
+        if (!this._parsingState) throw new Error('Attempting to parse a completed multipart');
         if (line === null) {
             if (part && !part.done()) part.push(null);
             this._parsingState = null;
@@ -99,17 +98,17 @@ var MultipartParser = /*#__PURE__*/ function() {
         if (line === this._parsingState.boundaryEnd) this.push(null);
         else if (line === this.boundary) {
             if (part && !part.done()) part.push(null);
-            this.parts.push(new _partParserTs.default());
+            this.parts.push(new _PartParser.default());
         } else if (part) part.push(line);
         else {
             if (line.length) throw new Error("Unexpected line: ".concat(line));
         }
     };
-    _createClass(MultipartParser, [
+    _create_class(MultipartParser, [
         {
             key: "responses",
             get: function get() {
-                if (this._parsingState) throw new Error("Attempting to use an incomplete parser");
+                if (this._parsingState) throw new Error('Attempting to use an incomplete parser');
                 return this.parts.map(function(part) {
                     return part.response;
                 });
@@ -118,9 +117,4 @@ var MultipartParser = /*#__PURE__*/ function() {
     ]);
     return MultipartParser;
 }();
-
-if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {
-  Object.defineProperty(exports.default, '__esModule', { value: true });
-  for (var key in exports) exports.default[key] = exports[key];
-  module.exports = exports.default;
-}
+/* CJS INTEROP */ if (exports.__esModule && exports.default) { try { Object.defineProperty(exports.default, '__esModule', { value: true }); for (var key in exports) { exports.default[key] = exports[key]; } } catch (_) {}; module.exports = exports.default; }

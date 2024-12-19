@@ -1,4 +1,4 @@
-import MultipartResponse from './ResponseParser.ts';
+import MultipartResponse from './ResponseParser.js';
 export declare enum ParseStatus {
     Headers = 1,
     Response = 2

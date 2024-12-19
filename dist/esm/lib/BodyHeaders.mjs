@@ -1,4 +1,3 @@
-// @ts-ignore
 let BodyHeaders = class BodyHeaders {
     constructor(){
         this.headers = {};
