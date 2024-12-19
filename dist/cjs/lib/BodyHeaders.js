@@ -1,4 +1,3 @@
-// @ts-ignore
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -9,19 +8,14 @@ Object.defineProperty(exports, "default", {
         return BodyHeaders;
     }
 });
-function _classCallCheck(instance, Constructor) {
+function _class_call_check(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
 }
 var BodyHeaders = function BodyHeaders() {
     "use strict";
-    _classCallCheck(this, BodyHeaders);
+    _class_call_check(this, BodyHeaders);
     this.headers = {};
 };
-
-if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {
-  Object.defineProperty(exports.default, '__esModule', { value: true });
-  for (var key in exports) exports.default[key] = exports[key];
-  module.exports = exports.default;
-}
+/* CJS INTEROP */ if (exports.__esModule && exports.default) { try { Object.defineProperty(exports.default, '__esModule', { value: true }); for (var key in exports) { exports.default[key] = exports[key]; } } catch (_) {}; module.exports = exports.default; }

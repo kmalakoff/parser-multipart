@@ -1,4 +1,3 @@
-// @ts-ignore
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -20,12 +19,7 @@ function parseStatus(result, line) {
     };
     result.status = parseInt(match[3], 10);
     result.statusText = match[4];
-    result.ok = result.statusText === "OK";
+    result.ok = result.statusText === 'OK';
     return true;
 }
-
-if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {
-  Object.defineProperty(exports.default, '__esModule', { value: true });
-  for (var key in exports) exports.default[key] = exports[key];
-  module.exports = exports.default;
-}
+/* CJS INTEROP */ if (exports.__esModule && exports.default) { try { Object.defineProperty(exports.default, '__esModule', { value: true }); for (var key in exports) { exports.default[key] = exports[key]; } } catch (_) {}; module.exports = exports.default; }

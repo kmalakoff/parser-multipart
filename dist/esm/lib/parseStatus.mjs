@@ -1,4 +1,3 @@
-// @ts-ignore
 // https://github.com/watson/http-headers/blob/master/index.ts
 const statusLine = /^[A-Z]+\/(\d)\.(\d) (\d{3}) (.*)$/;
 export default function parseStatus(result, line) {
@@ -12,4 +11,4 @@ export default function parseStatus(result, line) {
     result.statusText = match[4];
     result.ok = result.statusText === 'OK';
     return true;
-};
+}

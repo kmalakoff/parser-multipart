@@ -1,4 +1,3 @@
-// @ts-ignore
 "use strict";
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -17,12 +16,12 @@ _export(exports, {
         return MultipartResponse;
     }
 });
-var _responseParsedTs = /*#__PURE__*/ _interopRequireDefault(require("./ResponseParsed.js"));
-var _bodyHeadersTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/BodyHeaders.js"));
-var _parseHeaderTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseHeader.js"));
-var _parseStatusTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseStatus.js"));
-var _parseTextTs = /*#__PURE__*/ _interopRequireDefault(require("./lib/parseText.js"));
-function _classCallCheck(instance, Constructor) {
+var _ResponseParsed = /*#__PURE__*/ _interop_require_default(require("./ResponseParsed.js"));
+var _BodyHeaders = /*#__PURE__*/ _interop_require_default(require("./lib/BodyHeaders.js"));
+var _parseHeader = /*#__PURE__*/ _interop_require_default(require("./lib/parseHeader.js"));
+var _parseStatus = /*#__PURE__*/ _interop_require_default(require("./lib/parseStatus.js"));
+var _parseText = /*#__PURE__*/ _interop_require_default(require("./lib/parseText.js"));
+function _class_call_check(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
         throw new TypeError("Cannot call a class as a function");
     }
@@ -36,36 +35,36 @@ function _defineProperties(target, props) {
         Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-function _createClass(Constructor, protoProps, staticProps) {
+function _create_class(Constructor, protoProps, staticProps) {
     if (protoProps) _defineProperties(Constructor.prototype, protoProps);
     if (staticProps) _defineProperties(Constructor, staticProps);
     return Constructor;
 }
-function _interopRequireDefault(obj) {
+function _interop_require_default(obj) {
     return obj && obj.__esModule ? obj : {
         default: obj
     };
 }
-var ParseStatus;
-(function(ParseStatus) {
+var ParseStatus = /*#__PURE__*/ function(ParseStatus) {
     ParseStatus[ParseStatus["Headers"] = 1] = "Headers";
     ParseStatus[ParseStatus["Body"] = 2] = "Body";
-})(ParseStatus || (ParseStatus = {}));
+    return ParseStatus;
+}({});
 var MultipartResponse = /*#__PURE__*/ function() {
     "use strict";
     function MultipartResponse(contentType) {
-        _classCallCheck(this, MultipartResponse);
+        _class_call_check(this, MultipartResponse);
         this.headers = null;
         this.body = null;
         this._parsingState = {
-            status: ParseStatus.Body,
+            status: 2,
             lines: []
         };
-        if (contentType === undefined) throw new Error("Response missing a content type");
+        if (contentType === undefined) throw new Error('Response missing a content type');
         this.contentType = contentType;
-        if (this.contentType === "application/http") {
-            this.headers = new _bodyHeadersTs.default();
-            this._parsingState.status = ParseStatus.Headers;
+        if (this.contentType === 'application/http') {
+            this.headers = new _BodyHeaders.default();
+            this._parsingState.status = 1;
         }
     }
     var _proto = MultipartResponse.prototype;
@@ -73,38 +72,33 @@ var MultipartResponse = /*#__PURE__*/ function() {
         return !this._parsingState;
     };
     _proto.parse = function parse(text) {
-        (0, _parseTextTs.default)(this, text);
+        (0, _parseText.default)(this, text);
     };
     _proto.push = function push(line) {
-        if (!this._parsingState) throw new Error("Attempting to parse a completed response");
+        if (!this._parsingState) throw new Error('Attempting to parse a completed response');
         if (line === null) {
-            if (this._parsingState.status !== ParseStatus.Body) throw new Error("Unexpected parsing state");
-            this.body = this._parsingState.lines.join("\r\n");
+            if (this._parsingState.status !== 2) throw new Error('Unexpected parsing state');
+            this.body = this._parsingState.lines.join('\r\n');
             this._parsingState = null;
             return;
         }
-        if (this._parsingState.status === ParseStatus.Headers) {
-            if (!line.length) this._parsingState.status = ParseStatus.Body;
-            else if (!(0, _parseStatusTs.default)(this.headers, line)) (0, _parseHeaderTs.default)(this.headers.headers, line, ":");
-        } else if (this._parsingState.status === ParseStatus.Body) {
+        if (this._parsingState.status === 1) {
+            if (!line.length) this._parsingState.status = 2;
+            else if (!(0, _parseStatus.default)(this.headers, line)) (0, _parseHeader.default)(this.headers.headers, line, ':');
+        } else if (this._parsingState.status === 2) {
             if (!line.length) this.push(null);
             else this._parsingState.lines.push(line);
         }
     };
-    _createClass(MultipartResponse, [
+    _create_class(MultipartResponse, [
         {
             key: "response",
             get: function get() {
-                if (this._parsingState) throw new Error("Attempting to use an incomplete response");
-                return new _responseParsedTs.default(this);
+                if (this._parsingState) throw new Error('Attempting to use an incomplete response');
+                return new _ResponseParsed.default(this);
             }
         }
     ]);
     return MultipartResponse;
 }();
-
-if ((typeof exports.default === 'function' || (typeof exports.default === 'object' && exports.default !== null)) && typeof exports.default.__esModule === 'undefined') {
-  Object.defineProperty(exports.default, '__esModule', { value: true });
-  for (var key in exports) exports.default[key] = exports[key];
-  module.exports = exports.default;
-}
+/* CJS INTEROP */ if (exports.__esModule && exports.default) { try { Object.defineProperty(exports.default, '__esModule', { value: true }); for (var key in exports) { exports.default[key] = exports[key]; } } catch (_) {}; module.exports = exports.default; }

@@ -1,14 +1,10 @@
-import BodyHeaders from './lib/BodyHeaders.js';
-export interface Parser {
-    headers: BodyHeaders;
-    body: string;
-}
+import type ResponseParser from './ResponseParser.js';
 export default class ParsedResponse implements Response {
     private _parser;
     private _bodyUsed;
-    constructor(parser: Parser);
+    constructor(parser: ResponseParser);
     get type(): ResponseType;
-    get headers(): any;
+    get headers(): Headers;
     get body(): ReadableStream<Uint8Array>;
     get ok(): boolean;
     get status(): number;
@@ -22,4 +18,5 @@ export default class ParsedResponse implements Response {
     arrayBuffer(): Promise<ArrayBuffer>;
     blob(): Promise<Blob>;
     formData(): Promise<FormData>;
+    bytes(): Promise<Uint8Array>;
 }

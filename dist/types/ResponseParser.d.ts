@@ -1,4 +1,4 @@
-import BodyHeaders from './lib/BodyHeaders.ts';
+import BodyHeaders from './lib/BodyHeaders.js';
 export declare enum ParseStatus {
     Headers = 1,
     Body = 2
