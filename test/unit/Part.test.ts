@@ -1,6 +1,9 @@
+import '../lib/polyfills.cjs';
 import assert from 'assert';
+// @ts-ignore
 import { Part } from 'parser-multipart';
-import response from '../lib/response.cjs';
+// @ts-ignore
+import response from '../lib/response.ts';
 
 const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
 

@@ -1,3 +1,4 @@
+require('../lib/polyfills.cjs');
 const assert = require('assert');
 const { Parser, Part, Response } = require('parser-multipart');
 const response = require('../lib/response.cjs');
