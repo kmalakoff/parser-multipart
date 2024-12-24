@@ -22,7 +22,7 @@ jobs:
       - run: npm uninstall node-version-use depcheck -g
       - run: npm install node-version-use depcheck -g
       - run: depcheck
-      - run: nvu lts npm ci
+      - run: npm ci
       - run: npx -y playwright install --with-deps
       - run: npm run version
       - run: npm run build
