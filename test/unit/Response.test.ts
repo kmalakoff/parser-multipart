@@ -1,13 +1,27 @@
 import assert from 'assert';
 import newlineIterator from 'newline-iterator';
+// @ts-ignore
 import { Response } from 'parser-multipart';
-import response from '../lib/response.cjs';
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
+import Promise from 'pinkie-promise';
+// @ts-ignore
+import response from '../lib/response.ts';
 
 const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
 const dataText = response(['text1', 'text2']);
 const dataError = response([new Error('failed1'), new Error('failed2')]);
 
 describe('Response', () => {
+  const root = typeof global !== 'undefined' ? global : window;
+  let rootPromise: Promise;
+  before(() => {
+    rootPromise = root.Promise;
+    root.Promise = Promise;
+  });
+  after(() => {
+    root.Promise = rootPromise;
+  });
+
   it('error: missing content type', () => {
     assert.throws(() => new Response(undefined));
   });

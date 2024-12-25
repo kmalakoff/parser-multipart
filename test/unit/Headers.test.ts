@@ -1,10 +1,24 @@
 import assert from 'assert';
+// @ts-ignore
 import { Parser } from 'parser-multipart';
-import response from '../lib/response.cjs';
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
+import Promise from 'pinkie-promise';
+// @ts-ignore
+import response from '../lib/response.ts';
 
 const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
 
 describe('headers', () => {
+  const root = typeof global !== 'undefined' ? global : window;
+  let rootPromise: Promise;
+  before(() => {
+    rootPromise = root.Promise;
+    root.Promise = Promise;
+  });
+  after(() => {
+    root.Promise = rootPromise;
+  });
+
   it('headers missing', () => {
     assert.throws(() => new Parser(undefined));
   });
