@@ -1,3 +1,5 @@
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
+const Promise = require('pinkie-promise');
 const assert = require('assert');
 const { Parser, Part, Response } = require('parser-multipart/dist/umd/parser-multipart.js');
 const response = require('../lib/response.cjs');
@@ -5,6 +7,16 @@ const response = require('../lib/response.cjs');
 const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
 
 describe('exports parser-multipart/dist/umd/parser-multipart.js', () => {
+  const root = typeof global !== 'undefined' ? global : window;
+  let rootPromise;
+  before(() => {
+    rootPromise = root.Promise;
+    root.Promise = Promise;
+  });
+  after(() => {
+    root.Promise = rootPromise;
+  });
+
   it('MultiData', async () => {
     const parser = new Parser(dataJSON.headers['content-type']);
     parser.parse(dataJSON.body);
