@@ -1,9 +1,6 @@
-// @ts-ignore
-import MultipartResponse from './ResponseParser.ts';
-// @ts-ignore
-import parseHeader from './lib/parseHeader.ts';
-// @ts-ignore
-import parseText from './lib/parseText.ts';
+import MultipartResponse from './ResponseParser.js';
+import parseHeader from './lib/parseHeader.js';
+import parseText from './lib/parseText.js';
 
 export enum ParseStatus {
   Headers = 1,

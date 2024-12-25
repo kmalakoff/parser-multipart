@@ -1,10 +1,23 @@
 import assert from 'assert';
 import { Parser, Part, Response } from 'parser-multipart';
-import response from '../lib/response.cjs';
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
+import Promise from 'pinkie-promise';
+// @ts-ignore
+import response from '../lib/response.ts';
 
 const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
 
 describe('exports .mjs', () => {
+  const root = typeof global !== 'undefined' ? global : window;
+  let rootPromise;
+  before(() => {
+    rootPromise = root.Promise;
+    root.Promise = Promise;
+  });
+  after(() => {
+    root.Promise = rootPromise;
+  });
+
   it('MultiData', async () => {
     const parser = new Parser(dataJSON.headers['content-type']);
     parser.parse(dataJSON.body);

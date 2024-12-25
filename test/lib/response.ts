@@ -29,7 +29,7 @@ const headers = 'Content-Type: application/http\nContent-ID: response-0';
 const boundary = 'batch_xvED97sOkyA_AAGGLqi8oGg';
 const separator = `--${boundary}`;
 
-module.exports = function response(data) {
+export default function response(data) {
   const responses = data.map((x) => {
     if (isError(x)) return [header('error'), '', JSON.stringify({ error: { message: x.message } }, null, 2)].join('\n');
     // biome-ignore lint/style/noUselessElse: <explanation>
@@ -48,4 +48,4 @@ module.exports = function response(data) {
     parts,
     responses,
   };
-};
+}

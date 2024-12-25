@@ -1,12 +1,28 @@
 import assert from 'assert';
+// @ts-ignore
 import { Parser } from 'parser-multipart';
-import response from '../lib/response.cjs';
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
+import Promise from 'pinkie-promise';
+// @ts-ignore
+import response from '../lib/response.ts';
 
 const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
 const dataText = response(['text1', 'text2']);
 const dataError = response([new Error('failed1'), new Error('failed2')]);
 
+const rejects = (x) => x.then(() => assert.ok(false)).catch((err) => assert.ok(!!err));
+
 describe('Response', () => {
+  const root = typeof global !== 'undefined' ? global : window;
+  let rootPromise: Promise;
+  before(() => {
+    rootPromise = root.Promise;
+    root.Promise = Promise;
+  });
+  after(() => {
+    root.Promise = rootPromise;
+  });
+
   it('json', async () => {
     const parser = new Parser(`multipart/mixed; boundary=${dataJSON.boundary}`);
     parser.parse(dataJSON.body);
@@ -24,9 +40,10 @@ describe('Response', () => {
     assert.equal(res.bodyUsed, false);
     assert.equal(typeof res.text, 'function');
     assert.equal(typeof res.json, 'function');
-    assert.throws(() => res.arrayBuffer());
-    assert.throws(() => res.blob());
-    assert.throws(() => res.formData());
+    await rejects(res.arrayBuffer());
+    await rejects(res.blob());
+    await rejects(res.formData());
+    await rejects(res.bytes());
 
     const jsons = await Promise.all(parser.responses.map((res) => res.json()));
     assert.deepEqual(jsons, [{ name: 'item1' }, { name: 'item2' }]);
@@ -49,9 +66,10 @@ describe('Response', () => {
     assert.equal(res.bodyUsed, false);
     assert.equal(typeof res.text, 'function');
     assert.equal(typeof res.json, 'function');
-    assert.throws(() => res.arrayBuffer());
-    assert.throws(() => res.blob());
-    assert.throws(() => res.formData());
+    await rejects(res.arrayBuffer());
+    await rejects(res.blob());
+    await rejects(res.formData());
+    await rejects(res.bytes());
 
     const texts = await Promise.all(parser.responses.map((res) => res.text()));
     assert.deepEqual(texts, ['text1', 'text2']);
@@ -77,9 +95,10 @@ describe('Response', () => {
     assert.equal(res.bodyUsed, false);
     assert.equal(typeof res.text, 'function');
     assert.equal(typeof res.json, 'function');
-    assert.throws(() => res.arrayBuffer());
-    assert.throws(() => res.blob());
-    assert.throws(() => res.formData());
+    await rejects(res.arrayBuffer());
+    await rejects(res.blob());
+    await rejects(res.formData());
+    await rejects(res.bytes());
 
     assert.deepEqual(texts, [{ error: { message: 'failed1' } }, { error: { message: 'failed2' } }]);
   });

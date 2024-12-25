@@ -1,15 +1,8 @@
-// @ts-ignore
-import ResponseParsed from './ResponseParsed.ts';
-// @ts-ignore
-import type { Parser } from './ResponseParsed.ts';
-// @ts-ignore
-import BodyHeaders from './lib/BodyHeaders.ts';
-// @ts-ignore
-import parseHeader from './lib/parseHeader.ts';
-// @ts-ignore
-import parseStatus from './lib/parseStatus.ts';
-// @ts-ignore
-import parseText from './lib/parseText.ts';
+import ResponseParsed from './ResponseParsed.js';
+import BodyHeaders from './lib/BodyHeaders.js';
+import parseHeader from './lib/parseHeader.js';
+import parseStatus from './lib/parseStatus.js';
+import parseText from './lib/parseText.js';
 
 export enum ParseStatus {
   Headers = 1,
@@ -68,6 +61,6 @@ export default class MultipartResponse {
 
   get response(): Response {
     if (this._parsingState) throw new Error('Attempting to use an incomplete response');
-    return new ResponseParsed(this as Parser);
+    return new ResponseParsed(this);
   }
 }

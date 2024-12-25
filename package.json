@@ -49,28 +49,35 @@
   "scripts": {
     "build": "tsds build",
     "deploy": "tsds deploy",
-    "format": "biome check --apply src/ test/",
-    "test": "npm run test:node && tsds test:browser",
-    "test:node": "tsds link && tsx node_modules/.bin/mocha test/**/*.ts",
-    "test:engines": "nvu engines tsds test:node && tsds test:browser",
+    "format": "biome check --write --unsafe src/ test/",
+    "test": "tsds test:node --no-timeouts && tsds test:browser --config wtr.config.mjs",
+    "test:engines": "nvu engines tsds test:node --no-timeouts && tsds test:browser --config wtr.config.mjs",
     "version": "tsds version"
   },
   "dependencies": {
     "newline-iterator": "^0.3.9"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.5.3",
-    "@types/mocha": "^10.0.6",
-    "@types/node": "^20.11.17",
+    "@biomejs/biome": "^1.9.4",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.10.2",
+    "@web/dev-server-import-maps": "^0.2.1",
     "multi-data": "^0.2.8",
-    "ts-dev-stack": "^0.9.0",
-    "tsx": "^4.7.1"
+    "pinkie-promise": "^2.0.1",
+    "ts-dev-stack": "^1.5.7",
+    "tsds-web-test-runner": "^1.5.5"
   },
+  "packageManager": "npm@11.0.0+sha512.11dff29565d2297c74e7c594a9762581bde969f0aa5cbe6f5b3644bf008a16c065ece61094d9ffbb81125be38df8e1ba43eb8244b3d30c61eb797e9a2440e3ec",
   "engines": {
-    "node": ">=0.12"
+    "node": ">=0.8"
   },
   "tsds": {
     "source": "src/index.ts",
+    "targets": [
+      "cjs",
+      "esm",
+      "umd"
+    ],
     "globals": {
       "newline-iterator": "newlineIterator"
     }
