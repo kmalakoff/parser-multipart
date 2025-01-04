@@ -19,11 +19,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: git config --global user.name "Github Actions"
       - run: git config --global user.email "actions@users.noreply.github.com"
-      - run: npm install rimraf -g
-      - run: rimraf $HOME/.im
-      - run: npm install ts-dev-stack node-version-use -g --force
+      - run: npm install ts-dev-stack node-version-use -g
       - run: npm install depcheck -g
       - run: depcheck
+      - run: npm install homedir-polyfill
+      - run: npm run clean
       - run: npm ci
       - run: npx -y playwright install --with-deps
       - run: npm run docs
