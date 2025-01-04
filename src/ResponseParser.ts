@@ -1,8 +1,8 @@
-import ResponseParsed from './ResponseParsed.js';
-import BodyHeaders from './lib/BodyHeaders.js';
-import parseHeader from './lib/parseHeader.js';
-import parseStatus from './lib/parseStatus.js';
-import parseText from './lib/parseText.js';
+import ResponseParsed from './ResponseParsed';
+import BodyHeaders from './lib/BodyHeaders';
+import parseHeader from './lib/parseHeader';
+import parseStatus from './lib/parseStatus';
+import parseText from './lib/parseText';
 
 export enum ParseStatus {
   Headers = 1,

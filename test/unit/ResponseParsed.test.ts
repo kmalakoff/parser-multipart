@@ -1,9 +1,7 @@
 import assert from 'assert';
 // @ts-ignore
 import { Parser } from 'parser-multipart';
-// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
-import Promise from 'pinkie-promise';
-// @ts-ignore
+import Pinkie from 'pinkie-promise'; // @ts-ignore
 import response from '../lib/response.ts';
 
 const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
@@ -13,15 +11,20 @@ const dataError = response([new Error('failed1'), new Error('failed2')]);
 const rejects = (x) => x.then(() => assert.ok(false)).catch((err) => assert.ok(!!err));
 
 describe('Response', () => {
-  const root = typeof global !== 'undefined' ? global : window;
-  let rootPromise: Promise;
-  before(() => {
-    rootPromise = root.Promise;
-    root.Promise = Promise;
-  });
-  after(() => {
-    root.Promise = rootPromise;
-  });
+  (() => {
+    // patch and restore promise
+    const root = typeof window === 'undefined' ? global : window;
+    // @ts-ignore
+    let rootPromise: Promise;
+    before(() => {
+      rootPromise = root.Promise;
+      // @ts-ignore
+      root.Promise = Pinkie;
+    });
+    after(() => {
+      root.Promise = rootPromise;
+    });
+  })();
 
   it('json', async () => {
     const parser = new Parser(`multipart/mixed; boundary=${dataJSON.boundary}`);

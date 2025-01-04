@@ -1,5 +1,7 @@
-import type ResponseParser from './ResponseParser.js';
-import HeadersPolyfill from './lib/HeadersPolyfill.js';
+import type ResponseParser from './ResponseParser';
+import HeadersPolyfill from './lib/HeadersPolyfill';
+
+// import type { Response, ResponseType} from 'fetch'
 
 export default class ParsedResponse implements Response {
   private _parser: ResponseParser;
