@@ -56,7 +56,7 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "newline-iterator": "^0.3.11"
+    "newline-iterator": "^0.3.13"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
