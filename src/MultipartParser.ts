@@ -1,6 +1,6 @@
-import PartParser from './PartParser.js';
-import parseHeader from './lib/parseHeader.js';
-import parseText from './lib/parseText.js';
+import PartParser from './PartParser';
+import parseHeader from './lib/parseHeader';
+import parseText from './lib/parseText';
 
 export enum ParseStatus {
   Parts = 1,

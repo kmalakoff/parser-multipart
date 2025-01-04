@@ -1,9 +1,9 @@
-export { default as Parser } from './MultipartParser.js';
-export type { ParsingState as ParserParsingState, ParseStatus as ParserParseStatus } from './MultipartParser.js';
-export { default as Part } from './PartParser.js';
-export type { ParsingState as PartParsingState, ParseStatus as PartParseStatus } from './PartParser.js';
-export { default as Response } from './ResponseParser.js';
-export type { ParsingState as ResponseParsingState, ParseStatus as ResponseParseStatus } from './ResponseParser.js';
-export { default as ResponseParsed } from './ResponseParsed.js';
-export { default as BodyHeaders } from './lib/BodyHeaders.js';
-export type { Version } from './lib/types.js';
+export { default as Parser } from './MultipartParser';
+export type { ParsingState as ParserParsingState, ParseStatus as ParserParseStatus } from './MultipartParser';
+export { default as Part } from './PartParser';
+export type { ParsingState as PartParsingState, ParseStatus as PartParseStatus } from './PartParser';
+export { default as Response } from './ResponseParser';
+export type { ParsingState as ResponseParsingState, ParseStatus as ResponseParseStatus } from './ResponseParser';
+export { default as ResponseParsed } from './ResponseParsed';
+export { default as BodyHeaders } from './lib/BodyHeaders';
+export type { Version } from './lib/types';
