@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node: ["latest"]
+        node: ['lts/Jod']
         os: [ubuntu-latest, windows-latest]
         # os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
@@ -19,14 +19,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: git config --global user.name "Github Actions"
       - run: git config --global user.email "actions@users.noreply.github.com"
-      - run: npm install ts-dev-stack node-version-use -g
-      - run: npm install depcheck -g
+      - run: npm install ts-dev-stack node-version-use depcheck -g -f
       - run: depcheck
-      - run: npm install homedir-polyfill
-      - run: npm run clean
       - run: npm ci
       - run: npx -y playwright install --with-deps
-      - run: npm run docs
       - run: npm run build
+      - run: tsds validate
       - run: npm run test
       - run: npm run test:engines
