@@ -66,7 +66,7 @@
     "@web/dev-server-import-maps": "^0.2.1",
     "multi-data": "^0.2.15",
     "pinkie-promise": "^2.0.1",
-    "tsds-web-test-runner": "^1.11.22"
+    "tsds-web-test-runner": "^1.13.6"
   },
   "engines": {
     "node": ">=0.8"
