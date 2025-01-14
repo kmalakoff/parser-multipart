@@ -57,16 +57,16 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "newline-iterator": "^0.3.19"
+    "newline-iterator": "^0.3.20"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
     "@types/mocha": "^10.0.10",
-    "@types/node": "^22.10.5",
+    "@types/node": "^22.10.6",
     "@web/dev-server-import-maps": "^0.2.1",
-    "multi-data": "^0.2.15",
+    "multi-data": "^0.2.17",
     "pinkie-promise": "^2.0.1",
-    "tsds-web-test-runner": "^1.13.6"
+    "tsds-web-test-runner": "^1.13.14"
   },
   "engines": {
     "node": ">=0.8"
