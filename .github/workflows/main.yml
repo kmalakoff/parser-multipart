@@ -19,7 +19,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: git config --global user.name "Github Actions"
       - run: git config --global user.email "actions@users.noreply.github.com"
-      - run: npm install ts-dev-stack node-version-use depcheck -g -f
+      - run: npm install ts-dev-stack node-version-use depcheck @biomejs/biome -g -f
       - run: depcheck
       - run: npm ci
       - run: npx -y playwright install --with-deps
