@@ -48,7 +48,6 @@
   ],
   "scripts": {
     "build": "tsds build",
-    "clean": "node -e \"const dir = require('path').join(require('homedir-polyfill')(), '.im'); try {require('fs').rmdirSync(dir, {recursive: true})} catch(err) {}\"",
     "deploy": "tsds deploy",
     "docs": "tsds docs",
     "format": "biome check --write --unsafe src/ test/",
@@ -57,7 +56,7 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "newline-iterator": "^0.3.22"
+    "newline-iterator": "^0.3.23"
   },
   "devDependencies": {
     "@types/mocha": "*",
