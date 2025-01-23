@@ -56,7 +56,7 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "newline-iterator": "^0.3.27"
+    "newline-iterator": "^0.3.28"
   },
   "devDependencies": {
     "@types/mocha": "*",
