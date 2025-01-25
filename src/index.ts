@@ -6,4 +6,4 @@ export { default as Response } from './ResponseParser';
 export type { ParsingState as ResponseParsingState, ParseStatus as ResponseParseStatus } from './ResponseParser';
 export { default as ResponseParsed } from './ResponseParsed';
 export { default as BodyHeaders } from './lib/BodyHeaders';
-export type { Version } from './lib/types';
+export * from './types';
