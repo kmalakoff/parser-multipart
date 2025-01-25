@@ -1,7 +1,11 @@
 import newlineIterator from 'newline-iterator';
-import type { IParser } from './types';
 
-export default function parseText(parser: IParser, text: string): void {
+interface Parser {
+  done: () => boolean;
+  push: (line: string | null) => void;
+}
+
+export default function parseText(parser: Parser, text: string): void {
   const iterator = newlineIterator(text);
   let next = iterator.next();
   while (!next.done) {
