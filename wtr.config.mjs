@@ -2,7 +2,7 @@ import { importMapsPlugin } from '@web/dev-server-import-maps';
 import createConfig from 'tsds-web-test-runner/createConfig.mjs';
 
 export default createConfig({
-  port: 9006,
+  port: 9003,
   plugins: [
     importMapsPlugin({
       inject: {
