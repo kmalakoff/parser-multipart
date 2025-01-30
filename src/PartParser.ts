@@ -2,13 +2,13 @@ import MultipartResponse from './ResponseParser';
 import parseHeader from './lib/parseHeader';
 import parseText from './lib/parseText';
 
-export enum ParseStatus {
-  Headers = 1,
-  Response = 2,
-}
+export const ParseStatus = {
+  Headers: 1,
+  Response: 2,
+} as const;
 
 export interface ParsingState {
-  status: ParseStatus;
+  status: (typeof ParseStatus)[keyof typeof ParseStatus];
 }
 
 export default class MultipartPart {

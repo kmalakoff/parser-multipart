@@ -4,13 +4,13 @@ import parseHeader from './lib/parseHeader';
 import parseStatus from './lib/parseStatus';
 import parseText from './lib/parseText';
 
-export enum ParseStatus {
-  Headers = 1,
-  Body = 2,
-}
+export const ParseStatus = {
+  Headers: 1,
+  Body: 2,
+} as const;
 
 export interface ParsingState {
-  status: ParseStatus;
+  status: (typeof ParseStatus)[keyof typeof ParseStatus];
   lines: string[];
 }
 
