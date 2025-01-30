@@ -2,12 +2,12 @@ import PartParser from './PartParser';
 import parseHeader from './lib/parseHeader';
 import parseText from './lib/parseText';
 
-export enum ParseStatus {
-  Parts = 1,
-}
+export const ParseStatus = {
+  Parts: 1,
+} as const;
 
 export interface ParsingState {
-  status: ParseStatus;
+  status: (typeof ParseStatus)[keyof typeof ParseStatus];
   boundaryEnd: string | null;
 }
 
