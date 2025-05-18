@@ -1,7 +1,15 @@
 const assert = require('assert');
-const { Parser, Part, Response } = require('parser-multipart/dist/umd/parser-multipart.cjs');
 
-describe('exports parser-multipart/dist/umd/parser-multipart.cjs', () => {
+let umd = null;
+try {
+  umd = require('parser-multipart/umd');
+} catch (_) {
+  umd = require('parser-multipart/dist/umd/parser-multipart.cjs');
+}
+const parserMultipart = typeof window !== 'undefined' ? window.parserMultipart : umd.default || umd;
+const { Parser, Part, Response } = parserMultipart;
+
+describe('exports umd', () => {
   it('named exports', () => {
     assert.equal(typeof Parser, 'function');
     assert.equal(typeof Part, 'function');
