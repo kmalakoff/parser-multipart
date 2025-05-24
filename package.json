@@ -1,6 +1,6 @@
 {
   "name": "parser-multipart",
-  "version": "1.0.30",
+  "version": "1.0.31",
   "description": "Multipart form data parser for browser and node",
   "keywords": [
     "batch",
