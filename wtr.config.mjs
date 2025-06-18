@@ -8,10 +8,10 @@ export default createConfig({
       inject: {
         importMap: {
           imports: {
-            'pinkie-promise': "https://esm.sh/pinkie-promise@2.0.1"
+            'pinkie-promise': 'https://esm.sh/pinkie-promise@2.0.1',
           },
         },
       },
-    })
+    }),
   ],
 });

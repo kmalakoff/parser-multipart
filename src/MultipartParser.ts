@@ -1,6 +1,6 @@
-import PartParser from './PartParser.js';
 import parseHeader from './lib/parseHeader.js';
 import parseText from './lib/parseText.js';
+import PartParser from './PartParser.js';
 
 export const ParseStatus = {
   Parts: 1,

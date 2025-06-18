@@ -1,6 +1,6 @@
-import MultipartResponse from './ResponseParser.js';
 import parseHeader from './lib/parseHeader.js';
 import parseText from './lib/parseText.js';
+import MultipartResponse from './ResponseParser.js';
 
 export const ParseStatus = {
   Headers: 1,
