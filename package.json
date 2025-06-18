@@ -48,7 +48,7 @@
     "build": "tsds build",
     "deploy": "tsds deploy",
     "docs": "tsds docs",
-    "format": "biome check --write --unsafe src/ test/",
+    "format": "biome check --write --unsafe",
     "test": "tsds test:browser --config wtr.config.mjs && tsds test:node --no-timeouts",
     "test:engines": "tsds test:browser --config wtr.config.mjs && nvu engines tsds test:node --no-timeouts",
     "version": "tsds version"
