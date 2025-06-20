@@ -1,7 +1,7 @@
 import assert from 'assert';
 // @ts-ignore
 import { Parser } from 'parser-multipart';
-import Pinkie from 'pinkie-promise'; // @ts-ignore
+import Pinkie from 'pinkie-promise';
 import response from '../lib/response.ts';
 
 const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
@@ -9,16 +9,13 @@ const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
 describe('headers', () => {
   (() => {
     // patch and restore promise
-    const root = typeof window === 'undefined' ? global : window;
-    // @ts-ignore
-    let rootPromise: Promise;
+    if (typeof global === 'undefined') return;
+    const globalPromise = global.Promise;
     before(() => {
-      rootPromise = root.Promise;
-      // @ts-ignore
-      root.Promise = Pinkie;
+      global.Promise = Pinkie;
     });
     after(() => {
-      root.Promise = rootPromise;
+      global.Promise = globalPromise;
     });
   })();
 
