@@ -1,4 +1,4 @@
-import type { Version } from '../index.js';
+import type { Version } from '../index.ts';
 
 export interface StatusResult {
   version: Version;
