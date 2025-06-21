@@ -1,4 +1,4 @@
-import type { Version } from '../types.js';
+import type { Version } from '../types.ts';
 
 export default class BodyHeaders {
   version: Version;
