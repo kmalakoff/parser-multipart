@@ -1,8 +1,8 @@
-import BodyHeaders from './lib/BodyHeaders.js';
-import parseHeader from './lib/parseHeader.js';
-import parseStatus from './lib/parseStatus.js';
-import parseText from './lib/parseText.js';
-import ResponseParsed from './ResponseParsed.js';
+import BodyHeaders from './lib/BodyHeaders.ts';
+import parseHeader from './lib/parseHeader.ts';
+import parseStatus from './lib/parseStatus.ts';
+import parseText from './lib/parseText.ts';
+import ResponseParsed from './ResponseParsed.ts';
 
 export const ParseStatus = {
   Headers: 1,

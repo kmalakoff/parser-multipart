@@ -1,5 +1,5 @@
-import HeadersPolyfill from './lib/HeadersPolyfill.js';
-import type ResponseParser from './ResponseParser.js';
+import HeadersPolyfill from './lib/HeadersPolyfill.ts';
+import type ResponseParser from './ResponseParser.ts';
 
 // import type { Response, ResponseType} from 'fetch'
 
