@@ -1,5 +1,4 @@
 import assert from 'assert';
-// @ts-ignore
 import { Parser, Part, Response } from 'parser-multipart';
 
 describe('exports .ts', () => {

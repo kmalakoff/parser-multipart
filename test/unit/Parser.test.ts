@@ -1,6 +1,5 @@
 import assert from 'assert';
 import MultiData from 'multi-data';
-// @ts-ignore
 import { Parser } from 'parser-multipart';
 import Pinkie from 'pinkie-promise';
 import response from '../lib/response.ts';
