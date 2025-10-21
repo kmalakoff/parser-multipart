@@ -61,6 +61,6 @@ export default class MultipartResponse {
 
   get response(): Response {
     if (this._parsingState) throw new Error('Attempting to use an incomplete response');
-    return new ResponseParsed(this);
+    return new ResponseParsed(this) as Response;
   }
 }

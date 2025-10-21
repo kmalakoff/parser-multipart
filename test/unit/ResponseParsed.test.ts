@@ -1,5 +1,4 @@
 import assert from 'assert';
-// @ts-ignore
 import { Parser } from 'parser-multipart';
 import Pinkie from 'pinkie-promise';
 import response from '../lib/response.ts';
