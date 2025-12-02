@@ -46,9 +46,9 @@
   ],
   "scripts": {
     "build": "tsds build",
-    "deploy": "tsds deploy",
     "docs": "tsds docs",
     "format": "biome check --write --unsafe",
+    "prepublishOnly": "tsds validate",
     "test": "tsds test:browser --config wtr.config.mjs && tsds test:node --no-timeouts",
     "test:engines": "tsds test:browser --config wtr.config.mjs && nvu engines tsds test:node --no-timeouts",
     "version": "tsds version"
@@ -57,11 +57,14 @@
     "newline-iterator": "*"
   },
   "devDependencies": {
+    "@biomejs/biome": "*",
     "@types/mocha": "*",
     "@types/node": "*",
     "@web/dev-server-import-maps": "*",
     "multi-data": "*",
+    "node-version-use": "*",
     "pinkie-promise": "*",
+    "ts-dev-stack": "*",
     "tsds-web-test-runner": "*"
   },
   "engines": {
