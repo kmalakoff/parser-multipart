@@ -1,1 +1,1 @@
-ignores: ["node-version-use", "ts-dev-stack", "@biomejs/biome", "parser-multipart", "tsds-web-test-runner"]
+ignores: ["node-version-use", "ts-dev-stack", "parser-multipart", "tsds-web-test-runner"]
