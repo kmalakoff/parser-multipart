@@ -18,8 +18,7 @@ export default class ParsedResponse implements Response {
   get headers() {
     return new HeadersPolyfill(this._parser.headers.headers as unknown as Record<string, string>) as Headers;
   }
-  // @ts-expect-error
-  get body(): ReadableStream<Uint8Array> {
+  get body(): ReadableStream<Uint8Array<ArrayBuffer>> | null {
     throw new Error('Not supported: body');
   }
   get ok() {
@@ -37,8 +36,7 @@ export default class ParsedResponse implements Response {
   get url() {
     return '';
   }
-  // @ts-expect-error
-  clone() {
+  clone(): Response {
     return new ParsedResponse(this._parser);
   }
   get bodyUsed() {
@@ -68,8 +66,7 @@ export default class ParsedResponse implements Response {
   formData(): Promise<FormData> {
     return Promise.reject(new Error('Unsupported: formData'));
   }
-  // @ts-expect-error
-  bytes(): Promise<Uint8Array> {
+  bytes(): Promise<Uint8Array<ArrayBuffer>> {
     return Promise.reject(new Error('Unsupported: bytes'));
   }
 }
