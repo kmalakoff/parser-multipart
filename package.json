@@ -55,13 +55,13 @@
     "version": "tsds version"
   },
   "dependencies": {
-    "newline-iterator": "^1.0.9"
+    "newline-iterator": "^1.0.10"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "^25.0.1",
     "@web/dev-server-import-maps": "^0.2.1",
-    "multi-data": "^1.0.8",
+    "multi-data": "^1.0.9",
     "node-version-use": "^2.1.5",
     "pinkie-promise": "^2.0.1",
     "ts-dev-stack": "^1.21.3",
