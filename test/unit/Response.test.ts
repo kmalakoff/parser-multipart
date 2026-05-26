@@ -22,7 +22,7 @@ describe('Response', () => {
   })();
 
   it('error: missing content type', () => {
-    assert.throws(() => new Response(undefined));
+    assert.throws(() => new Response(undefined as unknown as string));
   });
 
   it('error: premature end', () => {

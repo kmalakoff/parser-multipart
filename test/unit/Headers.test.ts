@@ -3,6 +3,10 @@ import { Parser } from 'parser-multipart';
 import Pinkie from 'pinkie-promise';
 import response from '../lib/response.ts';
 
+function responsesJson(responses: object[]): Promise<unknown[]> {
+  return Promise.all(responses.map((res) => (res as unknown as { json: () => Promise<unknown> }).json()));
+}
+
 const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
 
 describe('headers', () => {
@@ -19,7 +23,7 @@ describe('headers', () => {
   })();
 
   it('headers missing', () => {
-    assert.throws(() => new Parser(undefined));
+    assert.throws(() => new Parser(undefined as unknown as string | Record<string, string> | Headers));
   });
 
   it('headers malformed', () => {
@@ -44,7 +48,7 @@ describe('headers', () => {
   it('headers string', async () => {
     const parser = new Parser(`multipart/mixed; boundary=${dataJSON.boundary}`);
     parser.parse(dataJSON.body);
-    const result = await Promise.all(parser.responses.map((res) => res.json()));
+    const result = await responsesJson(parser.responses);
     assert.deepEqual(result, [{ name: 'item1' }, { name: 'item2' }]);
   });
 
@@ -54,7 +58,7 @@ describe('headers', () => {
     };
     const parser = new Parser(headers);
     parser.parse(dataJSON.body);
-    const result = await Promise.all(parser.responses.map((res) => res.json()));
+    const result = await responsesJson(parser.responses);
     assert.deepEqual(result, [{ name: 'item1' }, { name: 'item2' }]);
   });
 
@@ -64,14 +68,14 @@ describe('headers', () => {
       headers.set('content-type', `multipart/mixed; boundary=${dataJSON.boundary}`);
       const parser = new Parser(headers);
       parser.parse(dataJSON.body);
-      const result = await Promise.all(parser.responses.map((res) => res.json()));
+      const result = await responsesJson(parser.responses);
       assert.deepEqual(result, [{ name: 'item1' }, { name: 'item2' }]);
     });
 
   it('error: parse completed', async () => {
     const parser = new Parser(dataJSON.headers['content-type']);
     parser.parse(dataJSON.body);
-    const result = await Promise.all(parser.responses.map((res) => res.json()));
+    const result = await responsesJson(parser.responses);
     assert.deepEqual(result, [{ name: 'item1' }, { name: 'item2' }]);
     assert.throws(() => parser.push(null));
   });

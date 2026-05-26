@@ -16,8 +16,8 @@ export interface ParsingState {
 
 export default class MultipartResponse {
   contentType: string;
-  headers: BodyHeaders = null;
-  body: string = null;
+  headers: BodyHeaders | null = null;
+  body: string | null = null;
 
   private _parsingState: ParsingState | null = {
     status: ParseStatus.Body,
@@ -29,7 +29,7 @@ export default class MultipartResponse {
     this.contentType = contentType;
     if (this.contentType === 'application/http') {
       this.headers = new BodyHeaders();
-      this._parsingState.status = ParseStatus.Headers;
+      (this._parsingState as ParsingState).status = ParseStatus.Headers;
     }
   }
 
@@ -41,7 +41,7 @@ export default class MultipartResponse {
     parseText(this, text);
   }
 
-  push(line: string): void {
+  push(line: string | null): void {
     if (!this._parsingState) throw new Error('Attempting to parse a completed response');
     if (line === null) {
       if (this._parsingState.status !== ParseStatus.Body) throw new Error('Unexpected parsing state');
@@ -52,7 +52,7 @@ export default class MultipartResponse {
 
     if (this._parsingState.status === ParseStatus.Headers) {
       if (!line.length) this._parsingState.status = ParseStatus.Body;
-      else if (!parseStatus(this.headers, line)) parseHeader(this.headers.headers, line, ':');
+      else if (!parseStatus(this.headers as BodyHeaders, line)) parseHeader((this.headers as BodyHeaders).headers, line, ':');
     } else if (this._parsingState.status === ParseStatus.Body) {
       if (!line.length) this.push(null);
       else this._parsingState.lines.push(line);
