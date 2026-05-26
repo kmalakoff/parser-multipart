@@ -7,7 +7,36 @@ const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
 const dataText = response(['text1', 'text2']);
 const dataError = response([new Error('failed1'), new Error('failed2')]);
 
-const rejects = (x) => x.then(() => assert.ok(false)).catch((err) => assert.ok(!!err));
+const rejects = (x: Promise<unknown>): Promise<unknown> => x.then(() => assert.ok(false)).catch((err: unknown) => assert.ok(!!err));
+
+function responseAs(r: object) {
+  return r as unknown as {
+    type: string;
+    headers: { get: (name: string) => string | null };
+    body: unknown;
+    ok: boolean;
+    status: number;
+    statusText: string;
+    redirected: boolean;
+    url: string;
+    bodyUsed: boolean;
+    clone: () => { json: () => Promise<unknown>; text: () => Promise<string> };
+    text: () => Promise<string>;
+    json: () => Promise<unknown>;
+    arrayBuffer: () => Promise<ArrayBuffer>;
+    blob: () => Promise<Blob>;
+    formData: () => Promise<FormData>;
+    bytes: () => Promise<Uint8Array>;
+  };
+}
+
+function responsesJson(responses: object[]): Promise<unknown[]> {
+  return Promise.all(responses.map((res) => (res as unknown as { json: () => Promise<unknown> }).json()));
+}
+
+function responsesText(responses: object[]): Promise<string[]> {
+  return Promise.all(responses.map((res) => (res as unknown as { text: () => Promise<string> }).text()));
+}
 
 describe('Response', () => {
   (() => {
@@ -26,7 +55,7 @@ describe('Response', () => {
     const parser = new Parser(`multipart/mixed; boundary=${dataJSON.boundary}`);
     parser.parse(dataJSON.body);
 
-    const res = parser.responses[0];
+    const res = responseAs(parser.responses[0]);
     assert.equal(res.type, 'default');
     assert.equal(res.headers.get('content-type'), 'application/json; charset=UTF-8');
     assert.throws(() => res.body);
@@ -44,7 +73,7 @@ describe('Response', () => {
     await rejects(res.formData());
     await rejects(res.bytes());
 
-    const jsons = await Promise.all(parser.responses.map((res) => res.json()));
+    const jsons = await responsesJson(parser.responses);
     assert.deepEqual(jsons, [{ name: 'item1' }, { name: 'item2' }]);
   });
 
@@ -52,7 +81,7 @@ describe('Response', () => {
     const parser = new Parser(`multipart/mixed; boundary=${dataText.boundary}`);
     parser.parse(dataText.body);
 
-    const res = parser.responses[0];
+    const res = responseAs(parser.responses[0]);
     assert.equal(res.type, 'default');
     assert.equal(res.headers.get('content-type'), 'application/text; charset=UTF-8');
     assert.throws(() => res.body);
@@ -70,16 +99,16 @@ describe('Response', () => {
     await rejects(res.formData());
     await rejects(res.bytes());
 
-    const texts = await Promise.all(parser.responses.map((res) => res.text()));
+    const texts = await responsesText(parser.responses);
     assert.deepEqual(texts, ['text1', 'text2']);
   });
 
   it('error', async () => {
     const parser = new Parser(`multipart/mixed; boundary=${dataError.boundary}`);
     parser.parse(dataError.body);
-    const texts = await Promise.all(parser.responses.map((res) => res.json()));
+    const texts = await responsesJson(parser.responses);
 
-    const res = parser.responses[0];
+    const res = responseAs(parser.responses[0]);
     assert.equal(res.type, 'default');
     assert.equal(res.headers.get('content-type'), 'application/json; charset=UTF-8');
     assert.throws(() => res.body);
