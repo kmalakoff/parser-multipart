@@ -58,15 +58,15 @@
     "newline-iterator": "^1.0.11"
   },
   "devDependencies": {
-    "@types/mocha": "^10.0.10",
-    "@types/node": "^25.0.1",
+    "@types/mocha": "*",
+    "@types/node": "*",
     "@web/dev-server-import-maps": "^0.2.1",
     "multi-data": "^1.0.10",
-    "node-version-use": "^2.1.5",
-    "pinkie-promise": "^2.0.1",
-    "ts-dev-stack": "^1.21.3",
-    "tsds-config": "^0.2.1",
-    "tsds-web-test-runner": "^1.19.4"
+    "node-version-use": "*",
+    "pinkie-promise": "*",
+    "ts-dev-stack": "*",
+    "tsds-config": "*",
+    "tsds-web-test-runner": "*"
   },
   "engines": {
     "node": ">=0.8"

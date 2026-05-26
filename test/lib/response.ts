@@ -1,11 +1,11 @@
-function isError(obj) {
+function isError(obj: unknown): obj is Error {
   return Object.prototype.toString.call(obj) === '[object Error]';
 }
-function isString(obj) {
+function isString(obj: unknown): obj is string {
   return Object.prototype.toString.call(obj) === '[object String]';
 }
 
-function header(type) {
+function header(type: string): string {
   if (type === 'error') {
     return `HTTP/1.1 401 Unauthorized
 WWW-Authenticate: Bearer realm="https://accounts.google.com/", error="invalid_token"
@@ -27,8 +27,8 @@ const headers = 'Content-Type: application/http\nContent-ID: response-0';
 const boundary = 'batch_xvED97sOkyA_AAGGLqi8oGg';
 const separator = `--${boundary}`;
 
-export default function response(data) {
-  const responses = data.map((x) => {
+export default function response(data: unknown[]): { boundary: string; headers: { 'content-type': string }; body: string; parts: string[]; responses: string[] } {
+  const responses = data.map((x: unknown) => {
     if (isError(x)) return [header('error'), '', JSON.stringify({ error: { message: x.message } }, null, 2)].join('\n');
     if (isString(x)) return [header('text'), '', x].join('\n');
     return [header('json'), '', JSON.stringify(x, null, 2)].join('\n');
