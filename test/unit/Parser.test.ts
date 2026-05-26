@@ -4,6 +4,10 @@ import { Parser } from 'parser-multipart';
 import Pinkie from 'pinkie-promise';
 import response from '../lib/response.ts';
 
+function responsesJson(responses: object[]): Promise<unknown[]> {
+  return Promise.all(responses.map((res) => (res as unknown as { json: () => Promise<unknown> }).json()));
+}
+
 const dataJSON = response([{ name: 'item1' }, { name: 'item2' }]);
 
 describe('Parser', () => {
@@ -32,11 +36,11 @@ describe('Parser', () => {
     // parse multi-data body
     const parser = new Parser(`multipart/mixed; boundary=${boundary}`);
     parser.parse(data.toString());
-    assert.deepEqual(await Promise.all(parser.responses.map((res) => res.json())), [{ name: 'item1' }, { name: 'item2' }]);
+    assert.deepEqual(await responsesJson(parser.responses), [{ name: 'item1' }, { name: 'item2' }]);
   });
 
   it('json', async () => {
     const parser = new Parser(dataJSON.headers);
-    assert.deepEqual(await Promise.all(parser.parse(dataJSON.body).responses.map((res) => res.json())), [{ name: 'item1' }, { name: 'item2' }]);
+    assert.deepEqual(await responsesJson(parser.parse(dataJSON.body).responses), [{ name: 'item1' }, { name: 'item2' }]);
   });
 });
