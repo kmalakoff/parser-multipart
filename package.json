@@ -60,7 +60,7 @@
   "devDependencies": {
     "@types/mocha": "*",
     "@types/node": "*",
-    "@web/dev-server-import-maps": "^0.2.1",
+    "@web/dev-server-import-maps": "^0.3.0",
     "multi-data": "^1.0.10",
     "node-version-use": "*",
     "pinkie-promise": "*",
