@@ -71,6 +71,9 @@
   "engines": {
     "node": ">=0.8"
   },
+  "allowScripts": {
+    "esbuild": true
+  },
   "tsds": {
     "targets": [
       "cjs",
