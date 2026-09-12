@@ -1,29 +1,39 @@
-## parser-multipart
+# parser-multipart
 
-Multipart form data parser for browser and node
+Parse `multipart/*` bodies into response-like parts in browser or Node.js.
 
-### Example 1: Text parse
+## Install
+
+```sh
+npm install parser-multipart
+```
+
+## Parse a response body
 
 ```typescript
 import { Parser } from "parser-multipart";
 
-const res = await fetch(/* your url */);
-const parser = new Parser(res.headers);
-return parser.parse(await res.text()).responses.map((res) => res.json());
+const headers = { 'content-type': 'multipart/mixed; boundary=batch' };
+const body = [
+  '--batch',
+  'Content-Type: application/http',
+  'Content-ID: response-1',
+  '',
+  'HTTP/1.1 200 OK',
+  'Content-Type: application/json',
+  '',
+  '{"ok":true}',
+  '--batch--',
+].join('\n');
+const parser = new Parser(headers);
+const responses = parser.parse(body).responses;
+console.log(await responses[0].json());
 ```
 
-### Example 2: Line-by-line
+This prints `{ ok: true }`. The response must have a `multipart/*` content type with a boundary. For a network response, pass its headers and text to the same parser. In Node.js versions without a global `fetch`, provide a fetch implementation such as `cross-fetch`.
 
-```typescript
-import { Parser } from "parser-multipart";
-import newlineIterator from "newline-iterator";
+For incremental input, call `parser.push(line)` for each line and `parser.push(null)` at end, then read `parser.responses`.
 
-const res = await fetch(/* your url */);
-const parser = new Parser(res.headers);
-for (const line of newlineIterator(await res.text())) parser.push(line);
-return parser.responses.map((res) => res.json());
-```
-
-### Documentation
+## Documentation
 
 [API Docs](https://kmalakoff.github.io/parser-multipart/)

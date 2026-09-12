@@ -1,1 +1,1 @@
-ignores: ["node-version-use", "ts-dev-stack", "parser-multipart", "tsds-web-test-runner"]
+ignores: ["parser-multipart", "node-version-use", "ts-dev-stack", "tsds-web-test-runner"]
